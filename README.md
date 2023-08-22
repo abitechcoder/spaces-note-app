@@ -1,2 +1,3 @@
-# spaces-note-app
+# Spaces Note App
+
 A web-based note-taking app.
