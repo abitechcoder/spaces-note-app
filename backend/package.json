@@ -1,0 +1,28 @@
+{
+  "name": "space-note-app-api",
+  "version": "1.0.1",
+  "description": "a note app api",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start":"node",
+    "dev":"nodemon"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://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101@github.com/abitechcoder/spaces-note-app.git"
+  },
+  "author": "Gideon and Ozeomena",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/abitechcoder/spaces-note-app/issues"
+  },
+  "homepage": "https://github.com/abitechcoder/spaces-note-app#readme",
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.1",
+    "mongoose": "^7.4.4"
+  }
+}
