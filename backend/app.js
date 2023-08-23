@@ -1,8 +1,10 @@
 import  express from "express"
 import dotenv from "dotenv"
+import connection from "./config/db.js"
 dotenv.config()
 const app = express()
 const PORT=process.env.PORT
+const MONGODB_URL= process.env.MONGODB_URL
 
 app.use(express.urlencoded({extended:false}))
 app.use(express.json())
@@ -16,6 +18,7 @@ app.get("/",(req,res)=>{
     })
 })
 
-app.listen(PORT,()=>{
+app.listen(PORT,async()=>{
+    await connection(MONGODB_URL)
     console.log(`Server started and listening on http://127.0.0.1:${PORT}...`);
 })
