@@ -11,5 +11,4 @@ const userAccountSchema= Schema({
         required:true
     }
 },{timestamps:true})
-const userModel=model("user",userAccountSchema)
-export default userModel
+export const userModel=model("user",userAccountSchema)

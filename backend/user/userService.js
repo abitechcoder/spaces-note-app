@@ -1,4 +1,4 @@
-import userModel from "./userAccountModel.js"
+import {userModel} from "./userAccountModel.js"
 
 // export 
 export const createUserAccountService=async(email,password)=>{
