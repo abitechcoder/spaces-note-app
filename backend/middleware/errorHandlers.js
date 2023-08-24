@@ -16,7 +16,7 @@ export class APIErrors extends Error{
     static unAuthenticated(message){
         return new this(message||"You are not a valid user!",403)
     }
-    static customError(message){
+    static customError(message){removeEventListener
         return new this(message||"Unknown error!",500)
     }
 }
