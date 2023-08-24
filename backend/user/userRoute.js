@@ -1,5 +1,5 @@
 import { Router }  from "express";
-import { createUserAccountController } from "./userControler.js";
+import { createUserAccount, getAllAccount } from "./userControler.js";
 export const userRouter=Router()
-userRouter.route("/").post(createUserAccountController)
+userRouter.route("/").post(createUserAccount).get(getAllAccount)
 

@@ -16,7 +16,10 @@ export class APIErrors extends Error{
     static unAuthenticated(message){
         return new this(message||"You are not a valid user!",403)
     }
-    static customError(message){removeEventListener
+    static duplicatePosible(message){
+        return new this(message||"Account Already exist",401)
+    }
+    static customError(message){
         return new this(message||"Unknown error!",500)
     }
 }
