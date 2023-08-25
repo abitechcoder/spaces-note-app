@@ -30,7 +30,7 @@ export const footerMenu = [
 		],
 	},
 	{
-		id: 1,
+		id: 2,
 		title: "Company",
 		menu: [
 			{
@@ -60,7 +60,7 @@ export const footerMenu = [
 		],
 	},
 	{
-		id: 1,
+		id: 3,
 		title: "Resources",
 		menu: [
 			{
@@ -90,7 +90,7 @@ export const footerMenu = [
 		],
 	},
 	{
-		id: 1,
+		id: 4,
 		title: "Use cases",
 		menu: [
 			{
@@ -120,7 +120,7 @@ export const footerMenu = [
 		],
 	},
 	{
-		id: 1,
+		id: 5,
 		title: "Social",
 		menu: [
 			{
@@ -150,7 +150,7 @@ export const footerMenu = [
 		],
 	},
 	{
-		id: 1,
+		id: 6,
 		title: "Legal",
 		menu: [
 			{

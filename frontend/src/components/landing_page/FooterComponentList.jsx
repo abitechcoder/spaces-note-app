@@ -4,7 +4,10 @@ const FooterList = () => {
 
 	const menuList = footerMenu.map((menu) => {
 		return (
-			<FooterComponent Title={menu.title} Menu={menu.menu} key={menu.id}/>
+			<div className=" " key={menu.id}>
+
+				<FooterComponent Title={menu.title} Menu={menu.menu} key={menu.id}/>
+			</div>
 			
 		);
 		
@@ -13,7 +16,7 @@ const FooterList = () => {
 	);
 	return (
 		<footer>
-			<section className="grid grid-cols-6 justify-center ml-auto w-[90%]">
+			<section className="grid grid-cols-2 lg:grid-cols-6 justify-center ml-auto lg:w-[90%]">
 			{menuList}
 			</section>
 			<section className="flex justify-between m-auto w-[82%] mt-[5rem]">
