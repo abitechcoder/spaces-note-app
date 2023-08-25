@@ -1,9 +1,10 @@
-import { Navbar } from "./components/landing_page"
+import { Navbar ,FooterList} from "./components/landing_page"
 
 function App() {
   return (
     <>
-    <Navbar/>    
+    <Navbar/>   
+    <FooterList/> 
     </>
   )
 }

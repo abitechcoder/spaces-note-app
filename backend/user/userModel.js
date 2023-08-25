@@ -17,10 +17,10 @@ const userProfileSchema=Schema({
     firstName:String,
     lastName:String,
     profession:String,
-    imageUrl:String
+    imageUrl:String,
     userId:{
         type:Schema.Types.ObjectId,
-        ref:"user"
+        ref:"user",
         required:true,
         unique:true
     }

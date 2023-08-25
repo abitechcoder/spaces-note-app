@@ -18,3 +18,10 @@ export const isAccountExist = async (email) => {
 export const getAllAccountService = async () => {
   return await userModel.find();
 };
+
+export const getUserAccountByIdService=async(userId)=>{
+  return await userModel.findById(userId)
+}
+export const deleteUserAccountService=async(userId)=>{
+  return await userModel.findByIdAndDelete(userId)
+}

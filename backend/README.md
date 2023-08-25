@@ -22,3 +22,7 @@ Welcone to Space Note App API.
 - note
 # Database
 Mongodb
+
+# /user end points
+- /user (post and get request)
+- /user/:userId (get,edit and delete request)
