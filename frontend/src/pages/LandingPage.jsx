@@ -1,5 +1,5 @@
 import React from "react";
-import { FooterList, Features } from "../components/landing_page";
+import { FooterList, Features, Testimonials } from "../components/landing_page";
 
 function LandingPage() {
   return (
