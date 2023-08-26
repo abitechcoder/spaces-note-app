@@ -1,9 +1,9 @@
-<<<<<<<<< Temporary merge branch 1
+
 import { createBrowserRouter, RouterProvider, Route,createRoutesFromElements } from "react-router-dom"
 import { RootLayout, Login, SignUp, LandingPage } from "./pages"
-=========
+
 import { Navbar ,FooterList} from "./components/landing_page"
->>>>>>>>> Temporary merge branch 2
+
 
 function App() {
   const router = createBrowserRouter(
@@ -20,14 +20,13 @@ function App() {
     )
   )
   return (
-<<<<<<<<< Temporary merge branch 1
-    <RouterProvider router={router}/>
-=========
+
     <>
+    <RouterProvider router={router}/>
     <Navbar/>   
     <FooterList/> 
     </>
->>>>>>>>> Temporary merge branch 2
+
   )
 }
 

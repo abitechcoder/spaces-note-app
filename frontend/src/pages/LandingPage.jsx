@@ -1,4 +1,4 @@
-import React from "react";
+// import React from "react";
 import { FooterList, Features } from "../components/landing_page";
 
 function LandingPage() {
@@ -31,7 +31,7 @@ function LandingPage() {
       </section>
 
       <section className="pt-16 lg:px-8">
-        <FooterList />
+        {/* <FooterList /> */}
       </section>
     </main>
   );
