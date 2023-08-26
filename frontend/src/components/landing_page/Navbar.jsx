@@ -3,6 +3,7 @@ import { Link, NavLink } from "react-router-dom";
 import { Logo } from "../../assets";
 
 function Navbar({ currentLocation }) {
+  // const {currentLocation}=this.this.props.first
   return (
     <header>
       <nav className="container mx-auto flex items-center justify-between p-6 lg:px-8">

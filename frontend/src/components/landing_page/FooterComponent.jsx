@@ -1,7 +1,10 @@
 // import Link  from "react-router-dom"
 // import { Attributes } from "react";
+import PropType from "prop-types"
 
-const FooterComponent = ({ Title, Menu, key }) => {
+
+const FooterComponent = ({Menu,key,Title}) => {
+	// const {Menu,key,Title}=props
 	const list = Menu.map((list) => {
 		return (
 			<a key={key} href="">
@@ -18,5 +21,10 @@ const FooterComponent = ({ Title, Menu, key }) => {
 		
 	);
 };
+FooterComponent.PropType={
+	Menu:PropType.any,
+	key:PropType.number,
+	Title:PropType.string
 
+}
 export default FooterComponent;
