@@ -5,6 +5,7 @@ export const createUserAccountService = async (email, password) => {
   const userAccount = new userModel({
     email,
     password,
+    refreshToken:""
   });
   return await userAccount.save();
 };
@@ -14,7 +15,9 @@ export const isAccountExist = async (email) => {
     return true;
   } else return false;
 };
-
+export const getUserAccountByEmail=async(email)=>{
+return await userModel.findOne({email})
+}
 export const getAllAccountService = async () => {
   return await userModel.find();
 };
