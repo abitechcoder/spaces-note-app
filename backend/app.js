@@ -3,13 +3,19 @@ import dotenv from "dotenv"
 import connection from "./config/db.js"
 import { userRouter } from "./user/userRoute.js"
 import errorMiddleware from "./middleware/errorMiddleware.js"
+import { noteRoute } from "./note/noteRoute.js"
 dotenv.config()
-const app = express()
+
+
 const PORT=process.env.PORT
 const MONGODB_URL= process.env.MONGODB_URL
 
+const app = express()
 app.use(express.urlencoded({extended:false}))
 app.use(express.json())
+
+//routes
+app.use('/note', noteRoute)
 app.use("/user",userRouter)
 
 // the home route
