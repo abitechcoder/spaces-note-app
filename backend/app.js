@@ -18,6 +18,7 @@ app.use("/auth",authRoute)
 
 // the home route
 app.get("/",verifyUserAccessToken,(req,res)=>{
+    const email=req.email
     res.status(200)
     .json({
         success:"true",
