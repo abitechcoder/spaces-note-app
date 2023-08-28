@@ -2,22 +2,23 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv"
 dotenv.config()
 
- export const signInUser = async (email, password) => {
+ export const registerUser = async (email, password) => {
 	const payload = {
 		email,
 		password,
 	};
-	const secret = process.env.JWE_SECRET||"AESREWGDFDE7865YTUGGKHOHL";
-    // console.log(secret);
+	const secret = process.env.JWT_SECRET;
 	const option = {
 		expiresIn: "5m",
 	};
-	const token = jwt.sign(payload, secret, option);
-	return token;
-};
+	 const token=await jwt.sign(payload, secret, option)
+		 return token;
+	
+ }
 
-export const validateUser=async(accessToken)=>{
-const secret=process.env.JWE_SECRET||"AESREWGDFDE7865YTUGGKHOHL"
-	const validate=jwt.verify(accessToken,secret)
-	return validate
-}
+export const verifyAccessToken=async(accessToken)=>{
+const secret=process.env.JWT_SECRET
+	const payload= jwt.verify(accessToken,secret)
+		return payload
+	}
+

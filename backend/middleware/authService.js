@@ -1,6 +1,10 @@
-import { signInUser } from "../util/jwtAuthentication"
+import { registerUser, verifyAccessToken } from "../util/jwtAuthentication.js"
 
-export const sinInUserService=async(email,password)=>{
-    return await signInUser(email,password)
+export const registerUserService=async(email,password)=>{
+    return await registerUser(email,password)
 
+}
+
+export const  verifyUserAccessTokenService=async(accessToken)=>{
+    return await verifyAccessToken(accessToken)
 }
