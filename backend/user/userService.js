@@ -28,3 +28,7 @@ export const getUserAccountByIdService=async(userId)=>{
 export const deleteUserAccountService=async(userId)=>{
   return await userModel.findByIdAndDelete(userId)
 }
+
+export const findAndUpdateByEmailService=async(email,update)=>{
+  return await userModel.findOneAndUpdate({email},{refreshToken:update},{new:true})
+}

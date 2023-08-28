@@ -1,6 +1,7 @@
-import { getUserAccountByEmail } from "../user/userService.js";
+import { findAndUpdateByEmailService, getUserAccountByEmail } from "../user/userService.js";
 import { validatePassword } from "../util/password.js";
 import {
+	generateRefreshTokenService,
   registerUserService,
   verifyUserAccessTokenService,
 } from "./authService.js";
@@ -14,7 +15,6 @@ export const registerUser = async (req, res, next) => {
     }
     //  checking if account already exit
     const userAccount = await getUserAccountByEmail(email);
-    // console.log(userAccount);
     if (!userAccount) {
       return next(
         APIErrors.notFound(`There is no account with the email ${email}`)
@@ -26,7 +26,13 @@ export const registerUser = async (req, res, next) => {
       return next(APIErrors.invalidRequest("Invalid Password"));
     }
     const accessToken = await registerUserService(email, password);
-    // console.log(accessToken);
+	// generating access token and storing it in the database
+	const userRefreshToken=await generateRefreshTokenService(email,password)
+	if(!accessToken){
+		return next(APIErrors.unAuthenticated())
+	}
+	const result= await findAndUpdateByEmailService(email,userRefreshToken)
+	console.log(result);
     res.cookie("access_token", accessToken, {
       // httpOnly: true
     });
@@ -37,18 +43,23 @@ export const registerUser = async (req, res, next) => {
 };
 
 export const verifyUserAccessToken = async (req, res, next) => {
-  const header = req.headers["authorization"].split(" ");
-  const access_token = header[1];
-  if (!access_token) {
-    return next(APIErrors.unAuthenticated());
-  }
-  const payload = await verifyUserAccessTokenService(access_token);
-  req.email = payload.email;
-  req.password = payload.email;
-//   res.status(200).json({message:"Log in successful",payload})
-  return next()
-}
-  try {
+	try {
+	  const accessToken=req.cookies.access_token;
+	if (!accessToken) {
+	  return next(APIErrors.unAuthenticated());
+	}
+	const payload = await verifyUserAccessTokenService(accessToken);
+	if (!payload){
+		console.log(err);
+	  return next(APIErrors.unAuthenticated())
+	}
+	req.email = payload.email;
+	req.password = payload.email;
+	req.refreshToken=payload.refreshToken
+	 next()
+  
   } catch (error) {
     next(error);
-  };
+  }
+}
+
