@@ -6,7 +6,7 @@ import {
 	isAccountExist,
 } from "./userService.js";
 import { APIErrors } from "../middleware/errorHandlers.js";
-import { hashPassword } from "../util/hashPassword.js";
+import { hashPassword } from "../util/password.js";
 
 export const createUserAccount = async (req, res, next) => {
 	try {
@@ -61,7 +61,7 @@ export const getUseAccountById = async (req, res, next) => {
 		// res.status(error.status).json({ success: "false", error: error.message });
 	}
 };
-export const deleteUserAccount = async (req, res, next) => {
+export const deleteUserAccountById = async (req, res, next) => {
 	try {
 		const userId = req.params.userId;
 		if (!userId) {
@@ -77,3 +77,4 @@ export const deleteUserAccount = async (req, res, next) => {
 		// res.status(error.status).json({ success: "false", error: error.message });
 	}
 };
+
