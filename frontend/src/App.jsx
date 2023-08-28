@@ -1,9 +1,12 @@
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Route,
+  createRoutesFromElements,
+} from "react-router-dom";
+import { RootLayout, Login, SignUp, LandingPage } from "./pages";
 
-import { createBrowserRouter, RouterProvider, Route,createRoutesFromElements } from "react-router-dom"
-import { RootLayout, Login, SignUp, LandingPage } from "./pages"
-
-import { Navbar ,FooterList} from "./components/landing_page"
-
+import { Navbar, FooterList } from "./components/landing_page";
 
 function App() {
   const router = createBrowserRouter(
@@ -18,16 +21,12 @@ function App() {
         <Route path="signup" element={<SignUp />} />
       </Route>
     )
-  )
+  );
   return (
-
     <>
-    <RouterProvider router={router}/>
-    <Navbar/>   
-    <FooterList/> 
+      <RouterProvider router={router} />
     </>
-
-  )
+  );
 }
 
 export default App;

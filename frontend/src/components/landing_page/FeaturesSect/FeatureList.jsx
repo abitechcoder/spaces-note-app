@@ -3,9 +3,9 @@ import Feature from "./Feature";
 
 function FeatureList({ features }) {
   return (
-    <div className="grid lg:grid-cols-3 gap-3 w-full">
-      {features.map(({ image, title, text }) => (
-        <Feature image={image} title={title} text={text} />
+    <div className="grid md:grid-cols-3 gap-10 w-full">
+      {features.map(({id, image, title, text }) => (
+        <Feature image={image} title={title} text={text} key={id} />
       ))}
     </div>
   );

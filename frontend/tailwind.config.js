@@ -5,7 +5,13 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        clash: "'Clash Display', sans-serif",
+        dm: "'DM Sans', sans-serif",
+        inter: "'Inter', sans-serif",
+      },
+    },
   },
   plugins: [],
 }
