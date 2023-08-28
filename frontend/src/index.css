@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.custom-container {
+    @apply container mx-auto py-8 lg:py-12 px-6 lg:px-8
+}
+
+.custom-button {
+    @apply rounded md:rounded-lg px-5 md:px-8 py-3 md:py-4 text-sm md:text-lg
+}
