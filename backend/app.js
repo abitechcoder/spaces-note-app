@@ -6,6 +6,8 @@ import errorMiddleware from "./middleware/errorMiddleware.js"
 import { noteRoute } from "./note/noteRoute.js"
 import authRoute from "./middleware/authRoute.js"
 import { verifyUserAccessToken } from "./middleware/authController.js"
+import cookieParser from "cookie-parser"
+
 dotenv.config()
 
 
@@ -16,14 +18,15 @@ const app = express()
 
 app.use(express.urlencoded({extended:false}))
 app.use(express.json())
-
+app.use(cookieParser())
 //routes
 app.use('/note', noteRoute)
-app.use("/user",userRouter)
+app.use("/user",verifyUserAccessToken,userRouter)
 app.use("/auth",authRoute)
 
 // the home route
 app.get("/",verifyUserAccessToken,(req,res)=>{
+    const email=req.email
     res.status(200)
     .json({
         success:"true",
