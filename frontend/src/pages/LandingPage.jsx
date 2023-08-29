@@ -1,5 +1,5 @@
 // import React from "react";
-import { Features, Testimonials, ContactUs, Downloads, Hero } from "../components/landing_page";
+import { Features, Testimonials, ContactUs, Downloads, Hero, Footer } from "../components/landing_page";
 
 function LandingPage() {
   return (
@@ -9,6 +9,7 @@ function LandingPage() {
       <Testimonials />
       <ContactUs />
       <Downloads/>
+      <Footer/>
     </main>
   );
 }

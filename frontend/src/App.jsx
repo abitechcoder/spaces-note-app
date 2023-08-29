@@ -6,8 +6,6 @@ import {
 } from "react-router-dom";
 import { RootLayout, Login, SignUp, LandingPage } from "./pages";
 
-import { Navbar, FooterList } from "./components/landing_page";
-
 function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
