@@ -33,8 +33,15 @@ function Login() {
 
         <div className="grid place-items-center">
           <div className="flex items-center gap-4">
-          <button className="custom-button font-dm bg-[#7F6BFF] text-white">LOGIN</button>
-          <Link to={() => navigate("/signup")}><button className="custom-button font-dm text-black">SIGN UP</button></Link>
+            <button className="custom-button font-dm bg-[#7F6BFF] text-white">
+              LOGIN
+            </button>
+            <button
+              className="custom-button font-dm text-black"
+              onClick={() => navigate("/signup")}
+            >
+              SIGN UP
+            </button>
           </div>
         </div>
       </div>
