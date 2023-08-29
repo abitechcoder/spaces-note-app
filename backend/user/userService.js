@@ -1,6 +1,6 @@
-import { userModel } from "./userModel.js";
+import { userModel, userProfileModel } from "./userModel.js";
 
-// export
+// creating a user account service
 export const createUserAccountService = async (email, password) => {
   const userAccount = new userModel({
     email,
@@ -9,26 +9,41 @@ export const createUserAccountService = async (email, password) => {
   });
   return await userAccount.save();
 };
-
+// checking if a user account exit using uer email
 export const isAccountExist = async (email) => {
   if (await userModel.findOne({ email })) {
     return true;
   } else return false;
 };
-export const getUserAccountByEmail=async(email)=>{
+// Fetching all users using their email address
+export const getUserAccountByEmailService=async(email)=>{
 return await userModel.findOne({email})
 }
+// Fetching all user account services
 export const getAllAccountService = async () => {
   return await userModel.find();
 };
-
+// Fetching a user account using user id service
 export const getUserAccountByIdService=async(userId)=>{
   return await userModel.findById(userId)
 }
+// Deleting a user account using the user id service
 export const deleteUserAccountService=async(userId)=>{
   return await userModel.findByIdAndDelete(userId)
 }
 
-export const findAndUpdateByEmailService=async(email,update)=>{
-  return await userModel.findOneAndUpdate({email},{refreshToken:update},{new:true})
+// Changing user password service
+export const changUserPasswordService=async(email,newPassword)=>{
+return	await userModel.findOneAndUpdate({email},{password:newPassword},{new:true})
+	
+}
+
+// create user profile  service
+export const createUserProfileService=async(body)=>{
+  const userProfile=new userProfileModel(body)
+  return await userProfile.save()
+}
+// getting user profile using user id
+export const getUserProfileByUserIdService=async(pipeline)=>{
+  return await userProfileModel.aggregate(pipeline).exec()
 }

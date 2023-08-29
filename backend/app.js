@@ -21,7 +21,7 @@ app.use(express.json())
 app.use(cookieParser())
 //routes
 app.use('/note', noteRoute)
-app.use("/user",userRouter)
+app.use("/user",verifyUserAccessToken,userRouter)
 app.use("/auth",authRoute)
 
 // the home route

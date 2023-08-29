@@ -1,9 +1,11 @@
-import { findAndUpdateByEmailService, getUserAccountByEmail } from "../user/userService.js";
+import {getUserAccountByEmailService } from "../user/userService.js";
 import { validatePassword } from "../util/password.js";
 import {
 	generateRefreshTokenService,
   registerUserService,
+  verifyRefreshUserAccessTokenService,
   verifyUserAccessTokenService,
+  findAndUpdateUserRefreshTokenByEmailService
 } from "./authService.js";
 import { APIErrors } from "./errorHandlers.js";
 
@@ -14,7 +16,7 @@ export const registerUser = async (req, res, next) => {
       return next(APIErrors.invalidRequest("All fields are required"));
     }
     //  checking if account already exit
-    const userAccount = await getUserAccountByEmail(email);
+    const userAccount = await getUserAccountByEmailService(email);
     if (!userAccount) {
       return next(
         APIErrors.notFound(`There is no account with the email ${email}`)
@@ -31,8 +33,7 @@ export const registerUser = async (req, res, next) => {
 	if(!accessToken){
 		return next(APIErrors.unAuthenticated())
 	}
-	const result= await findAndUpdateByEmailService(email,userRefreshToken)
-	console.log(result);
+	const result= await findAndUpdateUserRefreshTokenByEmailService(email,userRefreshToken)
     res.cookie("access_token", accessToken, {
       // httpOnly: true
     });
@@ -56,10 +57,42 @@ export const verifyUserAccessToken = async (req, res, next) => {
 	req.email = payload.email;
 	req.password = payload.email;
 	req.refreshToken=payload.refreshToken
-	 next()
+	 return next()
   
   } catch (error) {
     next(error);
   }
 }
 
+export const refreshUserAccessToken=async(req,res,next)=>{
+
+  try {
+    const {email}=req.body
+    if(!email){
+      return next(APIErrors.invalidRequest("Email is required"))
+    }
+    const userAccount= await getUserAccountByEmailService(email)
+    if(! userAccount){
+      return next(APIErrors.notFound(`There is no account with the email ${email}`))
+    }
+    const refreshToken=userAccount.refreshToken
+    const password=userAccount.password
+    if(!refreshToken){
+      return next(APIErrors.notFound())
+    }
+    const payload=await verifyRefreshUserAccessTokenService(refreshToken)
+    if(!payload){
+      return next(APIErrors.unAuthenticated())
+    }
+    const accessToken=await registerUserService(email,password)
+    res.cookie("access_token", accessToken)
+    const refreshAccessToken=await generateRefreshTokenService(email,password)
+    const result=await findAndUpdateUserRefreshTokenByEmailService(email,refreshAccessToken)
+    if(! result){
+       throw error
+    }
+    res.status(200).json({success:"true",message:"access token refreshed"})
+  } catch (error) {
+    next(error)
+  }
+}
