@@ -23,7 +23,10 @@ export const createUserAccount = async (req, res, next) => {
 		}
 		const hashedPassword = hashPassword(password);
 		const userAccount = await createUserAccountService(email, hashedPassword);
-		return res.status(200).json({ success: "true", userAccount });
+		return res.status(200).json({
+			 success: "true",
+			 message:"account created successfully.",
+			 userAccount });
 	} catch (error) {
 		next(error);
 		res.status(error.status).json({ success: "false", error: error.message });
@@ -72,7 +75,10 @@ export const deleteUserAccountById = async (req, res, next) => {
 			return next(APIErrors.notFound("No record found"));
 		}
 		const result = await deleteUserAccountService(userId);
-		res.status(200).json({ success: "true", result });
+		res.status(200).json({ 
+			success: "true",
+			message:"account deleted successfully",
+			result });
 	} catch (error) {
 		next(error);
 	}
