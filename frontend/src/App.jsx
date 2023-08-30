@@ -4,7 +4,7 @@ import {
   Route,
   createRoutesFromElements,
 } from "react-router-dom";
-import { RootLayout, Login, SignUp, LandingPage } from "./pages";
+import { RootLayout, Login, SignUp, LandingPage, Dashboard } from "./pages";
 
 function App() {
   const router = createBrowserRouter(
@@ -17,6 +17,7 @@ function App() {
         <Route index element={<LandingPage />} />
         <Route path="login" element={<Login />} />
         <Route path="signup" element={<SignUp />} />
+        <Route path="dashboard" element={<Dashboard />} />
       </Route>
     )
   );
