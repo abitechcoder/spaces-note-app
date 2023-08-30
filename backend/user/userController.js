@@ -3,11 +3,15 @@ import {
 	createUserAccountService,
 	createUserProfileService,
 	deleteUserAccountService,
+	deleteUserProfileByUserIdService,
 	getAllAccountService,
 	getUserAccountByEmailService,
 	getUserAccountByIdService,
+	getUserProfileByUserId,
 	getUserProfileByUserIdService,
+	getUserProfileExtendedByUserIdService,
 	isAccountExist,
+	updateUserProfileService,
 } from "./userService.js";
 import { APIErrors } from "../middleware/errorHandlers.js";
 import { hashPassword, validatePassword } from "../util/password.js";
@@ -22,8 +26,16 @@ export const createUserAccount = async (req, res, next) => {
 			return next(APIErrors.invalidRequest("Account already exist"));
 		}
 		const hashedPassword = hashPassword(password);
+		// creating user account
 		const userAccount = await createUserAccountService(email, hashedPassword);
-		return res.status(200).json({ success: "true", userAccount });
+		// creating user profile
+		const userId=userAccount._id
+		const userProfile=await createUserProfileService(userId)
+		return res.status(200).json({ success: "true",
+		message:"account Created successfully",
+		userAccount,
+		userProfile
+	});
 	} catch (error) {
 		next(error);
 		res.status(error.status).json({ success: "false", error: error.message });
@@ -61,7 +73,7 @@ export const getUseAccountById = async (req, res, next) => {
 		next(error);
 	}
 };
-// delete user account by id
+// delete user account together with its associated profile by id
 export const deleteUserAccountById = async (req, res, next) => {
 	try {
 		const userId = req.params.userId;
@@ -71,8 +83,13 @@ export const deleteUserAccountById = async (req, res, next) => {
 		if (!(await getUserAccountByIdService(userId))) {
 			return next(APIErrors.notFound("No record found"));
 		}
-		const result = await deleteUserAccountService(userId);
-		res.status(200).json({ success: "true", result });
+		// deleting user account
+		await deleteUserAccountService(userId)
+		// deleting user profile
+		await deleteUserProfileByUserIdService(userId)
+		;
+		res.status(200).json({ success: "true",
+		 message:"user account has been deleted together with all related document" });
 	} catch (error) {
 		next(error);
 	}
@@ -115,11 +132,10 @@ export const createUserProfile=async(req,res,next)=>{
 	try {
 		const body=req.body
 		const userId=body.userId
-		console.log(body.userId);
 		if (!body.userId){
 			return next(APIErrors.invalidRequest("user id is required"))
 		}
-		const result=await getUserProfileByUserIdService(userId)
+		const result=await getUserProfileByUserId(userId)
 		if(result){
 			return next(APIErrors.invalidRequest("User profile already exist"))
 		}
@@ -130,9 +146,9 @@ export const createUserProfile=async(req,res,next)=>{
 	}
 }
 
-// Fetch user profile using uer account id
+// Fetch user profile together with their user account using user account id
 
-export const getUerProfile=async(req,res,next)=>{
+export const getUserProfileExtendedByUserId=async(req,res,next)=>{
 	try {
 		const userId=req.params.userId
 		if(! userId){
@@ -159,7 +175,7 @@ export const getUerProfile=async(req,res,next)=>{
 			}
 		}
 		]
-		const result= await getUserProfileByUserIdService(pipeline)
+		const result= await getUserProfileExtendedByUserIdService(pipeline)
 		if (! result){
 			return next(APIErrors.notFound())
 		}
@@ -174,5 +190,82 @@ export const getUerProfile=async(req,res,next)=>{
 	} catch (error) {
 		next(error)
 		
+	}
+}
+// fetch all user profile together with their user account
+export const getAllUserProfileExtended=async(req,res,next)=>{
+	try {
+		const pipeline=[
+			{
+				$lookup:{
+					from:"users",
+					localField:"userId",
+					foreignField:"_id",
+					as:"userAccount"
+			}
+		},
+		{
+			$project:{
+				__v:0,
+				userAccount:{
+					__v:0,
+					password:0,
+					_id:0
+				}
+
+			}
+		}
+		]
+		const userProfile= await getUserProfileExtendedByUserIdService(pipeline)
+		if (! userProfile){
+			return next(APIErrors.notFound())
+		}	
+		res.status(200).json({success:"true",userProfile})
+
+	} catch (error) {
+		next(error)
+		
+	}
+}
+// updating user profile using the user id
+export const updateUserProfileByUserId=async(req,res,next)=>{
+try {
+	const userId=req.params.userId
+	const {firstName,lastName,profession,userURL}=req.body
+	console.log(firstName);
+	if(!userId){
+		return next(APIErrors.invalidRequest("User Id is required"))
+	}
+const userProfile=await getUserProfileByUserIdService(userId)
+if(!userProfile){
+	return next(APIErrors.notFound(`there is no user profile associated with the account id ${userId}`))
+}
+
+firstName!==undefined? userProfile.firstName=firstName:userProfile
+lastName!==undefined? userProfile.lastName=lastName:userProfile
+profession!==undefined? userProfile.profession=profession:userProfile
+
+console.log(userProfile.firstName);
+const updatedUserProfile=await updateUserProfileService(userId,userProfile)
+res.status(200).json({
+	success:"true",
+	message:"user profile updated successfully",
+	updatedUserProfile
+})
+} catch (error) {
+	next(error)
+}
+}
+
+export const deleteUserProfileByUserId=async(req,res,next)=>{
+	try {
+		const userId=req.params.userId
+		const userProfile= await deleteUserProfileByUserIdService(userId)
+		res.status(200).json({
+			success:"true",
+			message:"account deleted successfully"
+		})
+	} catch (error) {
+		next(error)
 	}
 }
