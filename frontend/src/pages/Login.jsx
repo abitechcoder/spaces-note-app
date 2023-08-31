@@ -9,11 +9,11 @@ function Login() {
   const navigate = useNavigate();
   const location = useLocation();
   return (
-    <section className="min-h-[100vh] bg-white ">
+    <section>
       <div className="p-4 lg:p-0">
         <Navbar currentLocation={location.pathname} />
       </div>
-      <div className="grid place-items-center text-black">
+      <div className="min-h-[90vh] bg-white grid place-items-center text-black">
         <div className="w-full md:w-[70%] lg:w-[50%] px-4">
           <h1 className="font-inter text-2xl md:text-4xl pb-4 md:pb-8 text-center md:text-left">
             Sign-in
