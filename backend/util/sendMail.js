@@ -3,14 +3,13 @@ import dotenv from "dotenv"
 import {google} from "googleapis"
 dotenv.config()
 
-
+// sending email notification function
 export const sendEmail=async(userEmail)=>{
     
     const USER=process.env.MAIL_USERNAME
     const PASS=process.env.MAIL_PASSWORD
     const CLIENTID=process.env.OAUTH_CLIENTID
     const CLIENTSECRET=process.env.OAUTH_CLIENT_SECRET
-    // const ACCESSTOKEN=process.env.ACCESS_TOKEN
     const REFRESHTOKEN=process.env.OAUTH_REFRESH_TOKEN
     const REDIRECTURL=process.env.REDIRECT_URL
 try {
@@ -18,6 +17,8 @@ try {
     const oAuth2Client= new google.auth.OAuth2(CLIENTID,CLIENTSECRET,REDIRECTURL)
     // getting the access token function
     const accessToken= oAuth2Client.setCredentials({refresh_token:REFRESHTOKEN})
+
+    // setting up email transport
     const transporter=nodemailer.createTransport({
         service:"gmail",
         auth:{
@@ -28,16 +29,17 @@ try {
             clientSecret:CLIENTSECRET,
             accessToken:accessToken,
             refreshToken:REFRESHTOKEN
-    
         }
     })
+    // email message
     const mailMessage={
         from:"agyanimitsolusions@gmail.com",
-        to:`spacenoteapp7@gmail.com`,
+        to:`${userEmail}`,
         subject:"space-note-app",
         text:`Hi, you have successfully created an account with us.`
     }
-   transporter.sendMail(mailMessage,(err,mail)=>{
+    // sending email
+   transporter.sendMail(mailMessage,(err)=>{
         if (err){
             console.log(err.message);
         }
