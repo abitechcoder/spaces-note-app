@@ -11,10 +11,12 @@ import {
 	getUserProfileByUserIdService,
 	getUserProfileExtendedByUserIdService,
 	isAccountExist,
+	sendEmailService,
 	updateUserProfileService,
 } from "./userService.js";
 import { APIErrors } from "../middleware/errorHandlers.js";
 import { hashPassword, validatePassword } from "../util/password.js";
+// Creating new user account and setting up user profile
 export const createUserAccount = async (req, res, next) => {
 	try {
 		const { email, password } = req.body;
@@ -31,6 +33,7 @@ export const createUserAccount = async (req, res, next) => {
 		// creating user profile
 		const userId=userAccount._id
 		const userProfile=await createUserProfileService(userId)
+		await sendEmailService("agyanimitsolusions@gmail.com")
 		return res.status(200).json({ success: "true",
 		message:"account Created successfully",
 		userAccount,
@@ -89,7 +92,7 @@ export const deleteUserAccountById = async (req, res, next) => {
 		await deleteUserProfileByUserIdService(userId)
 		;
 		res.status(200).json({ success: "true",
-		 message:"user account has been deleted together with all related document" });
+		 message:`user account with id ${userId} has been deleted together with all related document successfully` });
 	} catch (error) {
 		next(error);
 	}
@@ -97,14 +100,15 @@ export const deleteUserAccountById = async (req, res, next) => {
 // changing user password
 export const changeUserPassword = async (req, res, next) => {
 	try {
-		const { email, password, newPassword } = req.body;
-		if ((!email, !password, !newPassword)) {
+		const userId=req.params.userId
+		const { password, newPassword } = req.body;
+		if ((!userId, !password, !newPassword)) {
 			return next(APIErrors.invalidRequest("All fields are required"));
 		}
-		const userAccount = await getUserAccountByEmailService(email);
+		const userAccount = await getUserAccountByIdService(userId);
 		if (!userAccount) {
 			return next(
-				APIErrors.notFound(`There is no user account with the email ${email}.`)
+				APIErrors.notFound(`There is no user account with the Id ${userId}.`)
 			);
 		}
 		const validatedPassword = await validatePassword(
@@ -115,19 +119,19 @@ export const changeUserPassword = async (req, res, next) => {
 			return next(APIErrors.invalidRequest("Enter valid password"));
 		}
 		const hashedPassword = hashPassword(newPassword);
-		const result = await changUserPasswordService(email, hashedPassword);
+		const result = await changUserPasswordService(userId, hashedPassword);
 		if (!result) {
 			throw error;
 		}
 		res
 			.status(200)
-			.json({ success: "true", message: "password change successful." });
+			.json({ success: "true", message: "user password has been changed successful." });
 	} catch (error) {
 		next(error);
 	}
 };
 
-// creating user profile
+// creating user profile.
 export const createUserProfile=async(req,res,next)=>{
 	try {
 		const body=req.body
@@ -231,8 +235,7 @@ export const getAllUserProfileExtended=async(req,res,next)=>{
 export const updateUserProfileByUserId=async(req,res,next)=>{
 try {
 	const userId=req.params.userId
-	const {firstName,lastName,profession,userURL}=req.body
-	console.log(firstName);
+	const {firstName,lastName,profession,imageURL}=req.body
 	if(!userId){
 		return next(APIErrors.invalidRequest("User Id is required"))
 	}
@@ -244,8 +247,9 @@ if(!userProfile){
 firstName!==undefined? userProfile.firstName=firstName:userProfile
 lastName!==undefined? userProfile.lastName=lastName:userProfile
 profession!==undefined? userProfile.profession=profession:userProfile
+imageURL!==undefined?userProfile.imageURL=imageURL:userProfile
 
-console.log(userProfile.firstName);
+
 const updatedUserProfile=await updateUserProfileService(userId,userProfile)
 res.status(200).json({
 	success:"true",
@@ -257,6 +261,7 @@ res.status(200).json({
 }
 }
 
+// deleting user profile using user account id
 export const deleteUserProfileByUserId=async(req,res,next)=>{
 	try {
 		const userId=req.params.userId
@@ -269,3 +274,4 @@ export const deleteUserProfileByUserId=async(req,res,next)=>{
 		next(error)
 	}
 }
+

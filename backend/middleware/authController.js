@@ -9,7 +9,7 @@ import {
 } from "./authService.js";
 import { APIErrors } from "./errorHandlers.js";
 
-export const registerUser = async (req, res, next) => {
+export const signIn = async (req, res, next) => {
   try {
     const { email, password } = req.body;
     if (!email || !password) {
@@ -37,7 +37,10 @@ export const registerUser = async (req, res, next) => {
     res.cookie("access_token", accessToken, {
       // httpOnly: true
     });
-    return res.status(200).json({ accessToken });
+    return res.status(200).json({ 
+      success:"true",
+      message:"Sign In Successful",
+      accessToken });
   } catch (error) {
     next(error);
   }
