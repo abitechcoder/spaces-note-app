@@ -1,14 +1,28 @@
 // import React from "react";
-import { Features, Testimonials, ContactUs, Downloads, Hero } from "../components/landing_page";
+import {
+  Navbar,
+  Features,
+  Testimonials,
+  ContactUs,
+  Downloads,
+  Hero,
+  Footer,
+} from "../components/landing_page";
+import { useLocation } from "react-router-dom";
 
 function LandingPage() {
+  const location = useLocation();
   return (
     <main className="bg-white">
-      <Hero/>
+      <section className="p-4 lg:p-0">
+        <Navbar currentLocation={location.pathname} />
+      </section>
+      <Hero />
       <Features />
       <Testimonials />
       <ContactUs />
-      <Downloads/>
+      <Downloads />
+      <Footer />
     </main>
   );
 }

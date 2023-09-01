@@ -5,7 +5,7 @@ const errorMiddleware=(error,req,res,next)=>{
         return res.status(error.status).json({success:"false",error:error.message})
     }
 
-    return res.status(error.status||500).json({success:"false",error:error||"Internal server error"})
+    return res.status(error.status||500).json({success:"false",error:error.message||"Internal server error"})
 }
 
 

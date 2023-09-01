@@ -1,8 +1,9 @@
 import express from "express"
-import { registerUser } from "./authController.js"
+import { refreshUserAccessToken,signIn } from "./authController.js"
 const authRoute=express.Router()
 
-authRoute.route("/signin").post(registerUser)
+authRoute.route("/signin").post(signIn)
+authRoute.route("/signin/refresh-token").post(refreshUserAccessToken)
 
 
 export default authRoute
