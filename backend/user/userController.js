@@ -275,3 +275,7 @@ export const deleteUserProfileByUserId=async(req,res,next)=>{
 	}
 }
 
+// uploading user profile image
+export const uploadImage=async(req,res,next)=>{
+	console.log(req.file);
+}
