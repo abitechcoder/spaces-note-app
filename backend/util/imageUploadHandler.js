@@ -18,7 +18,7 @@ export const upload = multer({
 	},
 
 	fileFilter(req, file, cb) {
-		if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
+		if (!file.originalname.match(/\.(jpg|jpeg|png|svg)$/)) {
 			return cb(new Error("Please upload a valid image file"));
 		}
 		const { userId } = req.params;

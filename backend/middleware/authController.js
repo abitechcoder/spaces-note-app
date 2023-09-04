@@ -68,7 +68,7 @@ export const verifyUserAccessToken = async (req, res, next) => {
 			return next(APIErrors.unAuthenticated("user access token has expired"));
 		}
 		req.email = payload.email;
-		req.password = payload.email;
+		req.password = payload.password;
 		req.refreshToken = payload.refreshToken;
 		next();
 	} catch (error) {
@@ -78,24 +78,21 @@ export const verifyUserAccessToken = async (req, res, next) => {
 
 export const refreshUserAccessToken = async (req, res, next) => {
 	try {
-		const { userId } = req.params;
-		if (!userId) {
-			return next(APIErrors.invalidRequest("Email is required"));
+		const { email}  = req.body;
+		if (!email) {
+			return next(APIErrors.unAuthenticated("you are not signed in"));
 		}
-		const userAccount = await getUserAccountByIdService(userId);
+		const userAccount = await getUserAccountByEmailService(email);
 		if (!userAccount) {
 			return next(
-				APIErrors.notFound(`There is no account with the id ${userId}`)
+				APIErrors.notFound(`There is no account associated with the email: ${email}`)
 			);
 		}
 		const refreshToken = userAccount.refreshToken;
-		// const password=userAccount.password
-		// const email=userAccount.email
 		if (!refreshToken) {
 			return next(APIErrors.notFound("Refresh token does not exit"));
 		}
 		const payload = await verifyRefreshUserAccessTokenService(refreshToken);
-		// console.log(payload);
 		if (!payload) {
 			return next(APIErrors.unAuthenticated());
 		}

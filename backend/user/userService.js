@@ -1,3 +1,4 @@
+import { verifyAccessToken } from "../util/jwtAuthentication.js";
 import { sendEmail } from "../util/sendMail.js";
 import { userModel, userProfileModel } from "./userModel.js";
 
@@ -80,4 +81,3 @@ export const sendEmailService=async(userEmail)=>{
 export const uploadUserProfileImageService=async(userId,imageURL)=>{
   return await userProfileModel.findOneAndUpdate({userId},{imageURL},{new:true})
 }
-
