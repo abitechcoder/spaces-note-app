@@ -1,3 +1,4 @@
+import { sendEmail } from "../util/sendMail.js";
 import { userModel, userProfileModel } from "./userModel.js";
 
 // creating a user account service
@@ -33,17 +34,45 @@ export const deleteUserAccountService=async(userId)=>{
 }
 
 // Changing user password service
-export const changUserPasswordService=async(email,newPassword)=>{
-return	await userModel.findOneAndUpdate({email},{password:newPassword},{new:true})
+export const changUserPasswordService=async(uerId,newPassword)=>{
+return	await userModel.findOneAndUpdate({_id:uerId},{password:newPassword},{new:true})
 	
 }
 
 // create user profile  service
-export const createUserProfileService=async(body)=>{
-  const userProfile=new userProfileModel(body)
+export const createUserProfileService=async(userId)=>{
+  const userProfile=new userProfileModel({
+    userId,
+    firstName:"",
+    lastName:"",
+    profession:"",
+    imageURL:""
+  })
   return await userProfile.save()
 }
-// getting user profile using user id
-export const getUserProfileByUserIdService=async(pipeline)=>{
+// getting user profile together with the user account using user id
+export const getUserProfileExtendedByUserIdService=async(pipeline)=>{
   return await userProfileModel.aggregate(pipeline).exec()
+}
+// getting user profile using the user id
+export const getUserProfileByUserId=async(userId)=>{
+  return await userProfileModel.findOne({userId})
+}
+//updating user profile using the user account id
+export const updateUserProfileService=async(userId,update)=>{
+  return await userProfileModel.findOneAndUpdate({userId},update,{new:true})
+}
+// getting user profile using user id
+export const getUserProfileByUserIdService=async(userId)=>{
+return await userProfileModel.findOne({userId})
+}
+
+// deleting user profile using the user id
+
+export const deleteUserProfileByUserIdService= async(userId)=>{
+  return await userProfileModel.findOneAndDelete({userId})
+}
+
+export const sendEmailService=async(userEmail)=>{
+  return  sendEmail(userEmail)
 }

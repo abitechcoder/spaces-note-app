@@ -22,7 +22,7 @@ const userProfileSchema = Schema(
 		firstName: String,
 		lastName: String,
 		profession: String,
-		imageUrl: String,
+		imageURL: String,
 		userId: {
 			type: Schema.Types.ObjectId,
 			ref: "user",
