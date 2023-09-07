@@ -5,7 +5,6 @@ import { userRouter } from "./user/userRoute.js"
 import errorMiddleware from "./middleware/errorMiddleware.js"
 import { noteRoute } from "./note/noteRoute.js"
 import authRoute from "./middleware/authRoute.js"
-import { verifyUserAccessToken } from "./middleware/authController.js"
 import cookieParser from "cookie-parser"
 
 dotenv.config()
@@ -19,23 +18,22 @@ const app = express()
 app.use(express.urlencoded({extended:false}))
 app.use(express.json())
 app.use(cookieParser())
+app.use(express.static("public"))
 //routes
 app.use('/note', noteRoute)
 app.use("/user",userRouter)
 app.use("/auth",authRoute)
 
 // the home route
-app.get("/",verifyUserAccessToken,(req,res)=>{
-    const email=req.email
+app.get("/",(req,res)=>{
+    // const email=req.email
     res.status(200)
     .json({
-        success:"true",
+        success:true,
         message:"Welcome to Space Note App API"
     })
 })
 app.use(errorMiddleware)
-// app.use(verifyAccessToken)
-//starting up server
 app.listen(PORT,async()=>{
     
     await connection(MONGODB_URL)
