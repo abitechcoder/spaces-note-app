@@ -1,25 +1,22 @@
-import { Fragment, useState } from "react";
+import { useState } from "react";
 import { categoryList } from "../../util/folderCategoryList";
 import CategoryComponent from "./CategoryComponent.jsx";
-import { LuFolder, LuFolderOpen } from "react-icons/lu";
+// import { LuFolder, LuFolderOpen } from "react-icons/lu";
 
 const CategoryComponentList = () => {
-	// const [category,setCategory]=useState("")
-
+	const [category,setCategory]=useState("")
+const onclickHandler=(e)=>{
+	setCategory(e.target.value) 
+}
+console.log(category)
 	const renderCategoryList = categoryList.map((list) => {
 		return (
-			<Fragment key={list.id}>
-				<div id={list.category} className="">
-					<LuFolder size={20} />
-				</div>
-				<div className="hidden">
-					<LuFolderOpen size={20} />
-				</div>
-				<CategoryComponent Category={list.category} Id={list.id} />
-			</Fragment>
+			<li key={list.id} onClick={onclickHandler} >
+				<CategoryComponent Category={list.category} Id={list.id}/>
+			</li>
 		);
 	});
-	return <div>{renderCategoryList}</div>;
+	return <ul className="">{renderCategoryList}</ul>;
 };
 
 export default CategoryComponentList;

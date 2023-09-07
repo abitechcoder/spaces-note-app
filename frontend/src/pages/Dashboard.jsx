@@ -3,7 +3,10 @@ import { CiSearch } from "react-icons/ci";
 import { AiOutlinePlus } from "react-icons/ai";
 import { LuFolderPlus } from "react-icons/lu";
 import { CgFileDocument } from "react-icons/cg";
-import {CategoryComponentList } from "../components/folder_category";
+import {
+	CategoryComponentList,
+	HeaderInputComponent,
+} from "../components/folder_category";
 
 function Dashboard() {
 	return (
@@ -46,15 +49,8 @@ function Dashboard() {
 				{/* Folder category section starts here*/}
 				<div className="mt-5">
 					{/* header */}
-					<div className="flex justify-between text-white w-[85%] m-auto">
-						<h2 className="text-sm text-gray-200/60">Folders</h2>
-						<div className="cursor-pointer text-gray-200/60">
-							<LuFolderPlus size={20} />
-						</div>
-					</div>
-					<div>
-						<CategoryComponentList />
-					</div>
+					<HeaderInputComponent />
+					<CategoryComponentList />
 				</div>
 				{/* Folder category section ends here*/}
 			</div>

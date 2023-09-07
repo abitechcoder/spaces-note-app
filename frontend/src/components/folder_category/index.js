@@ -1,3 +1,4 @@
 import CategoryComponent from "./CategoryComponent"
 import CategoryComponentList from "./CategoryComponentList"
-export {CategoryComponent,CategoryComponentList}
+import HeaderInputComponent from "./HeaderInputComponent"
+export {CategoryComponent,CategoryComponentList,HeaderInputComponent}
