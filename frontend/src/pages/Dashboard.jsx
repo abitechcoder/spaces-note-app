@@ -36,9 +36,14 @@ function Dashboard() {
             </div>
           </div>
         </div>
+        <div className="text-white">folder</div>
       </div>
-      <div className="bg-[#1c1c1c]"></div>
-      <div></div>
+      <div className="bg-[#1c1c1c] text-white">
+        hi
+      </div>
+      <div className="text-white">
+    setion
+      </div>
     </section>
   );
 }
