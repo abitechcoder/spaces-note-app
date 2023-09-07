@@ -1,16 +1,13 @@
 import { LogoWhite } from "../assets";
 import { CiSearch } from "react-icons/ci";
 import { AiOutlinePlus } from "react-icons/ai";
-import { LuFolderPlus } from "react-icons/lu";
 import { CgFileDocument } from "react-icons/cg";
-import {
-	CategoryComponentList,
-	HeaderInputComponent,
-} from "../components/folder_category";
+import { FoldersComponent } from "../components/folder_category";
+import MoreSectionComponent from "../components/more_section/MoreSectionComponent";
 
 function Dashboard() {
 	return (
-		<section className="h-screen grid grid-cols-[300px_350px_1fr] bg-[#181818]">
+		<section className="grid grid-cols-[300px_350px_1fr] bg-[#181818]">
 			<div className="py-[30px]">
 				<div className="px-[20px]">
 					<div className="flex items-center justify-between">
@@ -48,9 +45,8 @@ function Dashboard() {
 				</div>
 				{/* Folder category section starts here*/}
 				<div className="mt-5">
-					{/* header */}
-					<HeaderInputComponent />
-					<CategoryComponentList />
+					<FoldersComponent/>
+          <MoreSectionComponent/>
 				</div>
 				{/* Folder category section ends here*/}
 			</div>

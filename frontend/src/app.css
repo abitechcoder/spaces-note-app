@@ -34,3 +34,9 @@ input[type="radio"]:checked{
     background-color: rgb(255, 255, 255,0.03);
 
 }
+.text-hidden{
+@apply hidden
+}
+.display{
+@apply flex
+}
