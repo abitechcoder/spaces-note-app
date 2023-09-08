@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { categoryList } from "../../util/folderCategoryList";
 import CategoryComponent from "./CategoryComponent.jsx";
-// import { LuFolder, LuFolderOpen } from "react-icons/lu";
 
 const CategoryComponentList = () => {
 	const [category,setCategory]=useState("")
