@@ -3,8 +3,22 @@ import { LogoWhite } from "../assets";
 import { CiSearch } from "react-icons/ci";
 import { AiOutlinePlus } from "react-icons/ai";
 import {CgFileDocument} from "react-icons/cg"
+import { useSelector, useDispatch } from "react-redux";
+import {logout, reset} from '../features/auth/authSlice'
+import { useNavigate } from "react-router";
 
 function Dashboard() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const {user} = useSelector((state) => state.auth)
+
+  const onLogout = () => {
+    dispatch(logout())
+    dispatch(reset())
+    navigate('/login')
+  }
+
   return (
     <section className="h-screen grid grid-cols-[300px_350px_1fr] bg-[#181818]">
       <div className="py-[30px]">
@@ -36,9 +50,15 @@ function Dashboard() {
             </div>
           </div>
         </div>
+
+        <div>
+        <button onClick={() => onLogout()} className="py-[15px] bg-red-700 text-white w-[80%] mx-auto rounded-lg">Logout</button>
+        </div>
       </div>
       <div className="bg-[#1c1c1c]"></div>
-      <div></div>
+      <div>
+        
+      </div>
     </section>
   );
 }

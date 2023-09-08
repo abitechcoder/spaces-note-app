@@ -1,14 +1,34 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { FaApple, FaGoogle } from "react-icons/fa";
 import { AiOutlineQuestionCircle } from "react-icons/ai";
-import { TextInput } from "../components/auth";
+import { TextInput, Spinner } from "../components/auth";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Navbar } from "../components/landing_page";
 import { useForm } from "react-hook-form";
+import { useSelector, useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+import { register as registerUser, reset } from "../features/auth/authSlice";
 
 function SignUp() {
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useDispatch();
+
+  const { user, isLoading, isError, isSuccess, message } = useSelector(
+    (state) => state.auth
+  );
+
+  useEffect(() => {
+    if (isError) {
+      toast.error(message);
+    }
+
+    if (isSuccess || user) {
+      navigate("/dashboard");
+    }
+
+    dispatch(reset());
+  }, [user, isLoading, isError, isSuccess, message, navigate, dispatch]);
 
   const {
     register,
@@ -21,9 +41,13 @@ function SignUp() {
     },
   });
 
-  console.log("Error:", errors);
+  const onSubmit = (data) => {
+    dispatch(registerUser(data));
+  };
 
-  const onSubmit = (data) => console.log(data);
+  if (isLoading) {
+    return <Spinner/>
+  }
   return (
     <section>
       <div className="p-4 lg:p-0">

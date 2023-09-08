@@ -7,6 +7,7 @@ import { noteRoute } from "./note/noteRoute.js"
 import authRoute from "./middleware/authRoute.js"
 import { verifyUserAccessToken } from "./middleware/authController.js"
 import cookieParser from "cookie-parser"
+import cors from "cors"
 
 dotenv.config()
 
@@ -19,6 +20,7 @@ const app = express()
 app.use(express.urlencoded({extended:false}))
 app.use(express.json())
 app.use(cookieParser())
+app.use(cors())
 //routes
 app.use('/note', noteRoute)
 app.use("/user",userRouter)
