@@ -45,8 +45,8 @@ function Dashboard() {
 				</div>
 				{/* Folder category section starts here*/}
 				<div className="mt-5">
-					<FoldersComponent/>
-          <MoreSectionComponent/>
+					<FoldersComponent />
+					<MoreSectionComponent />
 				</div>
 				{/* Folder category section ends here*/}
 			</div>

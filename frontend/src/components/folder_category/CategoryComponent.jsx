@@ -1,12 +1,13 @@
 import { useState } from "react";
-import { categoryList } from "../../util/folderCategoryList";
+import { useFolderCategoryContext } from "../../context/folderCategoryContex";
 const CategoryComponent = () => {
   const [category, setCategory] = useState("");
+  const {folderCategory}=useFolderCategoryContext()
   const onclickHandler = (e) => {
     setCategory(e.target.value);
   };
   console.log(category);
-  const renderCategoryList = categoryList.map((list) => {
+  const renderCategoryList = folderCategory.map((list) => {
     return (
       <li key={list.id} onClick={onclickHandler} className="cursor-pointer">
         <label
