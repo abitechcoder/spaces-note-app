@@ -33,7 +33,7 @@ try {
     })
     // email message
     const mailMessage={
-        from:"agyanimitsolusions@gmail.com",
+        from:"spacenoteapp7@gmail.com",
         to:`${userEmail}`,
         subject:"space-note-app",
         text:`Hi, you have successfully created an account with us.`

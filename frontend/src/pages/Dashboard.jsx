@@ -7,6 +7,7 @@ import MoreSectionComponent from "../components/more_section/MoreSectionComponen
 import { useSelector, useDispatch } from "react-redux";
 import { logout, reset } from "../features/auth/authSlice";
 import { useNavigate } from "react-router";
+import NoteCategoryComponent from "../components/folder_category/NoteCategoryComponent";
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -73,7 +74,9 @@ function Dashboard() {
           </button>
         </div>
       </div>
-      <div className="bg-[#1c1c1c]"></div>
+      <div className="bg-[#1c1c1c]">
+        <NoteCategoryComponent/>
+      </div>
       <div></div>
     </section>
   );
