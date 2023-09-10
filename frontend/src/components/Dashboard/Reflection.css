@@ -1,0 +1,97 @@
+.note{
+    background: #1c1c1c;
+    height: 50rem;
+}
+.reflection{
+    position: relative;
+    background: #1c1c1c;
+    height: 50rem;
+    right: 20px;
+    /* display: none; */
+}
+.reflection>p{
+    position: relative;
+    top: 40px;
+    left: 30px;
+    font-size: 40px;
+    color: #7e6b6b;
+}
+.reflection-date,
+.reflection-folder{
+    position: relative;
+    display: flex;
+    height: 50px;
+    top: 61.5px;
+    color: #686363;
+}
+.reflection-folder{
+    border-top: 1px solid grey;
+   }
+.reflection-date>span,
+.reflection-folder>span{
+    margin: 20px 50px;
+    font-size: 12px;
+}
+.reflection-date>p,
+.reflection-folder>p{
+    position: relative;
+    top: 20px;
+    left: 30px;
+    font-size: 12px;
+}
+.reflection-date>img,
+.reflection-folder>img{
+    position: relative;
+    left: 10px;
+    width: 20px;
+    height: 20px;
+    top: 20px;
+}
+.texteditor{
+    position: relative;
+    top: 60px;
+    height: 30rem;
+    border: 1px solid #1c1c1c;
+}
+
+/*********************Empty****************/
+.empty{
+    position: relative;
+    top: 200px;
+}
+.empty>img{
+    position: relative;
+    left: 220px;
+    width: 80px;
+}
+.empty>h1{
+    position: relative;
+    color: #fff;
+    left: 190px;
+}
+.empty>p{
+    position: relative;
+    width: 300px;
+    left: 140px;
+    color: #9e8f8f;
+    font-size: 10px;
+}
+.button>button{
+    width: 150px;
+    height: 45px;
+    border: 1px soldi #686363;
+    border-radius: 7px;
+    background: #7e6b6b;
+    margin: 10px;
+    box-shadow: 1px 2px #9e8f8f;
+    cursor: pointer;
+    color: #fff;
+}
+.button>button:hover{
+  width: 145px;
+  height: 42px;
+  background: #9e8f8f;
+  box-shadow: 1px 2px #7e6b6b;
+  transition: 1s;
+  margin: 15px;
+}

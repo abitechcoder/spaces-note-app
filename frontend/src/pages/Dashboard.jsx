@@ -1,10 +1,25 @@
-import React from "react";
-import { LogoWhite } from "../assets";
+import React, { useContext } from "react";
+import LogoWhite from "../assets/LogoWhite.png";
 import { CiSearch } from "react-icons/ci";
 import { AiOutlinePlus } from "react-icons/ai";
 import {CgFileDocument} from "react-icons/cg"
+import Spaces from "../components/Dashboard/Spaces";
+import Reflection from "../components/Dashboard/Reflection"
+import { TextContext } from '../util/TextContext.jsx'
+
+
+
 
 function Dashboard() {
+  const { text, setText}  = useContext(TextContext)
+  //  console.log(text)
+
+const  textHandler = () => {
+  setText("true")
+}
+
+
+
   return (
     <section className="h-screen grid grid-cols-[300px_350px_1fr] bg-[#181818]">
       <div className="py-[30px]">
@@ -15,7 +30,7 @@ function Dashboard() {
           </div>
           <button className="mt-[30px] w-full p-[10px] rounded-lg bg-[#ffffff] bg-opacity-5 text-white flex justify-center items-center gap-2">
             <AiOutlinePlus className="inline-block" size={25} />
-            <p className="font-bold font-sans">New Note</p>
+            <p className="font-bold font-sans" onClick={textHandler}>New Note</p>
           </button>
         </div>
 
@@ -28,19 +43,20 @@ function Dashboard() {
             </div>
             <div className="px-[20px] py-[10px] flex gap-2">
               <CgFileDocument size={20} color="#ffffff" opacity={0.6}/>
-              <p className="text-white text-opacity-60">Reflection on the Month of June</p>
+              <p className="text-white text-opacity-60">Project proposal</p>
             </div>
             <div className="px-[20px] py-[10px] flex gap-2">
               <CgFileDocument size={20} color="#ffffff" opacity={0.6}/>
-              <p className="text-white text-opacity-60">Reflection on the Month of June</p>
+              <p className="text-white text-opacity-60">Travel itinerary</p>
             </div>
           </div>
         </div>
+        <div><Spaces/></div>
       </div>
-      <div className="bg-[#1c1c1c]"></div>
-      <div></div>
+      <div>Personal</div>
+      <div><Reflection/></div>
     </section>
-  );
+  )
 }
 
 export default Dashboard;
