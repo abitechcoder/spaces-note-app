@@ -33,7 +33,7 @@ export const createUserAccount = async (req, res, next) => {
 		// creating user profile
 		const userId=userAccount._id
 		const userProfile=await createUserProfileService(userId)
-		await sendEmailService("agyanimitsolusions@gmail.com")
+		await sendEmailService(email)
 		return res.status(200).json({ 
 		success: true,
 		message:"account Created successfully",
