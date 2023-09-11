@@ -2,12 +2,12 @@ import { useEffect, useState } from "react";
 import { useFolderCategoryContext } from "../../context/folderCategoryContex";
 
 const NoteCategoryComponent = () => {
-	const { category } = useFolderCategoryContext();
+	const { category,setNoteIdHandler } = useFolderCategoryContext();
 
-	const [noteCategory, setNoteCategory] = useState([]);
+	const [noteCategory, setNoteCategory,] = useState([]);
 	const onclickHandler = (e) => {
 		const noteId = e.target.id;
-		console.log(noteId);
+		setNoteIdHandler(noteId)
 	};
 
 	useEffect(() => {

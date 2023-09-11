@@ -1,53 +1,53 @@
 export const notes=[
     {
         id:"10",
-        title:"my note",
+        title:"Securities on duty",
         category:"personal",
         details:"This is my first note to react js",
-        date:"12/09/2023"
+        date:"09/12/2023"
     },
     {
         id:"20",
-        title:"my note",
+        title:"The big dog",
         category:"personal",
         details:"This is my first note to react js",
-        date:"12/09/2023"
+        date:"09/11/2023"
     },
     {
         id:"30",
-        title:"my note",
+        title:"Reflection of old",
         category:"personal",
         details:"This is my first note to react js",
-        date:"12/09/2023"
+        date:"09/16/2023"
     },
     {
         id:"40",
-        title:"my note",
+        title:"Todos",
         category:"Work",
         details:"This is my first note to react js",
-        date:"12/09/2023"
+        date:"09/13/2023"
     },
     {
         id:"41",
-        title:"my note",
+        title:"Visiting the school",
         category:"Work",
         details:"This is my first note to react js",
-        date:"12/09/2023"
+        date:"09/12/2023"
     },
     {
         id:"50",
-        title:"my note",
+        title:"Sunday program",
         category:"Travel",
         details:"This is my first note to react js",
-        date:"12/09/2023"
+        date:"09/09/2023"
 
     },
     {
         id:"51",
-        title:"my note",
+        title:"Getting some items",
         category:"Travel",
         details:"This is my first note to react js",
-        date:"12/09/2023"
+        date:"09/05/2023"
 
     }
 ]

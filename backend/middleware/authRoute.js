@@ -6,7 +6,5 @@ import {
 const authRoute = express.Router();
 
 authRoute.route("/signin").post(signIn);
-authRoute
-	.route("/signin/refresh-token")
-	.post(refreshUserAccessToken);
+authRoute.route("/signin/refresh-token").post(refreshUserAccessToken);
 export default authRoute;

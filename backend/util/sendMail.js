@@ -43,6 +43,7 @@ try {
         if (err){
             console.log(err.message);
         }
+        else
         console.log("email notification sent successfully");
     })
 
