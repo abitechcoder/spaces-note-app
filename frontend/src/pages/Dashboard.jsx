@@ -1,3 +1,5 @@
+import React, { useContext } from "react";
+import Reflection from "../components/Dashboard/Reflection"
 import { LogoWhite } from "../assets";
 import { CiSearch } from "react-icons/ci";
 import { AiOutlinePlus } from "react-icons/ai";
@@ -7,13 +9,17 @@ import MoreSectionComponent from "../components/more_section/MoreSectionComponen
 import { useSelector, useDispatch } from "react-redux";
 import { logout, reset } from "../features/auth/authSlice";
 import { useNavigate } from "react-router";
+import { TextContext } from '../util/TextContext.jsx'
 
 function Dashboard() {
+  const { text, setText}  = useContext(TextContext)
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
   const { user } = useSelector((state) => state.auth);
 
+  const  textHandler = () => {
+    setText("true")
+  }
   const onLogout = () => {
     dispatch(logout());
     dispatch(reset());
@@ -30,7 +36,7 @@ function Dashboard() {
           </div>
           <button className="mt-[30px] w-full p-[10px] rounded-lg bg-[#ffffff] bg-opacity-5 text-white flex justify-center items-center gap-2">
             <AiOutlinePlus className="inline-block" size={25} />
-            <p className="font-bold font-sans">New Note</p>
+            <p className="font-bold font-sans" onClick={textHandler}>New Note</p>
           </button>
         </div>
 
@@ -74,7 +80,7 @@ function Dashboard() {
         </div>
       </div>
       <div className="bg-[#1c1c1c]"></div>
-      <div></div>
+      <div><Reflection/></div>
     </section>
   );
 }

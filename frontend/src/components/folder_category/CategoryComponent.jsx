@@ -1,5 +1,8 @@
 import { useState } from "react";
 import { useFolderCategoryContext } from "../../context/folderCategoryContex";
+
+
+
 const CategoryComponent = () => {
   const [category, setCategory] = useState("");
   const {folderCategory}=useFolderCategoryContext()

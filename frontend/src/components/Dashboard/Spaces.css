@@ -1,0 +1,64 @@
+.spaces{
+    background: #181818;
+    height: 10rem;
+}
+.folder-top{
+    position: absolute;
+    display: flex;
+    top: 400px;
+    left: 20px;
+}
+.folder-top>p{
+    width: 45px;
+    height: 18px;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 17.6px;
+    color: #998383;
+}
+.folder-top img{
+    padding-left: 180px;
+}
+.folder-down{
+    position: absolute;
+    top: 440px;
+    left: 20px;
+}
+.personal,
+.work,
+.travel,
+.events,
+.finances{
+    display: flex;
+    color: #948888;
+}
+.open,
+.close{
+    position: relative;
+    left: 0px;
+    margin-right: 20px;
+    margin-bottom: 10px;
+}
+.open{
+    display: none;
+}
+.more{
+    position: absolute;
+    top: 620px;
+    left: 20px;
+}
+.favorite,
+.trash,
+.archive{
+    display: flex;
+    margin: 10px 0 20px 0;
+}
+.favorite>p,
+.trash>p,
+.archive>p{
+  margin-left: 20px;
+  color: #8a7e7e;
+}
+.more>p{
+    color: #a09090;
+}
