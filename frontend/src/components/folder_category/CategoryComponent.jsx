@@ -6,7 +6,7 @@ const CategoryComponent = () => {
   const onclickHandler = (e) => {
     setCategory(e.target.value);
   };
-  console.log(category);
+  alert(category);
   const renderCategoryList = folderCategory.map((list) => {
     return (
       <li key={list.id} onClick={onclickHandler} className="cursor-pointer">
