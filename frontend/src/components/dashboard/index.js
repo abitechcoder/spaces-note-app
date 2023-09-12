@@ -1,5 +1,4 @@
-import NewNoteDialog from "./NewNoteDialog";
 import RecentNotes from "./RecentNotes";
-import Reflection from "./Reflection";
+import RecentNotesList from "./RecentNotesList";
 
-export { NewNoteDialog, RecentNotes, Reflection };
+export { RecentNotes, RecentNotesList };
