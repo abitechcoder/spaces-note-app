@@ -1,21 +1,23 @@
-import React, { useContext } from "react";
-import Reflection from "../components/Dashboard/Reflection";
+import React, { useContext, useState } from "react";
+import { useNavigate } from "react-router";
+import { useSelector, useDispatch } from "react-redux";
+import { useCategories } from "../hooks/dataFetcher";
+import { logout, reset } from "../features/auth/authSlice";
+
 import { LogoWhite } from "../assets";
 import { CiSearch } from "react-icons/ci";
 import { AiOutlinePlus } from "react-icons/ai";
-import { CgFileDocument } from "react-icons/cg";
+
 import { FoldersComponent } from "../components/folder_category";
 import MoreSectionComponent from "../components/more_section/MoreSectionComponent";
-import { useSelector, useDispatch } from "react-redux";
-import { logout, reset } from "../features/auth/authSlice";
-import { useNavigate } from "react-router";
-import { RecentNotes } from "../components/Dashboard";
+import {
+  RecentNotes,
+  NewNoteDialog,
+  Reflection,
+} from "../components/Dashboard";
 import { useFolderCategoryContext } from "../context/folderCategoryContex";
 import NoteCategoryComponent from "../components/folder_category/NoteCategoryComponent";
 import { TextContext } from "../util/TextContext.jsx";
-import { useState } from "react";
-import { NewNoteDialog } from "../components/dashboard";
-import { useCategories } from "../hooks/dataFetcher";
 
 function Dashboard() {
   const { noteId } = useFolderCategoryContext();
@@ -24,9 +26,11 @@ function Dashboard() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   let [isOpen, setIsOpen] = useState(true);
-  const { categories, isLoading, isError } = useCategories();
+  // const { categories, isLoading, isError } = useCategories();
 
-  console.log("Categories: ", categories);
+  // if (!isError) {
+  //   console.log("Categories: ", categories);
+  // }
 
   const { user } = useSelector((state) => state.auth);
 
@@ -65,10 +69,10 @@ function Dashboard() {
           </div>
           {/* Folder category section ends here*/}
 
-          <div>
+          <div className="flex justify-center mt-8">
             <button
               onClick={() => onLogout()}
-              className="py-[15px] bg-red-700 text-white w-[80%] mx-auto rounded-lg"
+              className="py-[15px] bg-red-700 hover:bg-red-500 text-white w-[80%] rounded-lg"
             >
               Logout
             </button>
