@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { LuFolderOpen, LuFolderPlus } from "react-icons/lu";
 import CategoryComponent from "./CategoryComponent";
 import { FiCheck } from "react-icons/fi";

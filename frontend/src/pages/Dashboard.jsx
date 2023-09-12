@@ -1,25 +1,30 @@
 import React, { useContext } from "react";
-import Reflection from "../components/Dashboard/Reflection"
+import Reflection from "../components/Dashboard/Reflection";
 import { LogoWhite } from "../assets";
 import { CiSearch } from "react-icons/ci";
 import { AiOutlinePlus } from "react-icons/ai";
-import { CgFileDocument } from "react-icons/cg";
+// import { CgFileDocument } from "react-icons/cg";
 import { FoldersComponent } from "../components/folder_category";
 import MoreSectionComponent from "../components/more_section/MoreSectionComponent";
 import { useSelector, useDispatch } from "react-redux";
 import { logout, reset } from "../features/auth/authSlice";
 import { useNavigate } from "react-router";
-import { TextContext } from '../util/TextContext.jsx'
+import RecentComponent from "../components/RecentComponent";
+import { useFolderCategoryContext } from "../context/folderCategoryContex";
+import NoteCategoryComponent from "../components/folder_category/NoteCategoryComponent";
+import { TextContext } from "../util/TextContext.jsx";
 
 function Dashboard() {
-  const { text, setText}  = useContext(TextContext)
+  const { noteId } = useFolderCategoryContext();
+  console.log(noteId);
+  const { text, setText } = useContext(TextContext);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
 
-  const  textHandler = () => {
-    setText("true")
-  }
+  const textHandler = () => {
+    setText("true");
+  };
   const onLogout = () => {
     dispatch(logout());
     dispatch(reset());
@@ -36,7 +41,9 @@ function Dashboard() {
           </div>
           <button className="mt-[30px] w-full p-[10px] rounded-lg bg-[#ffffff] bg-opacity-5 text-white flex justify-center items-center gap-2">
             <AiOutlinePlus className="inline-block" size={25} />
-            <p className="font-bold font-sans" onClick={textHandler}>New Note</p>
+            <p className="font-bold font-sans" onClick={textHandler}>
+              New Note
+            </p>
           </button>
         </div>
 
@@ -45,7 +52,8 @@ function Dashboard() {
             Recents
           </h5>
           <div className="grid gap-2">
-            <div className="px-[20px] py-[10px] flex gap-2 bg-[#312EB5]">
+            <RecentComponent />
+            {/* <div className="px-[20px] py-[10px] flex gap-2 bg-[#312EB5]">
               <CgFileDocument size={20} color="#ffffff" opacity={1} />
               <p className="text-white">Reflection on the Month of June</p>
             </div>
@@ -60,7 +68,7 @@ function Dashboard() {
               <p className="text-white text-opacity-60">
                 Reflection on the Month of June
               </p>
-            </div>
+            </div> */}
           </div>
         </div>
         {/* Folder category section starts here*/}
@@ -79,8 +87,12 @@ function Dashboard() {
           </button>
         </div>
       </div>
-      <div className="bg-[#1c1c1c]"></div>
-      <div><Reflection/></div>
+      <div className="bg-[#1c1c1c]">
+        <NoteCategoryComponent />
+      </div>
+      <div>
+        <Reflection />
+      </div>
     </section>
   );
 }

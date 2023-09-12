@@ -1,3 +1,4 @@
 import CategoryComponent from "./CategoryComponent"
 import FoldersComponent from "./FoldersComponent"
-export {CategoryComponent,FoldersComponent}
+import noteCategoryComponent from "./NoteCategoryComponent"
+export {CategoryComponent,FoldersComponent,noteCategoryComponent}
