@@ -33,6 +33,7 @@ export const createUserAccount = async (req, res, next) => {
 		// creating user profile
 		const userId=userAccount._id
 		const userProfile=await createUserProfileService(userId)
+		// sending email notification to user after successfully creating an account.
 		await sendEmailService(email)
 		return res.status(200).json({ 
 		success: true,
