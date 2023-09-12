@@ -27,7 +27,7 @@ export const getAllNotes = async(req, res) => {
    try{
      const allNotes = await getAllNoteService()
      res.status(200).json({
-        messgae: "All notes fetched successfully",
+        message: "All notes fetched successfully",
         allNotes
     })
    }catch(error) {

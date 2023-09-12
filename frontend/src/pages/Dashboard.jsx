@@ -1,26 +1,42 @@
+import React, { useContext, useState } from "react";
+import { useNavigate } from "react-router";
+import { useSelector, useDispatch } from "react-redux";
+import { useCategories } from "../hooks/dataFetcher";
+import { logout, reset } from "../features/auth/authSlice";
+
 import { LogoWhite } from "../assets";
 import { CiSearch } from "react-icons/ci";
 import { AiOutlinePlus } from "react-icons/ai";
-import { CgFileDocument } from "react-icons/cg";
+
 import { FoldersComponent } from "../components/folder_category";
 import MoreSectionComponent from "../components/more_section/MoreSectionComponent";
-import { useSelector, useDispatch } from "react-redux";
-import { logout, reset } from "../features/auth/authSlice";
-import { useNavigate } from "react-router";
-import { useState } from "react";
-import { NewNoteDialog } from "../components/Dashboard";
-import { useCategories } from "../hooks/dataFetcher";
+import {
+  RecentNotes,
+  NewNoteDialog,
+  Reflection,
+} from "../components/Dashboard";
+import { useFolderCategoryContext } from "../context/folderCategoryContex";
+import NoteCategoryComponent from "../components/folder_category/NoteCategoryComponent";
+import { TextContext } from "../util/TextContext.jsx";
 
 function Dashboard() {
+  const { noteId } = useFolderCategoryContext();
+  console.log("Note Id: ", noteId);
+  const { text, setText } = useContext(TextContext);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   let [isOpen, setIsOpen] = useState(true);
-  const { categories, isLoading, isError } = useCategories();
+  // const { categories, isLoading, isError } = useCategories();
 
-  console.log("Categories: ", categories)
+  // if (!isError) {
+  //   console.log("Categories: ", categories);
+  // }
 
   const { user } = useSelector((state) => state.auth);
 
+  const textHandler = () => {
+    setText(!text);
+  };
   const onLogout = () => {
     dispatch(logout());
     dispatch(reset());
@@ -44,29 +60,8 @@ function Dashboard() {
             </button>
           </div>
 
-          <div className="pt-[30px] grid gap-4">
-            <h5 className="px-[20px] text-[14px] font-semibold font-sans text-white text-opacity-60">
-              Recents
-            </h5>
-            <div className="grid gap-2">
-              <div className="px-[20px] py-[10px] flex gap-2 bg-[#312EB5]">
-                <CgFileDocument size={20} color="#ffffff" opacity={1} />
-                <p className="text-white">Reflection on the Month of June</p>
-              </div>
-              <div className="px-[20px] py-[10px] flex gap-2">
-                <CgFileDocument size={20} color="#ffffff" opacity={0.6} />
-                <p className="text-white text-opacity-60">
-                  Reflection on the Month of June
-                </p>
-              </div>
-              <div className="px-[20px] py-[10px] flex gap-2">
-                <CgFileDocument size={20} color="#ffffff" opacity={0.6} />
-                <p className="text-white text-opacity-60">
-                  Reflection on the Month of June
-                </p>
-              </div>
-            </div>
-          </div>
+          {/* List of Recent Notes */}
+          <RecentNotes />
           {/* Folder category section starts here*/}
           <div className="mt-5">
             <FoldersComponent />
@@ -74,10 +69,10 @@ function Dashboard() {
           </div>
           {/* Folder category section ends here*/}
 
-          <div>
+          <div className="flex justify-center mt-8">
             <button
               onClick={() => onLogout()}
-              className="py-[15px] bg-red-700 text-white w-[80%] mx-auto rounded-lg"
+              className="py-[15px] bg-red-700 hover:bg-red-500 text-white w-[80%] rounded-lg"
             >
               Logout
             </button>
