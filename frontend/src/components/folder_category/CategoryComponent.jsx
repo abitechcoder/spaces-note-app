@@ -11,6 +11,7 @@ const CategoryComponent = () => {
 	const categoryFilter = (category) => {
 		const filteredNote = notes.filter((note) => note.category == category);
 		if (filteredNote) {
+			// console.log(filteredNote);
       resetCategoryNoteHandler()
 			localStorage.setItem("filteredNote", JSON.stringify(filteredNote));
 			setNoteCategoryFunction(filteredNote);
@@ -19,6 +20,7 @@ const CategoryComponent = () => {
 
 	const onclickHandler = (e) => {
     const category=e.target.value
+	console.log(category);
     localStorage.setItem("category",JSON.stringify(category))
     setCategoryHandler(category)
 		categoryFilter(category);

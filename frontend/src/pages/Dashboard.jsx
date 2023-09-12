@@ -9,7 +9,7 @@ import { logout, reset } from "../features/auth/authSlice";
 import { useNavigate } from "react-router";
 import RecentComponent from "../components/RecentComponent";
 import { useFolderCategoryContext } from "../context/folderCategoryContex";
-import NoteCategoryComponent from "../components/folder_category/noteCategoryComponent";
+import NoteCategoryComponent from "../components/folder_category/NoteCategoryComponent";
 
 function Dashboard() {
   const {noteId}=useFolderCategoryContext()
