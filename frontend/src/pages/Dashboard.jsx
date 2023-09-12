@@ -8,7 +8,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { logout, reset } from "../features/auth/authSlice";
 import { useNavigate } from "react-router";
 import { useState } from "react";
-import { NewNoteDialog } from "../components/dashboard";
+import { NewNoteDialog } from "../components/Dashboard";
 import { useCategories } from "../hooks/dataFetcher";
 
 function Dashboard() {
