@@ -13,7 +13,7 @@ import NoteCategoryComponent from "../components/folder_category/NoteCategoryCom
 function Dashboard() {
   // note id stored in the context 
   const {noteId}=useFolderCategoryContext()
-  // console.log(noteId);
+  console.log(noteId);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
