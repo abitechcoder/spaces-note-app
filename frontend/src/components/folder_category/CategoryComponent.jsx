@@ -11,8 +11,8 @@ const CategoryComponent = () => {
 	const categoryFilter = (category) => {
 		const filteredNote = notes.filter((note) => note.category == category);
 		if (filteredNote) {
-			resetCategoryNoteHandler();
-			//   storing filtered note to local storage
+			// console.log(filteredNote);
+      resetCategoryNoteHandler()
 			localStorage.setItem("filteredNote", JSON.stringify(filteredNote));
 			// 	setting filtered note to  context
 			setNoteCategoryFunction(filteredNote);
@@ -20,10 +20,10 @@ const CategoryComponent = () => {
 	};
 
 	const onclickHandler = (e) => {
-		const category = e.target.value;
-		// storing category to local storage
-		// storing category to context
-		setCategoryHandler(category);
+    const category=e.target.value
+	console.log(category);
+    localStorage.setItem("category",JSON.stringify(category))
+    setCategoryHandler(category)
 		categoryFilter(category);
 	};
 	// mapping over folder category from context

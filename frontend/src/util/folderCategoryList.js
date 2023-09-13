@@ -1,9 +1,9 @@
 export const categoryList=[{
     id:"101",
-    category:"Personal"
+    category:"personal"
 },
 {
-    id:"102",
+    id:"202",
     category:"Work"
 },
 {
