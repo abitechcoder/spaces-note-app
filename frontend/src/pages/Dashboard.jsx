@@ -1,7 +1,6 @@
 import { LogoWhite } from "../assets";
 import { CiSearch } from "react-icons/ci";
 import { AiOutlinePlus } from "react-icons/ai";
-// import { CgFileDocument } from "react-icons/cg";
 import { FoldersComponent } from "../components/folder_category";
 import MoreSectionComponent from "../components/more_section/MoreSectionComponent";
 import { useSelector, useDispatch } from "react-redux";
@@ -9,11 +8,12 @@ import { logout, reset } from "../features/auth/authSlice";
 import { useNavigate } from "react-router";
 import RecentComponent from "../components/RecentComponent";
 import { useFolderCategoryContext } from "../context/folderCategoryContex";
-import NoteCategoryComponent from "../components/folder_category/noteCategoryComponent";
+import NoteCategoryComponent from "../components/folder_category/NoteCategoryComponent";
 
 function Dashboard() {
+  // note id stored in the context 
   const {noteId}=useFolderCategoryContext()
-  console.log(noteId);
+  // console.log(noteId);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
