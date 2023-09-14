@@ -10,6 +10,7 @@ import passport from "passport"
 import session from "express-session"
 import "./passport.js"
 import cors from "cors"
+import { googleAuthController } from "./middleware/authController.js"
 
 dotenv.config()
 
@@ -45,18 +46,12 @@ app.use("/user",userRouter)
 app.use("/auth",authRoute)
 
 //   Google authentication route
-app.get('/google',
+app.get('/auth/google',
     passport.authenticate('google', {
             scope:
                 ['email', 'profile']
         }
 ));
-app.get("/success", (req, res) => {
-    console.log('You are logged in');
-    // res.send(req.user_json)
-    res.send(`Welcome ${req.user._json.email}`)
-    console.log(req.user._json.email);
-})
 // Call back route
 app.get('/auth/google/callback',
     passport.authenticate('google', {
@@ -67,6 +62,8 @@ app.get('/auth/google/callback',
 
     }
 );
+// success route
+app.get("/success",googleAuthController)
 
 // failed route if the authentication fails
 app.get("/failed", (req, res) => {
