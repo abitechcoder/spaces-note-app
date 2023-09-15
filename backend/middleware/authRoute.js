@@ -11,12 +11,16 @@ authRoute.route("/signin").post(signIn).get(googleAuthController);
 authRoute.route("/google").get(passport.authenticate('google', {
 	scope:
 		['email', 'profile']
-}
-));
+},
+)
+
+);
+
 authRoute.route("/google/callback").get( passport.authenticate('google', {
 	failureRedirect: '/failed',
 }),
  (req, res) =>{
+	// console.log("successful");
 	res.redirect('/auth/signin')
 
 });
