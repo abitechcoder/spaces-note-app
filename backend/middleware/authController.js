@@ -3,6 +3,7 @@ import {
   createUserProfileService,
   getUserAccountByEmailService,
   getUserAccountByIdService,
+  getUserProfileByUserIdService,
   sendEmailService,
   updateUserProfileService,
 } from "../user/userService.js";
@@ -60,96 +61,106 @@ export const signIn = async (req, res, next) => {
   }
 };
 
+// Signing in with google authentication 
 export const googleAuthController = async (req, res, next) => {
-  const { user } = req;
-  console.log(user);
-  if (user) {
-    const { email, picture, given_name, family_name } = user._json;
-    const userAccount = await getUserAccountByEmailService(email);
-    if (!userAccount) {
-      // create account if it does not exist and signing user in at the same time
-      const password = "none";
-      const newUserAccount = await createUserAccountService(email, password);
-	  console.log(newUserAccount);
-      const userId = newUserAccount._id;
-      const userProfile = await createUserProfileService(userId);
-      //   const userProfile=await getUserProfileByUserIdService(userId)
-      if (!userProfile) {
-        return next(
-          APIErrors.notFound(
-            `there is no user profile associated with the account id ${userId}`
-          )
+  try {
+    const { user } = req;
+    if (user) {
+      const { email, picture, given_name, family_name } = user._json;
+      const userAccount = await getUserAccountByEmailService(email);
+      const userId = userAccount._id;
+      if (!userAccount) {
+        // create account if it does not exist and signing user in at the same time
+        const password = "";
+        const newUserAccount = await createUserAccountService(email, password);
+        const userId = newUserAccount._id;
+        // creating user profile
+        const userProfile = await createUserProfileService(userId);
+        //   updating user profile
+        given_name ? (userProfile.firstName = given_name) : userProfile;
+        family_name ? (userProfile.lastName = family_name) : userProfile;
+        picture ? (userProfile.imageURL = picture) : userProfile;
+        await updateUserProfileService(userId, userProfile);
+
+        // sending email notification to user after successfully creating an account.
+        await sendEmailService(email);
+        const accessToken = await registerUserService(email);
+        // generating access token and storing it in the database
+        const userRefreshToken = await generateRefreshTokenService(email);
+        if (!accessToken) {
+          return next(APIErrors.unAuthenticated());
+        }
+        // updateing user refresh token
+        await findAndUpdateUserRefreshTokenByEmailService(
+          newUserAccount.email,
+          userRefreshToken
         );
+        // sending cookie to client device
+        res.cookie("access_token", accessToken, {
+          httpOnly: true,
+        });
+        req.email = email;
+        next();
+        return res.status(200).json({
+          success: "true",
+          message: "Sign In Successful",
+          userAccount: {
+            id: newUserAccount._id,
+            email: newUserAccount.email,
+            refreshToken: newUserAccount.refreshToken,
+            createdAt: newUserAccount.createdAt,
+            updatedAt: newUserAccount.updatedAt,
+          },
+          accessToken,
+        });
       }
+      // signing in assisting user
+      else {
+        const accessToken = await registerUserService(email);
+        // generating access token and storing it in the database
+        const userRefreshToken = await generateRefreshTokenService(email);
+        if (!accessToken) {
+          return next(APIErrors.unAuthenticated());
+        }
+        // updating user refresh token
+        await findAndUpdateUserRefreshTokenByEmailService(
+          email,
+          userRefreshToken
+        );
+        // updating user profile
+        const userProfile = await getUserProfileByUserIdService(userId);
+        given_name ? (userProfile.firstName = given_name) : userProfile;
+        family_name ? (userProfile.lastName = family_name) : userProfile;
+        picture ? (userProfile.imageURL = picture) : userProfile;
 
-      given_name
-        ? (userProfile.firstName = given_name)
-        : userProfile;
-      family_name
-        ? (userProfile.lastName = family_name)
-        : userProfile;
-      picture ? (userProfile.imageURL = picture) : userProfile;
+        await updateUserProfileService(userId, userProfile);
 
-      const updatedUserProfile = await updateUserProfileService(
-        userId,
-        userProfile
-      );
+        res.cookie("access_token", accessToken, {
+          httpOnly: true,
+        });
+        req.email = email;
+        next();
+        return res.status(200).json({
+          success: "true",
+          message: "Sign In Successful",
+          userAccount: {
+            id: userAccount._id,
+            email: userAccount.email,
+            refreshToken: userAccount.refreshToken,
+            createdAt: userAccount.createdAt,
+            updatedAt: userAccount.updatedAt,
+          },
 
-      // sending email notification to user after successfully creating an account.
-      await sendEmailService(email);
-
-      //   console.log(newUserAccount);
-
-      const accessToken = await registerUserService(email);
-      // generating access token and storing it in the database
-      const userRefreshToken = await generateRefreshTokenService(email);
-      if (!accessToken) {
-        return next(APIErrors.unAuthenticated());
+          accessToken,
+        });
       }
-      const result = await findAndUpdateUserRefreshTokenByEmailService(
-        newUserAccount.email,
-        userRefreshToken
-      );
-      res.cookie("access_token", accessToken, {
-        httpOnly: true,
-      });
-      req.email = email;
-      next();
-      return res.status(200).json({
-        success: "true",
-        message: "Sign In Successful",
-        newUserAccount,
-        accessToken,
-      });
     }
-    // signing in assisting user
-    else {
-      const accessToken = await registerUserService(email);
-      // generating access token and storing it in the database
-      const userRefreshToken = await generateRefreshTokenService(email);
-      if (!accessToken) {
-        return next(APIErrors.unAuthenticated());
-      }
-      const result = await findAndUpdateUserRefreshTokenByEmailService(
-        email,
-        userRefreshToken
-      );
-      res.cookie("access_token", accessToken, {
-        httpOnly: true,
-      });
-      req.email = email;
-      next();
-      return res.status(200).json({
-        success: "true",
-        message: "Sign In Successful",
-        userAccount,
-        accessToken,
-      });
-    }
+    next();
+  } catch (error) {
+    next(error);
   }
-  next();
 };
-
+// Verifying user access token
 export const verifyUserAccessToken = async (req, res, next) => {
   try {
     const accessToken = req.cookies.access_token;
