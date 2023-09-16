@@ -1,4 +1,3 @@
-import axios from "axios";
 import { Axios } from ".";
 
 export const usersUrlEndpoint = "/user";
@@ -13,21 +12,23 @@ export const createUser = async ({ email, password }) => {
   const response = await Axios.post(`${usersUrlEndpoint}`, { email, password });
   return response.data;
 };
+// google authentication 
 export const signInWithGoogle = async () => {
   Axios.defaults.maxRedirects=0;
   Axios.interceptors.response.use(
-    response => response,
+    response => {
+    return response
+  },
     error => {
-        if (error.response) {
-            console.log(error.response);
-        const redirectUrl = error.response;
-        return axiosInstance.get(redirectUrl);
-      }
+      //   if (error.response) {
+      //   const redirectUrl = error.response.headers;
+      //   return Axios.get(redirectUrl);
+      // }
       return Promise.reject(error);
     }
 
   );
   
   
-  Axios.get(`${googleAuthEndpoint}`);
+  await Axios.get(`${googleAuthEndpoint}`,{mode:"cors"});
 };

@@ -1,12 +1,12 @@
 import React from "react";
 import { HeroImage, GooglePlayDark, AppleStoreDark } from "../../assets";
 import { signInWithGoogle } from "../../Axios/usersApi";
-import {Link} from "react-router-dom"
 
 function Hero() {
+  // using google authentication
   const onclickHandler = async () => {
     const result = await signInWithGoogle();
-    console.log(result);
+    // console.log(result);
   };
   return (
     <section className="text-black relative">
@@ -21,7 +21,6 @@ function Hero() {
               and loved ones.
             </p>
             <div className="flex justify-between md:justify-start gap-0 md:gap-8">
-<Link to={"http://127.0.0.1:5000/auth/google"}>me</Link>
              <img
                 className="cursor-pointer"
                 src={GooglePlayDark}
