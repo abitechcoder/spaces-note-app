@@ -18,9 +18,13 @@ authRoute.route("/google/callback").get(
 	passport.authenticate("google", {
 		failureRedirect: "/failed",
 	}),
-	async (req, res) => {
+	async (req, res,next) => {
+		req=req.user._json
 		try {
+			next()
+			// res.status(200).json({data:req})
 			res.redirect("/auth/signin");
+			// res.redirect("http://localhost:5173/login");
 		} catch (error) {
 			res.send(error);
 		}

@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { login, reset } from "../features/auth/authSlice";
+import axios from "axios";
 
 function Login() {
   const navigate = useNavigate();
@@ -48,12 +49,28 @@ function Login() {
   if (isLoading) {
     return <Spinner/>
   }
+
+ const  googleOnclickHandler=()=>{
+  axios.get("http://127.0.0.1:5000/auth/signin",{withCredentials:true})
+ }
   return (
     <section>
       <div className="p-4 lg:p-0">
         <Navbar currentLocation={location.pathname} />
       </div>
       <div className="min-h-[90vh] bg-white grid place-items-center text-black">
+      <div className="flex flex-col md:flex-row items-center justify-center md:justify-between gap-4 py-4 border-b-2">
+            <button className="custom-button bg-[#f7f7f7] border-[1.5px] flex gap-2 items-center">
+              <FaApple />
+              <p className="font-dm font-bold">LOGIN WITH APPLE</p>
+            </button>
+            <button className="custom-button bg-[#f7f7f7] border-[1.5px] flex gap-2 items-center"
+            onClick={googleOnclickHandler}>
+              <FaGoogle />
+              <p className="font-dm font-bold">LOGIN WITH GOOGLE</p>
+            </button>
+          </div>
+
       <form
           className="w-full md:w-[70%] lg:w-[50%] px-4"
           onSubmit={handleSubmit(onSubmit)}
@@ -61,16 +78,6 @@ function Login() {
           <h1 className="font-inter text-2xl md:text-4xl pb-4 md:pb-8 text-center md:text-left">
             Sign-In
           </h1>
-          <div className="flex flex-col md:flex-row items-center justify-center md:justify-between gap-4 py-4 border-b-2">
-            <button className="custom-button bg-[#f7f7f7] border-[1.5px] flex gap-2 items-center">
-              <FaApple />
-              <p className="font-dm font-bold">LOGIN WITH APPLE</p>
-            </button>
-            <button className="custom-button bg-[#f7f7f7] border-[1.5px] flex gap-2 items-center">
-              <FaGoogle />
-              <p className="font-dm font-bold">LOGIN WITH GOOGLE</p>
-            </button>
-          </div>
           <div className="py-8 grid gap-4">
             <TextInput
               type="email"

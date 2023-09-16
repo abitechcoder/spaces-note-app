@@ -63,8 +63,10 @@ export const signIn = async (req, res, next) => {
 
 // Signing in with google authentication 
 export const googleAuthController = async (req, res, next) => {
+  console.log("hi");
   try {
     const { user } = req;
+    console.log(user);
     if (user) {
       const { email, picture, given_name, family_name } = user._json;
       const userAccount = await getUserAccountByEmailService(email);

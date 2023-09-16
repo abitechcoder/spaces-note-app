@@ -5,8 +5,11 @@ import { signInWithGoogle } from "../../Axios/usersApi";
 function Hero() {
   // using google authentication
   const onclickHandler = async () => {
+    // window.open(
+    //   "http://127.0.0.1:5000/auth/google"
+    // )
     const result = await signInWithGoogle();
-    // console.log(result);
+    console.log(result);
   };
   return (
     <section className="text-black relative">
