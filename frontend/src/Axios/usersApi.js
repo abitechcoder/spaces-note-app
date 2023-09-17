@@ -14,21 +14,22 @@ export const createUser = async ({ email, password }) => {
 };
 // google authentication 
 export const signInWithGoogle = async () => {
-  Axios.defaults.maxRedirects=0;
-  Axios.interceptors.response.use(
-    response => {
-    return response
-  },
-    error => {
-      //   if (error.response) {
-      //   const redirectUrl = error.response.headers;
-      //   return Axios.get(redirectUrl);
-      // }
-      return Promise.reject(error);
-    }
+  // Axios.defaults.maxRedirects=0;
+  // Axios.interceptors.response.use(
+  //   response => {
+  //   return response
+  // },
+  //   error => {
+  //     //   if (error.response) {
+  //     //   const redirectUrl = error.response.headers;
+  //     //   return Axios.get(redirectUrl);
+  //     // }
+  //     return Promise.reject(error);
+  //   }
 
-  );
+  // );
   
   
-  await Axios.get(`${googleAuthEndpoint}`,{mode:"cors"});
+  const response=await Axios.get(`${googleAuthEndpoint}`);
+  console.log(response);
 };

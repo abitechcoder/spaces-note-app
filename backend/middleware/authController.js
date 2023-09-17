@@ -1,3 +1,4 @@
+import passport from "passport";
 import {
   createUserAccountService,
   createUserProfileService,
@@ -60,17 +61,41 @@ export const signIn = async (req, res, next) => {
     next(error);
   }
 };
+// google callback function
+export const callback=async(req,res)=>{
+  await passport.authenticate("google", {
+    		failureRedirect: "/failed"
+    	})
+res.redirect("/signin")
+}
+
+
 
 // Signing in with google authentication 
-export const googleAuthController = async (req, res, next) => {
-  console.log("hi");
+export const authenticateWithGoogle = async (req, res,next) => {
+
+   passport.authenticate("google", {
+		scope: ["email", "profile"],
+	})
+
+
+  // console.log(req.body);
+  // res.status(200).json("success")
+};
+
+
+export const googleAuthController= async(req,res,next)=>{
   try {
     const { user } = req;
     console.log(user);
-    if (user) {
+    if (!user){
+      console.log("no user");
+      return res.status(401).json({success:false, message:"no user"})
+    }
+    else{
       const { email, picture, given_name, family_name } = user._json;
       const userAccount = await getUserAccountByEmailService(email);
-      const userId = userAccount._id;
+      // const userId = userAccount._id;
       if (!userAccount) {
         // create account if it does not exist and signing user in at the same time
         const password = "";
@@ -157,11 +182,14 @@ export const googleAuthController = async (req, res, next) => {
         });
       }
     }
-    next();
-  } catch (error) {
-    next(error);
+   } catch (error) {
+     next(error);
   }
-};
+
+}
+
+
+
 // Verifying user access token
 export const verifyUserAccessToken = async (req, res, next) => {
   try {

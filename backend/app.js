@@ -9,7 +9,7 @@ import cookieParser from "cookie-parser";
 import passport from "passport";
 import session from "express-session";
 import "./passport.js";
-import cors from "cors";
+// import cors from "cors"
 
 dotenv.config();
 
@@ -17,31 +17,33 @@ const PORT = process.env.PORT;
 const MONGODB_URL = process.env.MONGODB_URL;
 
 const app = express();
-// cors options
-// const corsOptions = (req, res, next) => {
-//   res.header('Access-Control-Allow-Origin', 'http://localhost:5173');
-//   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-//   res.header('Access-Control-Allow-Headers', 'Content-Type');
-//   next();
-// };
-// using cors
-app.use(cors( (req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'http://localhost:5173');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-  res.header('Access-Control-Allow-Headers', 'Content-Type');
-  next();
-}));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cookieParser());
+// using cors 
+// app.use(cors({
+//   origin:"http://localhost:5173",
+//   methods:"GET, POST, PUT, DELETE",
+//   credentials:true
+// }))
+
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', 'http://localhost:5173');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.header('Access-Control-Allow-Headers','Content-Type');
+    res.header('Access-Control-Allow-Credentials', 'true')
+    
+    next();
+  });
+ 
 app.use(
   session({
-    secret: process.env.GOOGLE_AUTH_SECRET,
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
   })
 );
-// using passport with google authentication
+
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -57,8 +59,7 @@ app.get("/failed", (req, res) => {
 });
 
 // the home route
-app.get("/", (req, res) => {
-  // const email=req.email
+app.get("/", (req,res)=> {
   res.status(200).json({
     success: true,
     message: "Welcome to Space Note App API",
@@ -68,4 +69,4 @@ app.use(errorMiddleware);
 app.listen(PORT, async () => {
   await connection(MONGODB_URL);
   console.log(`Server started and listening on http://127.0.0.1:${PORT}...`);
-});
+});                                      

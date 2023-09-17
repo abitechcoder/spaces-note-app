@@ -12,7 +12,7 @@ passport.use(new GoogleStrategy(
     passReqToCallback   : true
 },
 (req, accessToken, refreshToken, profile, done)=> {
-    return done(null, profile);
+     done(null, profile);
 }
 ));
 
@@ -21,5 +21,5 @@ passport.serializeUser((user, done) =>{
     });
     
     passport.deserializeUser((user, done) =>{
-    done(null, user);
+     done(null, user);
     });

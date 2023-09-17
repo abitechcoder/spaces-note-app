@@ -20,6 +20,7 @@ function Login() {
   );
 
   useEffect(() => {
+    googleOnclickHandler()
     if (isError) {
       toast.error(message);
     }
@@ -50,8 +51,12 @@ function Login() {
     return <Spinner/>
   }
 
- const  googleOnclickHandler=()=>{
-  axios.get("http://127.0.0.1:5000/auth/signin",{withCredentials:true})
+ const  googleOnclickHandler= async()=>{
+  const result=await axios.get("http://127.0.0.1:5000/auth/signin",{withCredentials:true})
+  console.log(result);
+ }
+ const logoutHandler=async()=>{
+  window.open("http://127.0.0.1:5000/auth/logout","_self")
  }
   return (
     <section>
@@ -69,6 +74,7 @@ function Login() {
               <FaGoogle />
               <p className="font-dm font-bold">LOGIN WITH GOOGLE</p>
             </button>
+            <button onClick={logoutHandler}>Logout</button>
           </div>
 
       <form
@@ -78,7 +84,7 @@ function Login() {
           <h1 className="font-inter text-2xl md:text-4xl pb-4 md:pb-8 text-center md:text-left">
             Sign-In
           </h1>
-          <div className="py-8 grid gap-4">
+          <div className="py- grid gap-4">
             <TextInput
               type="email"
               placeholder="E-MAIL"
