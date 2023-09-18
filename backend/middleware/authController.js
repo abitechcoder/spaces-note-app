@@ -62,44 +62,37 @@ export const signIn = async (req, res, next) => {
   }
 };
 // google callback function
-export const callback=async(req,res)=>{
-  await passport.authenticate("google", {
-    		failureRedirect: "/failed"
-    	})
-res.redirect("/signin")
-}
+// export const callback=async(req,res)=>{
+//   await passport.authenticate("google", {
+//     		failureRedirect: "/failed"
+//     	})
+// res.redirect("/signin")
+// }
 
+// Signing in with google authentication
+// export const authenticateWithGoogle = async (req, res,next) => {
 
+//    passport.authenticate("google", {
+// 		scope: ["email", "profile"],
+// 	})
 
-// Signing in with google authentication 
-export const authenticateWithGoogle = async (req, res,next) => {
+// };
 
-   passport.authenticate("google", {
-		scope: ["email", "profile"],
-	})
-
-
-  // console.log(req.body);
-  // res.status(200).json("success")
-};
-
-
-export const googleAuthController= async(req,res,next)=>{
+export const googleAuthController = async (req, res, next) => {
   try {
     const { user } = req;
-    console.log(user);
-    if (!user){
+    // console.log(user);
+    if (!user) {
       console.log("no user");
-      return res.status(401).json({success:false, message:"no user"})
-    }
-    else{
+      return res.status(401).json({ success: false, message: "no user" });
+    } else {
       const { email, picture, given_name, family_name } = user._json;
       const userAccount = await getUserAccountByEmailService(email);
-      // const userId = userAccount._id;
       if (!userAccount) {
         // create account if it does not exist and signing user in at the same time
         const password = "";
         const newUserAccount = await createUserAccountService(email, password);
+        console.log(newUserAccount);
         const userId = newUserAccount._id;
         // creating user profile
         const userProfile = await createUserProfileService(userId);
@@ -141,8 +134,9 @@ export const googleAuthController= async(req,res,next)=>{
           accessToken,
         });
       }
-      // signing in assisting user
+      // signing in existing user
       else {
+        const userId = userAccount._id;
         const accessToken = await registerUserService(email);
         // generating access token and storing it in the database
         const userRefreshToken = await generateRefreshTokenService(email);
@@ -182,13 +176,10 @@ export const googleAuthController= async(req,res,next)=>{
         });
       }
     }
-   } catch (error) {
-     next(error);
+  } catch (error) {
+    next(error);
   }
-
-}
-
-
+};
 
 // Verifying user access token
 export const verifyUserAccessToken = async (req, res, next) => {
@@ -247,6 +238,24 @@ export const refreshUserAccessToken = async (req, res, next) => {
     res
       .status(200)
       .json({ success: "true", message: "access token refreshed" });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// signing out controller
+
+export const signOut = async (req, res, next) => {
+  res.cookie("access_token", "", {
+    httpOnly: true,
+  });
+  try {
+    const { email } = req.body;
+    const update = "";
+    await findAndUpdateUserRefreshTokenByEmailService(email, update);
+    return res
+      .status(200)
+      .json({ success: true, message: "user logged out successfully" });
   } catch (error) {
     next(error);
   }

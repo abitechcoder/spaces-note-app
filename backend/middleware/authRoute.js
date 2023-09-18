@@ -1,16 +1,16 @@
 import express from "express";
 
 import {
-	authenticateWithGoogle,
-	callback,
 	googleAuthController,
 	refreshUserAccessToken,
 	signIn,
+	signOut,
 } from "./authController.js";
 import passport from "passport";
 const authRoute = express.Router();
 
 authRoute.route("/signin").post(signIn).get(googleAuthController);
+authRoute.route("/signout").post(signOut);
 authRoute.route("/google").get(
 	passport.authenticate("google", {
 		scope: ["email", "profile"],
@@ -23,8 +23,9 @@ authRoute.route("/google/callback").get(
 	}),
 	(req, res) => {
 		// console.log(req);
-		res.cookie=("use",req.user)
-		res.redirect('http://localhost:5173/login');
+		req.session.user=req.user
+		// res.redirect('/auth/signin');
+		res.redirect('http://localhost:5173/dashboard');
 	}
 );
 authRoute.route("/logout").get(() => {});

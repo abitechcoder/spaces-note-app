@@ -5,7 +5,7 @@ const NoteCategoryComponent = () => {
 	const { category,setNoteIdHandler } = useFolderCategoryContext();
 
 	const [noteCategory, setNoteCategory,] = useState([]);
-	// console.log(noteCategory);
+	console.log(noteCategory);
 	const onclickHandler = (e) => {
 		const noteId = e.target.id;
 		setNoteIdHandler(noteId)
