@@ -1,13 +1,17 @@
 import {
   createCategoryService,
   getAllCategoriesService,
+  getCategoriesByUserIdService,
 } from "./categoryService.js";
 
 export const createCategory = async (req, res) => {
   try {
-    const { title } = req.body;
+    const { title, userId } = req.body;
     if (!title) {
       return res.status(400).json({ message: "Category title is required" });
+    }
+    if (!userId) {
+      return res.status(400).json({ message: "UserId is required" });
     }
     const newCategory = await createCategoryService(req.body);
     res.status(200).json({
@@ -28,6 +32,22 @@ export const getAllCategories = async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({ Error: "internal server error!" });
+  }
+};
+
+export const getCategoriesByUserId = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    if (!userId) {
+      return res.status(400).json({ error: "UserId is required" });
+    }
+    const categories = await getCategoriesByUserIdService(userId);
+    res.status(200).json({
+      message: "User Categories fetched successfully",
+      categories,
+    });
+  } catch (error) {
+    res.status(500).json({ error: "internal server error" });
   }
 };
 

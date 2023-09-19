@@ -4,6 +4,7 @@ import { categoryModel } from "./categoryModel.js";
 export const createCategoryService = async(data) => {
     const newCategory = new categoryModel({
         title: data.title,
+        userId: data.userId
     })
     newCategory.save()
     return newCategory
@@ -13,10 +14,11 @@ export const getAllCategoriesService = async() => {
     const allCategories = await categoryModel.find()
     return allCategories
 } 
-// export const getNotesByIdService = async(id) => {
-//   const account = await NoteModel.findById(id)
-//   return account
-// }
+
+export const getCategoriesByUserIdService = async(userId) => {
+  const userCategories = await categoryModel.find({userId: userId})
+  return userCategories
+}
 
 // export const updateNoteService = async (id, data) => {
 //     const updatedNote = await NoteModel.findByIdAndUpdate(id, {

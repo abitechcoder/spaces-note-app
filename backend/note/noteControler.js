@@ -3,7 +3,8 @@ import {
     deleteNoteService,
     getAllNoteService,
     getNotesByIdService,
-    updateNoteService
+    updateNoteService,
+    getNotesByUserIdService
   } from "./noteService.js";
 
 
@@ -50,6 +51,22 @@ export const getNotesById = async(req, res) => {
         res.status(500).json({error: "internal server error"})
     }
 }
+
+export const getNotesByUserId = async (req, res) => {
+    try {
+      const { userId } = req.params;
+      if (!userId) {
+        return res.status(400).json({ error: "UserId is required" });
+      }
+      const notes = await getNotesByUserIdService(userId);
+      res.status(200).json({
+        message: "User Notes fetched successfully",
+        notes,
+      });
+    } catch (error) {
+      res.status(500).json({ error: "internal server error" });
+    }
+  };
 
 export const updateNote = async (req, res) => {
     try {

@@ -5,10 +5,46 @@ function useCategories() {
   const { data, error, isLoading } = useSWR("/category", fetcher);
 
   return {
-    categories: data.categories,
+    data,
     isLoading,
     isError: error,
   };
 }
 
-export {useCategories}
+function useUserCategories(userId) {
+  const { data, error, isLoading } = useSWR(
+    `/category/user/${userId}`,
+    fetcher
+  );
+
+  return {
+    data,
+    isLoading,
+    isError: error,
+  };
+}
+
+function useNotes() {
+  const { data, error, isLoading } = useSWR("/note", fetcher);
+
+  return {
+    data,
+    isLoading,
+    isError: error,
+  };
+}
+
+function useUserNotes(userId) {
+  const { data, error, isLoading } = useSWR(
+    `/note/user/${userId}`,
+    fetcher
+  );
+
+  return {
+    data,
+    isLoading,
+    isError: error,
+  };
+}
+
+export { useCategories, useUserCategories, useNotes, useUserNotes };
