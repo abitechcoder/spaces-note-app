@@ -94,9 +94,9 @@ export const deleteNote = async (req, res) =>{
         if(!id){
             res.status(400).json({message: "Note cannot be found"})
         }
-        if(!note){
-            return res.status(400).json({error: "Note does not exist"})
-        }
+        // if(!note){
+        //     return res.status(400).json({error: "Note does not exist"})
+        // }
         const deleteNote = await deleteNoteService(id)
         res.status(200).json({
             message: "Note deleted successfully",

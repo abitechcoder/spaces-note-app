@@ -32,7 +32,7 @@ export const updateNoteService = async (id, data) => {
   return updatedNote;
 };
 
-export const deleteNoteService = async (req, res) => {
+export const deleteNoteService = async (id) => {
   const deleteNote = await NoteModel.findByIdAndDelete(id);
   return deleteNote;
 };

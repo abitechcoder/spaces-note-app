@@ -50,9 +50,9 @@ function Dashboard() {
   return (
     <DashboardContextProvider>
       <>
-        <section className="h-screen grid grid-cols-[300px_1fr] bg-[#181818]">
+        <section className="h-screen grid grid-cols-[320px_1fr] bg-[#181818]">
           <div className="py-[30px] overflow-y-scroll">
-            <div className="w-[280px] px-[20px] bg-[#181818]">
+            <div className="w-[300px] px-[20px] bg-[#181818]">
               <div className="flex items-center justify-between">
                 <img src={LogoWhite} alt="" className="h-[50px]" />
                 <CiSearch size={25} color="#ffffff" />

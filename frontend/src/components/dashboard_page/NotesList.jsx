@@ -22,8 +22,8 @@ function NotesList() {
     return (
       <div
         key={note._id}
-        className={`px-3 py-3 gap-4 cursor-pointer bg-white/5 hover:bg-white/10 rounded-md ${
-          activeNote?._id === note._id ? "bg-white/20" : ""
+        className={`px-3 py-3 gap-4 cursor-pointer hover:bg-white/10 rounded-md ${
+          activeNote?._id === note._id ? "bg-white/10" : "bg-white/5"
         }`}
         onClick={() => handleClick(note)}
       >

@@ -1,16 +1,21 @@
 import { CgFileDocument } from "react-icons/cg";
 import { useFolderCategoryContext } from "../../context/folderCategoryContex";
 import { useState } from "react";
+import { useUserNotes } from "../../hooks/dataFetcher";
+import { useSelector } from "react-redux";
 
 const RecentNotesList = () => {
+  const {user} = useSelector((state) => state.auth);
+  const {data} = useUserNotes(user?.userAccount._id);
+  console.log("Notes:", data.notes)
   const { notes, setNoteIdHandler } = useFolderCategoryContext();
   const [activeNoteId, setActiveNoteId] = useState(0);
 
   const handleClick = (id) => {
     setActiveNoteId(id);
   };
-  const recentNotes = notes.sort((noteA, noteB) =>
-    Number(new Date(noteB.date) - Number(new Date(noteA.date)))
+  const recentNotes = data?.notes.sort((noteA, noteB) =>
+    Number(new Date(noteB.updatedAt) - Number(new Date(noteA.updatedAt)))
   );
 
   const renderRecentNote = recentNotes.slice(0, 3).map((note, index) => {

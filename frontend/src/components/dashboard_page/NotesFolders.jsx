@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import { LuFolderOpen, LuFolderPlus } from "react-icons/lu";
+import { HiOutlineXMark } from "react-icons/hi2";
 import { FiCheck } from "react-icons/fi";
 import NotesFolderList from "./NotesFolderList";
 import { poster } from "../../util/fetcher";
@@ -12,9 +13,7 @@ function NotesFolders() {
   const [toggle, setToggle] = useState(true);
   const [folderName, setFolderName] = useState("");
   const textInputDivRef = useRef(null);
-  const {user} = useSelector((state) => state.auth);
-
-  
+  const { user } = useSelector((state) => state.auth);
 
   const toggleCategoryHandler = () => {
     if (toggle === true) {
@@ -31,24 +30,30 @@ function NotesFolders() {
     setFolderName(e.target.value);
   };
 
-  const saveFolderHandler = async() => {
-    console.log("USER in Note list:", user)
+  const saveFolderHandler = async () => {
     const newFolder = {
       title: folderName,
       userId: user.userAccount._id,
     };
 
     try {
-      if(user) {
+      if (user) {
         await poster("/category", newFolder);
       }
-      mutate(`/category/user/${user.userAccount._id}`)
+      mutate(`/category/user/${user.userAccount._id}`);
       setFolderName("");
       setToggle(false);
       toggleCategoryHandler();
+      toast.success("Folder created successfully");
     } catch (error) {
-      toast.error("Error occured while creating notes folder")
+      toast.error("Error occured while creating notes folder");
     }
+  };
+
+  const handleClose = () => {
+    setFolderName("");
+    setToggle(false);
+    toggleCategoryHandler();
   };
 
   return (
@@ -65,7 +70,7 @@ function NotesFolders() {
 
       <div
         ref={textInputDivRef}
-        className=" hidden ml-[1.5rem] gap-[1rem] mt-[1rem]"
+        className=" hidden ml-[1.5rem] gap-3 mt-[1rem]"
       >
         <LuFolderOpen size={20} color="#FFFFFF" />
         <input
@@ -75,14 +80,23 @@ function NotesFolders() {
           value={folderName}
           onChange={onchangeHandler}
         />
-        <FiCheck
-          size={20}
-          color="#FFFFFF"
-          cursor="pointer"
-          onClick={saveFolderHandler}
-        />
+        {folderName.length > 1 ? (
+          <FiCheck
+            size={20}
+            color="#FFFFFF"
+            cursor="pointer"
+            onClick={saveFolderHandler}
+          />
+        ) : (
+          <HiOutlineXMark
+            size={20}
+            color="#FFFFFF"
+            cursor="pointer"
+            onClick={handleClose}
+          />
+        )}
       </div>
-        <NotesFolderList/>
+      <NotesFolderList />
     </div>
   );
 }
