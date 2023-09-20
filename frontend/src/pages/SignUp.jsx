@@ -52,7 +52,7 @@ function SignUp() {
   return (
     <section>
       <div className="p-4 lg:p-0">
-        <Navbar currentLocation={locatvion.pathname} />
+        <Navbar currentLocation={location.pathname} />
       </div>
       <div className="min-h-[90vh] bg-white grid place-items-center text-black">
         <div className="w-full md:w-[70%] lg:w-[40%] px-4">

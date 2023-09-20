@@ -20,7 +20,7 @@ function Login() {
   );
 
   useEffect(() => {
-    googleOnclickHandler()
+    // googleOnclickHandler()
     if (isError) {
       toast.error(message);
     }
@@ -53,11 +53,11 @@ function Login() {
 
  const  googleOnclickHandler= async()=>{
   const result=await axios.get("http://127.0.0.1:5000/auth/signin",{withCredentials:true})
-  console.log(result);
+  // console.log(result);
  }
- const logoutHandler=async()=>{
-  window.open("http://127.0.0.1:5000/auth/logout","_self")
- }
+//  const logoutHandler=async()=>{
+//   window.open("http://127.0.0.1:5000/auth/logout","_self")
+//  }
   return (
     <section>
       <div className="p-4 lg:p-0">

@@ -19,6 +19,7 @@ import {
 import { APIErrors } from "./errorHandlers.js";
 
 export const signIn = async (req, res, next) => {
+  console.log("hi");
   try {
     const { email, password } = req.body;
     if (!email || !password) {
@@ -186,12 +187,12 @@ export const verifyUserAccessToken = async (req, res, next) => {
   try {
     const accessToken = req.cookies.access_token;
     if (!accessToken) {
-      return next(APIErrors.unAuthenticated());
+      return next(APIErrors.unAuthenticated("you are not signed in"));
     }
     // verifying user access token
     const payload = await verifyUserAccessTokenService(accessToken);
     if (!payload) {
-      return next(APIErrors.unAuthenticated("user access token has expired"));
+      return next(APIErrors.unAuthenticated("user access token has expired. You must login"));
     }
     req.email = payload.email;
     req.refreshToken = payload.refreshToken;
@@ -221,7 +222,7 @@ export const refreshUserAccessToken = async (req, res, next) => {
     }
     const payload = await verifyRefreshUserAccessTokenService(refreshToken);
     if (!payload) {
-      return next(APIErrors.unAuthenticated());
+      return next(APIErrors.unAuthenticated("you are not signed in"));
     }
     const accessToken = await registerUserService(payload.email);
     res.cookie("access_token", accessToken);

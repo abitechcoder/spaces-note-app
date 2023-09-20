@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 const RecentNotesList = () => {
   const {user} = useSelector((state) => state.auth);
   const {data} = useUserNotes(user?.userAccount._id);
-  console.log("Notes:", data.notes)
+  // console.log("Notes:", data.notes)
   const { notes, setNoteIdHandler } = useFolderCategoryContext();
   const [activeNoteId, setActiveNoteId] = useState(0);
 
@@ -18,7 +18,7 @@ const RecentNotesList = () => {
     Number(new Date(noteB.updatedAt) - Number(new Date(noteA.updatedAt)))
   );
 
-  const renderRecentNote = recentNotes.slice(0, 3).map((note, index) => {
+  const renderRecentNote = recentNotes?.slice(0, 3).map((note, index) => {
     return (
       <div
         key={note.id}
@@ -32,7 +32,9 @@ const RecentNotesList = () => {
       </div>
     );
   });
-  return <ul>{renderRecentNote}</ul>;
+  return <ul>
+    {renderRecentNote}
+    </ul>;
 };
 
 export default RecentNotesList;
