@@ -7,8 +7,6 @@ import { useSelector } from "react-redux";
 const RecentNotesList = () => {
   const {user} = useSelector((state) => state.auth);
   const {data} = useUserNotes(user?.userAccount._id);
-  console.log("Notes:", data.notes)
-  const { notes, setNoteIdHandler } = useFolderCategoryContext();
   const [activeNoteId, setActiveNoteId] = useState(0);
 
   const handleClick = (id) => {
@@ -18,17 +16,17 @@ const RecentNotesList = () => {
     Number(new Date(noteB.updatedAt) - Number(new Date(noteA.updatedAt)))
   );
 
-  const renderRecentNote = recentNotes.slice(0, 3).map((note, index) => {
+  const renderRecentNote = recentNotes?.slice(0, 3).map((note, index) => {
     return (
       <div
-        key={note.id}
+        key={note._id}
         className={`px-[20px] py-[10px] flex gap-2 cursor-pointer hover:bg-[#312EB5] ${
-          activeNoteId === note.id ? "bg-[#312EB5]" : ""
+          activeNoteId === note?._id ? "bg-[#312EB5]" : ""
         }`}
-        onClick={() => handleClick(note.id)}
+        onClick={() => handleClick(note?._id)}
       >
         <CgFileDocument size={20} color="#ffffff" opacity={1} />
-        <p className="text-white">{note.title}</p>
+        <p className="text-white">{note?.title}</p>
       </div>
     );
   });
