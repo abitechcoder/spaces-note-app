@@ -1,4 +1,7 @@
 import { useFolderCategoryContext } from "../../context/folderCategoryContex";
+
+
+
 const CategoryComponent = () => {
 	const {
 		notes,

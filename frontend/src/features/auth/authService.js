@@ -6,15 +6,10 @@ const AUTH_ENDPOINT = "/auth";
 const register = async ({ email, password }) => {
   const response = await Axios.post(USER_ENDPOINT, { email, password });
 
-  if (response.data) {
-    const { userAccount } = response.data;
-    const data = {
-      id: userAccount._id,
-      email: userAccount.email,
-      token: userAccount.refreshToken,
-    };
-    localStorage.setItem("user", JSON.stringify(data));
-  }
+  // if (response.data) {
+  //   const { userAccount } = response.data;
+  //   localStorage.setItem("user", JSON.stringify(userAccount));
+  // }
   return response.data;
 };
 
@@ -23,12 +18,8 @@ const login = async ({ email, password }) => {
   const response = await Axios.post(`${AUTH_ENDPOINT}/signin`, { email, password });
 
   if (response.data) {
-    const { accessToken } = response.data;
-    const data = {
-      email: email,
-      token: accessToken,
-    };
-    localStorage.setItem("user", JSON.stringify(data));
+    // const { userAccount } = response.data;
+    localStorage.setItem("user", JSON.stringify(response.data));
   }
   return response.data;
 };
