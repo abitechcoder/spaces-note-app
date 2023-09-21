@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { Logo } from "../../assets";
 import { RiMenu3Line, RiCloseLine } from "react-icons/ri";
+import {Link as ScrollLink} from "react-scroll"
 
 function Navbar({ currentLocation }) {
   const navigate = useNavigate();
@@ -17,15 +18,19 @@ function Navbar({ currentLocation }) {
         {currentLocation == "/" && (
           <div className="hidden md:flex items-center">
             <div className="flex mr-20 space-x-6">
-              <NavLink to="#" className="font-dm">
-                About
-              </NavLink>
-              <NavLink to="/#features" className="font-dm">
+            
+              <ScrollLink to="features" smooth={true} spy={true} duration={500} className="font-dm cursor-pointer">
                 Features
-              </NavLink>
-              <NavLink to="#" className="font-dm">
-                FAQs
-              </NavLink>
+              </ScrollLink>
+              <ScrollLink to="testimonials" smooth={true} spy={true} duration={500} className="font-dm cursor-pointer">
+                Testimonials
+              </ScrollLink>
+              <ScrollLink to="contact" smooth={true} spy={true} duration={500} className="font-dm cursor-pointer">
+                Contact
+              </ScrollLink>
+              <ScrollLink to="downloads" smooth={true} spy={true} duration={500} className="font-dm cursor-pointer">
+                Downloads
+              </ScrollLink>
             </div>
 
             <button

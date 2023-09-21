@@ -40,7 +40,8 @@ function NotesFolders() {
       if (user) {
         await poster("/category", newFolder);
       }
-      mutate(`/category/user/${user.userAccount._id}`);
+      // mutate(`/category/user/${user.userAccount._id}`);
+      mutate();
       setFolderName("");
       setToggle(false);
       toggleCategoryHandler();
