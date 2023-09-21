@@ -62,11 +62,11 @@ function Login() {
             <div className="flex flex-col md:flex-row items-center justify-center md:justify-between gap-4 py-4 border-b-2">
               <button className="custom-button bg-[#f7f7f7] border-[1.5px] flex gap-2 items-center">
                 <FaApple />
-                <p className="font-dm font-bold text-base">LOGIN WITH APPLE</p>
+                <p className="font-dm font-bold text-sm">LOGIN WITH APPLE</p>
               </button>
               <button className="custom-button bg-[#f7f7f7] border-[1.5px] flex gap-2 items-center">
                 <FaGoogle />
-                <p className="font-dm font-bold text-base">LOGIN WITH GOOGLE</p>
+                <p className="font-dm font-bold text-sm">LOGIN WITH GOOGLE</p>
               </button>
             </div>
           </div>

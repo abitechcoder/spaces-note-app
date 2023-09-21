@@ -7,14 +7,14 @@ import { useSelector } from "react-redux";
 function NotesFolderList() {
   const { user } = useSelector((state) => state.auth);
   const {activeFolder, setActiveFolder, setActiveNote} = useContext(DashboardContext);
-  const { data } = useUserCategories(user?.userAccount._id);
+  const { categories } = useUserCategories(user?.userAccount._id);
   
-  const handleClick = (data) => {
-    setActiveFolder(data);
+  const handleClick = (category) => {
+    setActiveFolder(category);
     setActiveNote(null);
   };
 
-  const FoldersList = data?.categories.map((folder) => {
+  const FoldersList = categories?.map((folder) => {
     return (
         <div
         key={folder._id}

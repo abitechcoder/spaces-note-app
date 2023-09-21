@@ -5,15 +5,16 @@ import { FiCheck } from "react-icons/fi";
 import NotesFolderList from "./NotesFolderList";
 import { poster } from "../../util/fetcher";
 import { CategoryComponent } from "../folder_category";
-import { mutate } from "swr";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { useUserCategories } from "../../hooks/dataFetcher";
 
 function NotesFolders() {
   const [toggle, setToggle] = useState(true);
   const [folderName, setFolderName] = useState("");
   const textInputDivRef = useRef(null);
   const { user } = useSelector((state) => state.auth);
+  const {categories, mutate} = useUserCategories(user?.userAccount._id)
 
   const toggleCategoryHandler = () => {
     if (toggle === true) {
@@ -41,7 +42,7 @@ function NotesFolders() {
         await poster("/category", newFolder);
       }
       // mutate(`/category/user/${user.userAccount._id}`);
-      mutate();
+      mutate([...categories, newFolder]);
       setFolderName("");
       setToggle(false);
       toggleCategoryHandler();

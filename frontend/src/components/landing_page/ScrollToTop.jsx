@@ -8,7 +8,7 @@ function ScrollToTop() {
         scroll.scrollToTop();
     }
   return (
-    <BsFillArrowUpCircleFill onClick={scrollToTop} className='text-[#7F6BFF] bg-white cursor-pointer w-10 h-10 absolute bottom-20 right-10'/>
+    <BsFillArrowUpCircleFill onClick={scrollToTop} className='text-[#7F6BFF] bg-white cursor-pointer w-10 h-10 rounded-[40px] fixed bottom-20 right-10'/>
   )
 }
 
