@@ -1,16 +1,16 @@
 import { userModel } from "../user/userModel.js";
 import { generateRefreshToken, verifyRefreshAccessToken, registerUser, verifyAccessToken } from "../util/jwtAuthentication.js";
 //signing in user using JWT service
-export const registerUserService = async (email, password) => {
-  return await registerUser(email, password);
+export const registerUserService = async (email) => {
+  return await registerUser(email );
 };
 //verifying user access token with JWT
 export const verifyUserAccessTokenService = async (accessToken) => {
   return await verifyAccessToken(accessToken);
 };
 // Generation refresh token using user email and password
-export const generateRefreshTokenService=async(email,password)=>{
-    return await generateRefreshToken(email,password)
+export const generateRefreshTokenService=async(email)=>{
+    return await generateRefreshToken(email)
 }
 // Verifying user refresh token using JWT
 export const verifyRefreshUserAccessTokenService=async(refreshToken)=>{

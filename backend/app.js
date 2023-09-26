@@ -27,7 +27,7 @@ app.use(cors({
   methods:"GET, POST, PUT, DELETE",
   credentials:true
 }))
-
+app.set("trust proxy", 1);
 // app.use((req, res, next) => {
 //     res.header('Access-Control-Allow-Origin', 'http://localhost:5173');
 //     res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
@@ -36,13 +36,15 @@ app.use(cors({
     
 //     next();
 //   });
+
  
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false,
+    resave: true,
+    saveUninitialized: true,
     cookie: {
+      sameSite: "none",
       secure:false,
       maxAge: 1000 * 60 * 60 * 24, // 1 day
     },
@@ -51,6 +53,7 @@ app.use(
 
 app.use(passport.initialize());
 app.use(passport.session());
+
 
 //routes
 app.use("/note", noteRoute);
@@ -63,12 +66,10 @@ app.get("/failed", (req, res) => {
   res.send("Failed");
 });
 
-// the home route
 app.use("/category", categoryRoute);
 
 // the home route
 app.get("/", (req, res) => {
-  // const email=req.email
   res.status(200).json({
     success: true,
     message: "Welcome to Space Note App API",

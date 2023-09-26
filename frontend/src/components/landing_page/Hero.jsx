@@ -1,13 +1,12 @@
 import React from "react";
 import { HeroImage, GooglePlayDark, AppleStoreDark } from "../../assets";
-import { signInWithGoogle } from "../../Axios/usersApi";
 
 function Hero() {
   // using google authentication
+  const windowFeatures = "left=200,top=100,width=420,height=520";
   const onclickHandler = async () => {
-    // signInWithGoogle()
     window.open(
-      "http://127.0.0.1:5000/auth/google","_self"
+      "http://127.0.0.1:5000/auth/google", "mozillaWindow",windowFeatures
     )
 
 
