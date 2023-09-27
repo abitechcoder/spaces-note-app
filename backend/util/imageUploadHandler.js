@@ -26,7 +26,7 @@ export const upload = multer({
 			.then((userProfile) => {
 				const previousImage = userProfile.imageURL;
 				// removing previous image if not the same as the new image to be uploaded
-				if (file.originalname !== previousImage && previousImage!=="") {
+				if (file.originalname !== previousImage && previousImage !== "") {
 					const imagePath = path.resolve("public/images/" + previousImage);
 					fs.unlinkSync(`${imagePath}`);
 				}

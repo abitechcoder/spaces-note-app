@@ -17,7 +17,6 @@ import {
 import { APIErrors } from "./errorHandlers.js";
 
 export const signIn = async (req, res, next) => {
-	// console.log("hi");
 	try {
 		const { email, password } = req.body;
 		if (!email || !password) {
@@ -41,10 +40,7 @@ export const signIn = async (req, res, next) => {
 		if (!accessToken) {
 			return next(APIErrors.unAuthenticated());
 		}
-		const result = await findAndUpdateUserRefreshTokenByEmailService(
-			email,
-			userRefreshToken
-		);
+		await findAndUpdateUserRefreshTokenByEmailService(email, userRefreshToken);
 		res
 			.status(200)
 			.cookie("access_token", `${accessToken}`, {
@@ -67,9 +63,7 @@ export const googleAuthController = async (req, res, next) => {
 	console.log(req);
 	try {
 		const { user } = req;
-		// console.log(user);
 		if (!user) {
-			console.log("no user");
 			return res.status(401).json({ success: false, message: "no user" });
 		} else {
 			const { email, picture, given_name, family_name } = user._json;
@@ -78,7 +72,6 @@ export const googleAuthController = async (req, res, next) => {
 				// create account if it does not exist and signing user in at the same time
 				const password = "";
 				const newUserAccount = await createUserAccountService(email, password);
-				console.log(newUserAccount);
 				const userId = newUserAccount._id;
 				// creating user profile
 				const userProfile = await createUserProfileService(userId);
@@ -96,7 +89,7 @@ export const googleAuthController = async (req, res, next) => {
 				if (!accessToken) {
 					return next(APIErrors.unAuthenticated());
 				}
-				// updateing user refresh token
+				// updating user refresh token
 				await findAndUpdateUserRefreshTokenByEmailService(
 					newUserAccount.email,
 					userRefreshToken
@@ -170,9 +163,9 @@ export const googleAuthController = async (req, res, next) => {
 // Verifying user access token
 export const verifyUserAccessToken = async (req, res, next) => {
 	try {
+		// getting access token from client side
 		const accessToken =
 			req.cookies.access_token || req.headers["authorization"]?.split(" ")[1];
-		// console.log(accessToken);
 		if (!accessToken) {
 			return next(APIErrors.unAuthenticated("you are not signed in"));
 		}
@@ -192,7 +185,7 @@ export const verifyUserAccessToken = async (req, res, next) => {
 		next(error);
 	}
 };
-
+// Generating user refresh token controller
 export const refreshUserAccessToken = async (req, res, next) => {
 	try {
 		const { email } = req.body;
@@ -230,13 +223,11 @@ export const refreshUserAccessToken = async (req, res, next) => {
 		if (!result) {
 			return next(APIErrors.unAuthenticated("no refresh token was found"));
 		}
-		res
-			.status(200)
-			.json({
-				success: "true",
-				message: "access token refreshed",
-				accessToken,
-			});
+		res.status(200).json({
+			success: "true",
+			message: "access token refreshed",
+			accessToken,
+		});
 	} catch (error) {
 		next(error);
 	}

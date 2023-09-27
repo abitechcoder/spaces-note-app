@@ -26,6 +26,7 @@ authRoute.route("/google/callback").get(
 		res.redirect("http://localhost:5173/login");
 	}
 );
-authRoute.route("/logout").get(() => {});
+// signing out from google authentication end point
+authRoute.route("/google/signout").get(() => {});
 
 export default authRoute;

@@ -20,15 +20,10 @@ export const getCategoriesByUserIdService = async(userId) => {
   return userCategories
 }
 
-// export const updateNoteService = async (id, data) => {
-//     const updatedNote = await NoteModel.findByIdAndUpdate(id, {
-//         title: data.title,
-//         description: data.description
-//     }, {new: true})
-//     return updatedNote
-// }
+export const deleteCategoryByIdService=async(categoryId)=>{
+    return await categoryModel.findByIdAndDelete(categoryId)
+}
 
-// export const deleteNoteService = async (req, res) => {
-//    const deleteNote = await NoteModel.findByIdAndDelete(id)
-//    return deleteNote
-// }
+export const updateCategoryByIdService=async(categoryId,title)=>{
+    return await categoryModel.findByIdAndUpdate(categoryId,{title},{new:true})
+}
