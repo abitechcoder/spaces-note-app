@@ -1,3 +1,8 @@
+import { initializeApp } from "@firebase/app";
+import { firebaseConfig } from "../firebase.js";
+import {getStorage,ref, getDownloadURL,uploadBytesResumable} from "firebase/storage"
+initializeApp(firebaseConfig);
+
 import {
 	changUserPasswordService,
 	createUserAccountService,
@@ -292,8 +297,13 @@ export const deleteUserProfileByUserId=async(req,res,next)=>{
 
 // uploading user profile image
 export const uploadUserProfileImage=async(req,res,next)=>{
+const storage=getStorage()
+console.log("image");
 	try {
-		const imageURL=req.file.filename
+		const imageURL=req.file.fieldname
+
+		
+		console.log(imageURL);
 		const {userId}=req.params
 		if (!userId){
 			return next(APIErrors.invalidRequest("user id is required"))

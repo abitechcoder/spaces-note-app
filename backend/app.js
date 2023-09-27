@@ -37,7 +37,9 @@ app.set("trust proxy", 1);
 //     next();
 //   });
 
- 
+ // Initialize Firebase
+// const analytics = getAnalytics(firebaseApp);
+// analytics.isSupported(initializeApp(firebaseConfig)) ;
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
