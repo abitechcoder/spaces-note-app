@@ -1,3 +1,4 @@
+import { verifyAccessToken } from "../util/jwtAuthentication.js";
 import { sendEmail } from "../util/sendMail.js";
 import { userModel, userProfileModel } from "./userModel.js";
 
@@ -73,7 +74,11 @@ return await userProfileModel.findOne({userId})
 export const deleteUserProfileByUserIdService= async(userId)=>{
   return await userProfileModel.findOneAndDelete({userId})
 }
-
+// sending email notification to user
 export const sendEmailService=async(userEmail)=>{
   return  sendEmail(userEmail)
+}
+// uploading user profile service
+export const uploadUserProfileImageService=async(userId,imageURL)=>{
+  return await userProfileModel.findOneAndUpdate({userId},{imageURL},{new:true})
 }

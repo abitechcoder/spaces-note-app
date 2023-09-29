@@ -5,7 +5,6 @@ import {
 	deleteUserAccountService,
 	deleteUserProfileByUserIdService,
 	getAllAccountService,
-	getUserAccountByEmailService,
 	getUserAccountByIdService,
 	getUserProfileByUserId,
 	getUserProfileByUserIdService,
@@ -13,6 +12,7 @@ import {
 	isAccountExist,
 	sendEmailService,
 	updateUserProfileService,
+	uploadUserProfileImageService,
 } from "./userService.js";
 import { APIErrors } from "../middleware/errorHandlers.js";
 import { hashPassword, validatePassword } from "../util/password.js";
@@ -33,8 +33,9 @@ export const createUserAccount = async (req, res, next) => {
 		// creating user profile
 		const userId=userAccount._id
 		const userProfile=await createUserProfileService(userId)
-		await sendEmailService("agyanimitsolusions@gmail.com")
-		return res.status(200).json({ success: "true",
+		await sendEmailService(email)
+		return res.status(200).json({ 
+		success: true,
 		message:"account Created successfully",
 		userAccount,
 		userProfile
@@ -54,7 +55,9 @@ export const getAllAccount = async (req, res, next) => {
 				.status(200)
 				.json({ success: "true", message: "Database empty" });
 		}
-		return res.status(200).json({ success: "true", accounts });
+		return res.status(200).json({
+			 success: true,
+			 accounts });
 	} catch (error) {
 		next(error);
 	}
@@ -70,7 +73,9 @@ export const getUseAccountById = async (req, res, next) => {
 			if (!result) {
 				return next(APIErrors.notFound());
 			}
-			res.status(200).json({ success: "true", result });
+			res.status(200).json({ 
+				success: true,
+				result });
 		}
 	} catch (error) {
 		next(error);
@@ -91,7 +96,8 @@ export const deleteUserAccountById = async (req, res, next) => {
 		// deleting user profile
 		await deleteUserProfileByUserIdService(userId)
 		;
-		res.status(200).json({ success: "true",
+		res.status(200).json({ 
+		 success: true,
 		 message:`user account with id ${userId} has been deleted together with all related document successfully` });
 	} catch (error) {
 		next(error);
@@ -125,7 +131,9 @@ export const changeUserPassword = async (req, res, next) => {
 		}
 		res
 			.status(200)
-			.json({ success: "true", message: "user password has been changed successful." });
+			.json({ 
+				success: true,
+				 message: "user password has been changed successful." });
 	} catch (error) {
 		next(error);
 	}
@@ -144,7 +152,9 @@ export const createUserProfile=async(req,res,next)=>{
 			return next(APIErrors.invalidRequest("User profile already exist"))
 		}
 		const useProfile= await createUserProfileService(body)
-		res.status(200).json({success:"true",useProfile})
+		res.status(200).json({
+			success:true,
+			useProfile})
 	} catch (error) {
 		next(error)
 	}
@@ -189,7 +199,9 @@ export const getUserProfileExtendedByUserId=async(req,res,next)=>{
 			return next(APIErrors.notFound())
 		}
 
-		res.status(200).json({success:"true",userProfile})
+		res.status(200).json({
+			success:true,
+			userProfile})
 
 	} catch (error) {
 		next(error)
@@ -224,7 +236,9 @@ export const getAllUserProfileExtended=async(req,res,next)=>{
 		if (! userProfile){
 			return next(APIErrors.notFound())
 		}	
-		res.status(200).json({success:"true",userProfile})
+		res.status(200).json({
+			success:true,
+			userProfile})
 
 	} catch (error) {
 		next(error)
@@ -252,7 +266,7 @@ imageURL!==undefined?userProfile.imageURL=imageURL:userProfile
 
 const updatedUserProfile=await updateUserProfileService(userId,userProfile)
 res.status(200).json({
-	success:"true",
+	success:true,
 	message:"user profile updated successfully",
 	updatedUserProfile
 })
@@ -265,10 +279,62 @@ res.status(200).json({
 export const deleteUserProfileByUserId=async(req,res,next)=>{
 	try {
 		const userId=req.params.userId
-		const userProfile= await deleteUserProfileByUserIdService(userId)
+		await deleteUserProfileByUserIdService(userId)
 		res.status(200).json({
-			success:"true",
+			success:true,
 			message:"account deleted successfully"
+		})
+	} catch (error) {
+		next(error)
+	}
+}
+
+// uploading user profile image
+export const uploadUserProfileImage=async(req,res,next)=>{
+	try {
+		const imageURL=req.file.filename
+		const {userId}=req.params
+		if (!userId){
+			return next(APIErrors.invalidRequest("user id is required"))
+		}
+		if (!imageURL){
+			return next(APIErrors.invalidRequest("no image has been selected"))
+		}
+
+		const userProfile=await getUserProfileByUserId(userId)
+		if(!userProfile){
+			return next(APIErrors.notFound(`no record found with the user id ${userId}.`))
+		}
+		
+			const userProfileImageUrl= await uploadUserProfileImageService(userId,imageURL)
+			res.status(200).json({
+				success:true,
+				message:"image uploaded successfully",
+				imageURL:`http://${req.hostname}:${process.env.PORT}/images/${userProfileImageUrl.imageURL}`
+			
+			})
+		
+	} catch (error) {
+		next(error)
+	}
+}
+
+// fetching user profile image using user id
+
+export const getUserProfileImage=async(req,res,next)=>{
+	try {
+		const {userId}=req.params
+		const userProfile=await getUserProfileByUserId(userId)
+		if(!userProfile){
+			return next(APIErrors.notFound(`there is no user with the id ${userId}`))
+		}
+		const imageURL=userProfile.imageURL
+		if(!imageURL){
+			return next(APIErrors.notFound("no profile image found"))
+		}
+		res.status(200).json({
+			success:true,
+			imageURL:`http://${req.hostname}:${process.env.PORT}/images/${imageURL}`
 		})
 	} catch (error) {
 		next(error)

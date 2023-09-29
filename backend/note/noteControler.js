@@ -4,7 +4,11 @@ import {
     getAllNoteService,
     getNotesByIdService,
     updateNoteService,
+<<<<<<< HEAD
     favouriteNoteService
+=======
+    getNotesByUserIdService
+>>>>>>> 1a62ccf9566d93fddc4574e90ae02c8781d8c378
   } from "./noteService.js";
 
 
@@ -30,7 +34,7 @@ export const getAllNotes = async(req, res) => {
    try{
      const allNotes = await getAllNoteService()
      res.status(200).json({
-        messgae: "All notes fetched successfully",
+        message: "All notes fetched successfully",
         allNotes
     })
    }catch(error) {
@@ -53,6 +57,22 @@ export const getNotesById = async(req, res) => {
         res.status(500).json({error: "internal server error"})
     }
 }
+
+export const getNotesByUserId = async (req, res) => {
+    try {
+      const { userId } = req.params;
+      if (!userId) {
+        return res.status(400).json({ error: "UserId is required" });
+      }
+      const notes = await getNotesByUserIdService(userId);
+      res.status(200).json({
+        message: "User Notes fetched successfully",
+        notes,
+      });
+    } catch (error) {
+      res.status(500).json({ error: "internal server error" });
+    }
+  };
 
 export const updateNote = async (req, res) => {
     try {
@@ -96,9 +116,9 @@ export const deleteNote = async (req, res) =>{
         if(!id){
             res.status(400).json({message: "Note cannot be found"})
         }
-        if(!note){
-            return res.status(400).json({error: "Note does not exist"})
-        }
+        // if(!note){
+        //     return res.status(400).json({error: "Note does not exist"})
+        // }
         const deleteNote = await deleteNoteService(id)
         res.status(200).json({
             message: "Note deleted successfully",

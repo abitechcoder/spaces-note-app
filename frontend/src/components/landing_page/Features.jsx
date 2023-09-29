@@ -24,7 +24,7 @@ function Features() {
     },
   ];
   return (
-    <div>
+    <div id="features">
       <div className="custom-container">
         <h2 className="text-[40px] md:text-[57px] font-medium mb-9 text-center font-clash">
           Features

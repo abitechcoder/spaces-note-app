@@ -1,5 +1,5 @@
-import { Schema, SchemaType, model } from "mongoose";
-
+import { Schema, model } from "mongoose";
+// user account schema
 const userAccountSchema = Schema(
 	{
 		email: {
@@ -17,6 +17,7 @@ const userAccountSchema = Schema(
 );
 export const userModel = model("user", userAccountSchema);
 
+// user account profile schema
 const userProfileSchema = Schema(
 	{
 		firstName: String,
