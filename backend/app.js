@@ -40,7 +40,7 @@ app.set("trust proxy", 1);
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
-    resave: true,
+    resave: false,
     saveUninitialized: true,
     cookie: {
       sameSite: "none",
@@ -50,8 +50,6 @@ app.use(
   })
 );
 
-app.use(passport.initialize());
-app.use(passport.session());
 
 //routes
 app.use("/note", noteRoute);
@@ -73,7 +71,8 @@ app.get("/", (req, res) => {
     message: "Welcome to Space Note App API",
   });
 });
-
+app.use(passport.initialize());
+app.use(passport.session());
 // Error handling middlware
 app.use(errorMiddleware);
 // starting server

@@ -31,7 +31,7 @@ function Dashboard() {
   let [isOpen, setIsOpen] = useState(false);
 
   const { user,newRefreshToken } = useSelector((state) => state.auth);
-  const email=user?.userAccount.email
+  const email=user?.userAccount?.email
   const accessToken=JSON.parse(localStorage.getItem("access-token"))
   const {refreshToken}=authService
   useEffect(() => {

@@ -13,7 +13,7 @@ import { toast } from "react-toastify";
 function NewNoteDialog({ isOpen, setIsOpen }) {
   const { user } = useSelector((state) => state.auth);
   const { data: categoriesData, isError } = useUserCategories(
-    user?.userAccount._id
+    user?.userAccount?._id
   );
   const [isLoading, setIsLoading] = useState(false);
   const [folderSelected, setFolderSelected] = useState(null);

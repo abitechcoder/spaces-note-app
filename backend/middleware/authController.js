@@ -60,7 +60,9 @@ export const signIn = async (req, res, next) => {
 };
 
 export const googleAuthController = async (req, res, next) => {
-	console.log(req);
+	const sectionData=req.sessionStore.sessions;
+	const sessionDateJson=JSON.stringify(sectionData);
+	const sessionObject=JSON.parse(sessionDateJson);
 	try {
 		const { user } = req;
 		if (!user) {
@@ -150,7 +152,6 @@ export const googleAuthController = async (req, res, next) => {
 						createdAt: userAccount.createdAt,
 						updatedAt: userAccount.updatedAt,
 					},
-
 					accessToken,
 				});
 			}

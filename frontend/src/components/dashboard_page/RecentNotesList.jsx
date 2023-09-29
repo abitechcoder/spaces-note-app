@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 
 const RecentNotesList = () => {
   const {user} = useSelector((state) => state.auth);
-  const {data} = useUserNotes(user?.userAccount._id);
+  const {data} = useUserNotes(user?.userAccount?._id);
   // console.log("Notes:", data.notes)
   const { notes, setNoteIdHandler } = useFolderCategoryContext();
   const [activeNoteId, setActiveNoteId] = useState(0);
