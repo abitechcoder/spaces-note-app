@@ -4,14 +4,24 @@ import { NoteModel } from "./noteModel.js";
 export const createNoteService = async(data) => {
     const newNote = new NoteModel({
         title: data.title,
-        description: data.description
+        description: data.description,
+        category: data.category,
+        userId: data.userId,
+        favourite: data.favourite
     })
     newNote.save()
     return newNote
+    
+}
+
+export const favouriteNoteService = async (noteId, updateData) => {
+    return await NoteModel.findOneAndUpdate({_id:noteId},{favourite:updateData}, {new:true})
 }
 
 export const getAllNoteService = async() => {
-    const allNotes = await NoteModel.find()
+    const id = NoteModel.userId
+    console.log(id)
+    const allNotes = await NoteModel.find(id)
     return allNotes
 } 
 export const getNotesByIdService = async(id) => {
@@ -22,7 +32,9 @@ export const getNotesByIdService = async(id) => {
 export const updateNoteService = async (id, data) => {
     const updatedNote = await NoteModel.findByIdAndUpdate(id, {
         title: data.title,
-        description: data.description
+        description: data.description,
+        category: data.category,
+        
     }, {new: true})
     return updatedNote
 }

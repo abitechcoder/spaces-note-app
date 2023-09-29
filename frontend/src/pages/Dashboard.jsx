@@ -12,7 +12,7 @@ import { TextContext } from '../util/TextContext.jsx'
 
 function Dashboard() {
   const { text, setText}  = useContext(TextContext)
-  //  console.log(text)
+  
 
 const  textHandler = () => {
   setText("true")
