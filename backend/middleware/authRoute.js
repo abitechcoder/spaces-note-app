@@ -23,7 +23,7 @@ authRoute.route("/google/callback").get(
 	}),
 	(req, res) => {
 		req = req.user;
-		res.redirect("http://localhost:5173/login");
+		res.redirect("http://localhost:5173/dasboard");
 	}
 );
 // signing out from google authentication end point

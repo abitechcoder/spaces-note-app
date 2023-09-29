@@ -37,9 +37,6 @@ app.set("trust proxy", 1);
 //     next();
 //   });
 
- // Initialize Firebase
-// const analytics = getAnalytics(firebaseApp);
-// analytics.isSupported(initializeApp(firebaseConfig)) ;
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
@@ -55,7 +52,6 @@ app.use(
 
 app.use(passport.initialize());
 app.use(passport.session());
-
 
 //routes
 app.use("/note", noteRoute);
@@ -78,9 +74,9 @@ app.get("/", (req, res) => {
   });
 });
 
-
+// Error handling middlware
 app.use(errorMiddleware);
-
+// starting server
 app.listen(PORT, async () => {
   await connection(MONGODB_URL);
   console.log(`Server started and listening on http://127.0.0.1:${PORT}...`);

@@ -6,7 +6,6 @@ import {
 	getDownloadURL,
 	uploadBytesResumable,
 } from "firebase/storage";
-initializeApp(firebaseConfig);
 
 import {
 	changUserPasswordService,
@@ -26,6 +25,9 @@ import {
 } from "./userService.js";
 import { APIErrors } from "../middleware/errorHandlers.js";
 import { hashPassword, validatePassword } from "../util/password.js";
+
+// initializing firebase app
+initializeApp(firebaseConfig);
 // Creating new user account and setting up user profile
 export const createUserAccount = async (req, res, next) => {
 	try {
@@ -205,12 +207,10 @@ export const getUserProfileExtendedByUserId = async (req, res, next) => {
 		if (!result) {
 			return next(APIErrors.notFound());
 		}
-
 		const userProfile = result.find((profile) => profile.userId == userId);
 		if (!userProfile) {
 			return next(APIErrors.notFound());
 		}
-
 		res.status(200).json({
 			success: true,
 			userProfile,
@@ -312,7 +312,7 @@ export const uploadUserProfileImage = async (req, res, next) => {
 	const storage = getStorage();
 	try {
 		const imageURL = req.file.originalname;
-		const storageRef = ref(storage, `files/${req.file.originalname}`);
+		const storageRef = ref(storage, `files/images/${req.file.originalname}`);
 		const metadata = {
 			contentType: req.file.mimetype,
 		};
