@@ -86,10 +86,10 @@ function Dashboard() {
             </div>
             {/* Folder category section ends here*/}
 
-            <div className="flex justify-center mt-8">
+            <div className="flex mt-8 justify-start">
               <button
                 onClick={() => onLogout()}
-                className="py-[15px] bg-red-700 hover:bg-red-500 text-white w-[80%] rounded-lg"
+                className="py-2 px-8 bg-red-700 hover:bg-red-500 text-white rounded-lg"
               >
                 Logout
               </button>

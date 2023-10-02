@@ -10,6 +10,11 @@ const noteSchema = new Schema(
       type: String,
       required: true,
     },
+    favourite: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
     categoryId: {
       type: String,
       required: true,

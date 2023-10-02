@@ -7,14 +7,13 @@ import { useSelector } from "react-redux";
 import { useUserCategories } from "../../hooks/dataFetcher";
 import { HiOutlineXMark } from "react-icons/hi2";
 import { poster } from "../../util/fetcher";
-import { mutate } from "swr";
 import { toast } from "react-toastify";
+import { useUserNotes } from "../../hooks/dataFetcher";
 
 function NewNoteDialog({ isOpen, setIsOpen }) {
   const { user } = useSelector((state) => state.auth);
-  const { data: categoriesData, isError } = useUserCategories(
-    user?.userAccount?._id
-  );
+  const { categories, isError } = useUserCategories(user?.userAccount._id);
+  const { notes, mutate } = useUserNotes(user?.userAccount._id);
   const [isLoading, setIsLoading] = useState(false);
   const [folderSelected, setFolderSelected] = useState(null);
 
@@ -44,7 +43,7 @@ function NewNoteDialog({ isOpen, setIsOpen }) {
     };
     try {
       await poster("/note", formData);
-      mutate(`/note/user/${user?.userAccount._id}`);
+      mutate([...notes, formData]);
       toast.success("Note created successfully!");
       setIsLoading(false);
       onClose();
@@ -104,11 +103,15 @@ function NewNoteDialog({ isOpen, setIsOpen }) {
                 >
                   Folder
                 </label>
-                {!isError && (
+                {!isError && categories?.length > 0 ? (
                   <CustomListbox
-                    data={categoriesData?.categories}
+                    data={categories}
                     setItemSelected={setFolderSelected}
                   />
+                ) : (
+                  <p role="alert" className="text-red-600 text-center">
+                    Please create a folder to store your notes
+                  </p>
                 )}
               </div>
 
@@ -129,13 +132,16 @@ function NewNoteDialog({ isOpen, setIsOpen }) {
                   className="bg-[#1c1c1c] text-white"
                 />
                 {errors.description && (
-                  <p role="alert" className="text-red-600">{errors.description.message}</p>
+                  <p role="alert" className="text-red-600">
+                    {errors.description.message}
+                  </p>
                 )}
               </div>
               <div className="grid place-items-center">
                 <button
                   className="custom-button font-dm bg-[#7F6BFF] text-white font-bold"
                   type="submit"
+                  disabled={!isError && categories?.length === 0}
                 >
                   {isLoading ? "Saving" : "SAVE"}
                 </button>

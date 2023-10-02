@@ -47,17 +47,10 @@ function Login() {
 		dispatch(login(data));
 	};
 
-	if (isLoading) {
-		return <Spinner />;
-	}
+  if (isLoading) {
+    return <Spinner />;
+  }
 
-	const googleOnclickHandler = async () => {
-		const result = await Axios.get("/auth/signin");
-		console.log(result);
-	};
-	//  const logoutHandler=async()=>{
-	//   window.open("http://127.0.0.1:5000/auth/logout","_self")
-	//  }
 	return (
 		<section>
 			<div className="p-4 lg:p-0">

@@ -16,7 +16,7 @@ const FooterList = () => {
       </section>
       <section className="flex justify-center md:justify-between items-center py-4 container mt-8 md:mt-[5rem] border-t">
       <img src={Logo} className="w-[100px] md:w-[170px] hidden md:block" alt="Website Logo" />
-        <p className="text=gray-400 font-dm font-bold">© 2022 Note.d All rights reserved.</p>
+        <p className="text=gray-400 font-dm font-bold">© 2023 Spaces All rights reserved.</p>
       </section>
     </footer>
   );
