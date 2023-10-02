@@ -4,19 +4,20 @@ import { useFolderCategoryContext } from "../../context/folderCategoryContex";
 
 const CategoryComponent = () => {
 	const {
-		folderCategory,
 		notes,
+		folderCategory,
 		setNoteCategoryFunction,
-    setCategoryHandler,
-    resetCategoryNoteHandler
+		setCategoryHandler,
+		resetCategoryNoteHandler,
 	} = useFolderCategoryContext();
-
+	// category filter function to filter out notes using category folder
 	const categoryFilter = (category) => {
 		const filteredNote = notes.filter((note) => note.category == category);
 		if (filteredNote) {
 			// console.log(filteredNote);
       resetCategoryNoteHandler()
 			localStorage.setItem("filteredNote", JSON.stringify(filteredNote));
+			// 	setting filtered note to  context
 			setNoteCategoryFunction(filteredNote);
 		}
 	};
@@ -28,7 +29,7 @@ const CategoryComponent = () => {
     setCategoryHandler(category)
 		categoryFilter(category);
 	};
-
+	// mapping over folder category from context
 	const renderCategoryList = folderCategory.map((list) => {
 		return (
 			<li key={list.id} className="cursor-pointer">

@@ -1,7 +1,17 @@
 import React from "react";
 import { HeroImage, GooglePlayDark, AppleStoreDark } from "../../assets";
+import { signInWithGoogle } from "../../Axios/usersApi";
 
 function Hero() {
+  // using google authentication
+  const onclickHandler = async () => {
+    // signInWithGoogle()
+    window.open(
+      "http://127.0.0.1:5000/auth/google","_self"
+    )
+
+
+  };
   return (
     <section className="text-black relative">
       <div className="custom-container grid gap-8 lg:gap-12 grid-cols-1 md:grid-cols-2">
@@ -15,11 +25,14 @@ function Hero() {
               and loved ones.
             </p>
             <div className="flex justify-between md:justify-start gap-0 md:gap-8">
-              <img
+             <img
+                className="cursor-pointer"
                 src={GooglePlayDark}
                 alt="Download app from Google Play Store"
+                onClick={onclickHandler}
               />
               <img
+                className="cursor-pointer"
                 src={AppleStoreDark}
                 alt="Download app from Apple App Store"
               />

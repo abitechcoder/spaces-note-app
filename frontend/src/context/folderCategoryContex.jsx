@@ -1,10 +1,16 @@
-import { createContext, useContext, useReducer } from "react";
+import { createContext, useContext, useEffect, useReducer } from "react";
 import reducer, { Actions, initialState } from "../reducer/reducer.jsx";
 const FolderCategoryContext = createContext(initialState.categoryList);
 
 export const FolderCategoryProvider = ({ children }) => {
 	const [state, dispatch] = useReducer(reducer, initialState);
 	const { categoryList } = state;
+useEffect(() => {
+  localStorage.setItem("categoryList",JSON.stringify(categoryList))
+
+}, [categoryList])
+
+
 	const setFolderCategoryFunction = (payload) => {
 		dispatch({
 			type: Actions.SET_FOLDER_CATEGORY,

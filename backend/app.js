@@ -1,3 +1,4 @@
+import cors from "cors";
 import express from "express";
 import dotenv from "dotenv";
 import connection from "./config/db.js";
@@ -7,7 +8,10 @@ import { noteRoute } from "./note/noteRoute.js";
 import { categoryRoute } from "./category/categoryRoute.js";
 import authRoute from "./middleware/authRoute.js";
 import cookieParser from "cookie-parser";
-import cors from "cors";
+import passport from "passport";
+import session from "express-session";
+import "./passport.js";
+// import cors from "cors"
 
 dotenv.config();
 
@@ -15,16 +19,52 @@ const PORT = process.env.PORT;
 const MONGODB_URL = process.env.MONGODB_URL;
 
 const app = express();
-
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors());
+// using cors 
+// app.use(cors({
+//   origin:"http://localhost:5173",
+//   methods:"GET, POST, PUT, DELETE",
+//   credentials:true
+// }))
+
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', 'http://localhost:5173');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.header('Access-Control-Allow-Headers','Content-Type');
+    res.header('Access-Control-Allow-Credentials', 'true')
+    
+    next();
+  });
+ 
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      secure:false,
+      maxAge: 1000 * 60 * 60 * 24, // 1 day
+    },
+  })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
+
 //routes
 app.use("/note", noteRoute);
 app.use("/user", userRouter);
 app.use("/auth", authRoute);
 app.use("/category", categoryRoute);
+
+
+// failed route if the authentication fails
+app.get("/failed", (req, res) => {
+  console.log("User is not authenticated");
+  res.send("Failed");
+});
 
 // the home route
 app.get("/", (req, res) => {

@@ -3,10 +3,9 @@ import dotenv from "dotenv";
 dotenv.config();
 
 // generation user access token function
-export const registerUser = async (email, password) => {
+export const registerUser = async (email) => {
 	const payload = {
 		email,
-		password,
 		refreshToken: "",
 	};
 	const secret = process.env.JWT_SECRET;
@@ -26,10 +25,9 @@ export const verifyAccessToken = async (accessToken) => {
 };
 
 // generating user refresh token function
-export const generateRefreshToken = async (email, password) => {
+export const generateRefreshToken = async (email) => {
 	const payload = {
 		email,
-		password,
 	};
 	const secret = process.env.JWT_REFRESH_SECRET;
 	const option = {

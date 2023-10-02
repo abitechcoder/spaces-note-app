@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { login, reset } from "../features/auth/authSlice";
+import axios from "axios";
 
 function Login() {
   const navigate = useNavigate();
@@ -19,6 +20,7 @@ function Login() {
   );
 
   useEffect(() => {
+    googleOnclickHandler()
     if (isError) {
       toast.error(message);
     }
@@ -46,8 +48,16 @@ function Login() {
   };
 
   if (isLoading) {
-    return <Spinner />;
+    return <Spinner/>
   }
+
+ const  googleOnclickHandler= async()=>{
+  const result=await axios.get("http://127.0.0.1:5000/auth/signin",{withCredentials:true})
+  console.log(result);
+ }
+ const logoutHandler=async()=>{
+  window.open("http://127.0.0.1:5000/auth/logout","_self")
+ }
   return (
     <section>
       <div className="p-4 lg:p-0">
@@ -64,7 +74,7 @@ function Login() {
                 <FaApple />
                 <p className="font-dm font-bold text-sm">LOGIN WITH APPLE</p>
               </button>
-              <button className="custom-button bg-[#f7f7f7] border-[1.5px] flex gap-2 items-center">
+              <button onClick={googleOnclickHandler} className="custom-button bg-[#f7f7f7] border-[1.5px] flex gap-2 items-center">
                 <FaGoogle />
                 <p className="font-dm font-bold text-sm">LOGIN WITH GOOGLE</p>
               </button>

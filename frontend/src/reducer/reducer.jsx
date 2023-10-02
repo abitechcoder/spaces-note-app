@@ -12,7 +12,7 @@ export const Actions = {
 export const initialState = {
 	categoryList,
     notes,
-    categorizedNote:JSON.parse(localStorage.getItem("filteredNote")) ,
+    categorizedNote:notes,
     category:JSON.parse(localStorage.getItem("category")),
     noteId:""
 };
