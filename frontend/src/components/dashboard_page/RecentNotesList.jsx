@@ -30,7 +30,9 @@ const RecentNotesList = () => {
       </div>
     );
   });
-  return <ul>{renderRecentNote}</ul>;
+  return <ul>
+    {renderRecentNote}
+    </ul>;
 };
 
 export default RecentNotesList;

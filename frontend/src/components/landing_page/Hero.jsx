@@ -1,17 +1,29 @@
 import React from "react";
 import { HeroImage, GooglePlayDark, AppleStoreDark } from "../../assets";
-import { signInWithGoogle } from "../../Axios/usersApi";
+import { useGoogleLogin } from "@react-oauth/google";
+import axios from "axios";
+import { Axios } from "../../Axios";
 
 function Hero() {
   // using google authentication
-  const onclickHandler = async () => {
-    // signInWithGoogle()
-    window.open(
-      "http://127.0.0.1:5000/auth/google","_self"
-    )
-
-
-  };
+  const googleLoginHandler = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      const userResponse = await axios.get(
+        "https://www.googleapis.com/oauth2/v3/userinfo",
+        {
+          headers: {
+            Authorization: `Bearer ${tokenResponse.access_token}`,
+          },
+        }
+      );
+      const user = userResponse.data;
+      if (user) {
+        const response = await Axios.post("/auth/google/signin/", { user });
+        console.log(response);
+      }
+    },
+    onError: (error) => console.log(error),
+  });
   return (
     <section className="text-black relative">
       <div className="custom-container grid gap-8 lg:gap-12 grid-cols-1 md:grid-cols-2">
@@ -25,11 +37,11 @@ function Hero() {
               and loved ones.
             </p>
             <div className="flex justify-between md:justify-start gap-0 md:gap-8">
-             <img
+              <img
                 className="cursor-pointer"
                 src={GooglePlayDark}
                 alt="Download app from Google Play Store"
-                onClick={onclickHandler}
+                onClick={googleLoginHandler}
               />
               <img
                 className="cursor-pointer"

@@ -16,16 +16,27 @@ const register = async ({ email, password }) => {
 // Login User
 const login = async ({ email, password }) => {
   const response = await Axios.post(`${AUTH_ENDPOINT}/signin`, { email, password });
-
   if (response.data) {
     // const { userAccount } = response.data;
+    // console.log(response.data.accessToken);
     localStorage.setItem("user", JSON.stringify(response.data));
+    localStorage.setItem("access-token", JSON.stringify(response.data.accessToken));
+  }
+  return response.data;
+};
+const refreshToken = async (email) => {
+  const response = await Axios.post(`${AUTH_ENDPOINT}/signin/refresh-token`, { email });
+  if (response.data) {
+    // const { userAccount } = response.data;
+    // console.log(response.data);
+    // localStorage.setItem("user", JSON.stringify(response.data));
   }
   return response.data;
 };
 
 const logout = () => {
   localStorage.removeItem("user");
+  localStorage.removeItem("access-token");
 };
 
 // export const getUser = async (userId) => {
@@ -33,6 +44,6 @@ const logout = () => {
 //     return response.data;
 // }
 
-const authService = { register, login, logout };
+const authService = { register, login, logout ,refreshToken};
 
 export default authService;

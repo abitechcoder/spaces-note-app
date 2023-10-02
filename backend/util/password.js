@@ -7,6 +7,6 @@ export const hashPassword = (password) => {
 };
 
 // validation hashed password function
-export const validatePassword=(password,hashedPassword)=>{
-	return bcryptjs.compare(password,hashedPassword)
-}
+export const validatePassword = (password, hashedPassword) => {
+	return bcryptjs.compare(password, hashedPassword);
+};

@@ -4,43 +4,59 @@ dotenv.config();
 
 // generation user access token function
 export const registerUser = async (email) => {
-	const payload = {
-		email,
-		refreshToken: "",
-	};
-	const secret = process.env.JWT_SECRET;
-	const option = {
-		expiresIn: "5m",
-	};
-	//   user access token
-	const Token = jwt.sign(payload, secret, option);
-	return Token;
+	try {
+		const payload = {
+			email,
+			refreshToken: "",
+		};
+		const secret = process.env.JWT_SECRET;
+		const option = {
+			expiresIn: "5m",
+		};
+		//   user access token
+		const Token = jwt.sign(payload, secret, option);
+		return Token;
+	} catch (error) {
+		console.log(error.message);
+	}
 };
 
 //Verifying user access token
 export const verifyAccessToken = async (accessToken) => {
-	const secret = process.env.JWT_SECRET;
-	const payload = jwt.verify(accessToken, secret);
-	return payload;
+	try {
+		const secret = process.env.JWT_SECRET;
+		const payload = jwt.verify(accessToken, secret);
+		return payload;
+	} catch (error) {
+		console.log(error.message);
+	}
 };
 
 // generating user refresh token function
 export const generateRefreshToken = async (email) => {
-	const payload = {
-		email,
-	};
-	const secret = process.env.JWT_REFRESH_SECRET;
-	const option = {
-		expiresIn: "1d",
-	};
-	const refreshToken = jwt.sign(payload, secret, option);
-	return refreshToken;
+	try {
+		const payload = {
+			email,
+		};
+		const secret = process.env.JWT_REFRESH_SECRET;
+		const option = {
+			expiresIn: "1d",
+		};
+		const refreshToken = jwt.sign(payload, secret, option);
+		return refreshToken;
+	} catch (error) {
+		console.log(error.message);
+	}
 };
 
 // verifying user refresh token function
 export const verifyRefreshAccessToken = async (refreshToken) => {
-	const secret = process.env.JWT_REFRESH_SECRET;
-	// user refresh token
-	const payload = jwt.verify(refreshToken, secret);
-	return payload;
+	try {
+		const secret = process.env.JWT_REFRESH_SECRET;
+		// user refresh token
+		const payload = jwt.verify(refreshToken, secret);
+		return payload;
+	} catch (error) {
+		console.log(error.message);
+	}
 };

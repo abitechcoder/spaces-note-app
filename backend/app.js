@@ -5,13 +5,13 @@ import connection from "./config/db.js";
 import { userRouter } from "./user/userRoute.js";
 import errorMiddleware from "./middleware/errorMiddleware.js";
 import { noteRoute } from "./note/noteRoute.js";
-import { categoryRoute } from "./category/categoryRoute.js";
 import authRoute from "./middleware/authRoute.js";
 import cookieParser from "cookie-parser";
 import passport from "passport";
 import session from "express-session";
 import "./passport.js";
-// import cors from "cors"
+import cors from "cors"
+import { categoryRoute } from "./category/categoryRoute.js";
 
 dotenv.config();
 
@@ -23,35 +23,34 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cookieParser());
 // using cors 
-// app.use(cors({
-//   origin:"http://localhost:5173",
-//   methods:"GET, POST, PUT, DELETE",
-//   credentials:true
-// }))
-
-app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', 'http://localhost:5173');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-    res.header('Access-Control-Allow-Headers','Content-Type');
-    res.header('Access-Control-Allow-Credentials', 'true')
+app.use(cors({
+  origin:"http://127.0.0.1:5173",
+  methods:"GET, POST, PUT, DELETE",
+  credentials:true
+}))
+app.set("trust proxy", 1);
+// app.use((req, res, next) => {
+//     res.header('Access-Control-Allow-Origin', 'http://localhost:5173');
+//     res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+//     res.header('Access-Control-Allow-Headers','Content-Type');
+//     res.header('Access-Control-Allow-Credentials', 'true')
     
-    next();
-  });
- 
+//     next();
+//   });
+
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: true,
     cookie: {
+      sameSite: "none",
       secure:false,
       maxAge: 1000 * 60 * 60 * 24, // 1 day
     },
   })
 );
 
-app.use(passport.initialize());
-app.use(passport.session());
 
 //routes
 app.use("/note", noteRoute);
@@ -74,7 +73,11 @@ app.get("/", (req, res) => {
     message: "Welcome to Space Note App API",
   });
 });
+app.use(passport.initialize());
+app.use(passport.session());
+// Error handling middlware
 app.use(errorMiddleware);
+// starting server
 app.listen(PORT, async () => {
   await connection(MONGODB_URL);
   console.log(`Server started and listening on http://127.0.0.1:${PORT}...`);

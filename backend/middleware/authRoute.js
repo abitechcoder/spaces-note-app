@@ -1,62 +1,29 @@
 import express from "express";
 
 import {
-	googleAuthController,
-	refreshUserAccessToken,
-	signIn,
-	signOut,
+  googleAuthController,
+  refreshUserAccessToken,
+  signIn,
+  signOut,
 } from "./authController.js";
-import passport from "passport";
+// import passport from "passport";
 const authRoute = express.Router();
 
-authRoute.route("/signin").post(signIn).get(googleAuthController);
-authRoute.route("/signout").post(signOut);
-authRoute.route("/google").get(
-	passport.authenticate("google", {
-		scope: ["email", "profile"],
-	})
-);
-authRoute.route("/google/callback").get(
-	passport.authenticate("google", {
-		// successRedirect:"http://localhost:5173/login",
-		failureRedirect: "/failed",
-	}),
-	(req, res) => {
-		// console.log(req);
-		req.session.user=req.user
-		// res.redirect('/auth/signin');
-		res.redirect('http://localhost:5173/dashboard');
-	}
-);
-authRoute.route("/logout").get(() => {});
-
-// authRoute.route("/signin").get(
-
-// 	(req,res)=>{
-// 	const user=req.user
-// 	console.log(user);
-// 	console.log(req.cookies);
-// 	res.status(200).json({success:"success",user})
-
-// }
-// );
-
-// authRoute.route("/google").get(
-// 	passport.authenticate("google", {
-// 		scope: ["email", "profile"],
-// 	})
-// );
-// authRoute.route("/google/callback").get(
-// 	passport.authenticate("google", {
-// 		// successRedirect:"/auth/signin",
-// 		// successRedirect:"http://localhost:5173/login",
-// 		failureRedirect: "/failed"
-// 	}),
-
-// 	(req,res)=>{
-// 		res.status(200).json("success")
-// 	}
-// );
-
+authRoute.route("/signin").post(signIn)
 authRoute.route("/signin/refresh-token").post(refreshUserAccessToken);
+authRoute.route("/signout").post(signOut);
+authRoute.route("/google/signin").post(googleAuthController);
+// authRoute.route("/google/callback").get(
+//   passport.authenticate("google", {
+//     failureRedirect: "/failed",
+//   }),
+//   async (req, res) => {
+// 	console.log(req.user);
+// 	req.session.user=req.user
+//   res.redirect("http://localhost:5173/login");
+//   }
+// );
+// signing out from google authentication end point
+authRoute.route("/google/signout").get(() => {});
+
 export default authRoute;

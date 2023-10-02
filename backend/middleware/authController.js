@@ -1,9 +1,7 @@
-import passport from "passport";
 import {
   createUserAccountService,
   createUserProfileService,
   getUserAccountByEmailService,
-  getUserAccountByIdService,
   getUserProfileByUserIdService,
   sendEmailService,
   updateUserProfileService,
@@ -42,57 +40,37 @@ export const signIn = async (req, res, next) => {
     if (!accessToken) {
       return next(APIErrors.unAuthenticated());
     }
-    const result = await findAndUpdateUserRefreshTokenByEmailService(
-      email,
-      userRefreshToken
-    );
-    res.cookie("access_token", accessToken, {
-      httpOnly: true,
-    });
+    await findAndUpdateUserRefreshTokenByEmailService(email, userRefreshToken);
+    res
+      .status(200)
+      .cookie("access_token", `${accessToken}`, {
+        httpOnly: true,
+      })
+      .json({
+        success: "true",
+        message: "Sign In Successful",
+        userAccount,
+        accessToken,
+      });
     req.email = email;
     next();
-    return res.status(200).json({
-      success: "true",
-      message: "Sign In Successful",
-      userAccount,
-      accessToken,
-    });
   } catch (error) {
     next(error);
   }
 };
-// google callback function
-// export const callback=async(req,res)=>{
-//   await passport.authenticate("google", {
-//     		failureRedirect: "/failed"
-//     	})
-// res.redirect("/signin")
-// }
-
-// Signing in with google authentication
-// export const authenticateWithGoogle = async (req, res,next) => {
-
-//    passport.authenticate("google", {
-// 		scope: ["email", "profile"],
-// 	})
-
-// };
 
 export const googleAuthController = async (req, res, next) => {
   try {
-    const { user } = req;
-    // console.log(user);
+    const { user } = req.body;
     if (!user) {
-      console.log("no user");
       return res.status(401).json({ success: false, message: "no user" });
     } else {
-      const { email, picture, given_name, family_name } = user._json;
+      const { email, picture, given_name, family_name } = user;
       const userAccount = await getUserAccountByEmailService(email);
       if (!userAccount) {
         // create account if it does not exist and signing user in at the same time
         const password = "";
         const newUserAccount = await createUserAccountService(email, password);
-        console.log(newUserAccount);
         const userId = newUserAccount._id;
         // creating user profile
         const userProfile = await createUserProfileService(userId);
@@ -110,7 +88,7 @@ export const googleAuthController = async (req, res, next) => {
         if (!accessToken) {
           return next(APIErrors.unAuthenticated());
         }
-        // updateing user refresh token
+        // updating user refresh token
         await findAndUpdateUserRefreshTokenByEmailService(
           newUserAccount.email,
           userRefreshToken
@@ -171,7 +149,6 @@ export const googleAuthController = async (req, res, next) => {
             createdAt: userAccount.createdAt,
             updatedAt: userAccount.updatedAt,
           },
-
           accessToken,
         });
       }
@@ -184,14 +161,20 @@ export const googleAuthController = async (req, res, next) => {
 // Verifying user access token
 export const verifyUserAccessToken = async (req, res, next) => {
   try {
-    const accessToken = req.cookies.access_token;
+    // getting access token from client side
+    const accessToken =
+      req.cookies.access_token || req.headers["authorization"]?.split(" ")[1];
     if (!accessToken) {
-      return next(APIErrors.unAuthenticated());
+      return next(APIErrors.unAuthenticated("you are not signed in"));
     }
     // verifying user access token
     const payload = await verifyUserAccessTokenService(accessToken);
     if (!payload) {
-      return next(APIErrors.unAuthenticated("user access token has expired"));
+      return next(
+        APIErrors.unAuthenticated(
+          "user access token has expired. You must login"
+        )
+      );
     }
     req.email = payload.email;
     req.refreshToken = payload.refreshToken;
@@ -200,7 +183,7 @@ export const verifyUserAccessToken = async (req, res, next) => {
     next(error);
   }
 };
-
+// Generating user refresh token controller
 export const refreshUserAccessToken = async (req, res, next) => {
   try {
     const { email } = req.body;
@@ -221,10 +204,13 @@ export const refreshUserAccessToken = async (req, res, next) => {
     }
     const payload = await verifyRefreshUserAccessTokenService(refreshToken);
     if (!payload) {
-      return next(APIErrors.unAuthenticated());
+      return next(APIErrors.unAuthenticated("you are not signed in"));
     }
+    // generation new access token for user
     const accessToken = await registerUserService(payload.email);
-    res.cookie("access_token", accessToken);
+    res.cookie("access_token", accessToken, {
+      httpOnly: true,
+    });
     // generation user refresh token
     const refreshAccessToken = await generateRefreshTokenService(payload.email);
     // updating user refresh token with new refresh token
@@ -235,9 +221,11 @@ export const refreshUserAccessToken = async (req, res, next) => {
     if (!result) {
       return next(APIErrors.unAuthenticated("no refresh token was found"));
     }
-    res
-      .status(200)
-      .json({ success: "true", message: "access token refreshed" });
+    res.status(200).json({
+      success: "true",
+      message: "access token refreshed",
+      accessToken,
+    });
   } catch (error) {
     next(error);
   }

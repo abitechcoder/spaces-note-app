@@ -8,6 +8,8 @@ import { useForm } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { login, reset } from "../features/auth/authSlice";
+import { Axios } from "../Axios";
+import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 
 function Login() {
@@ -18,9 +20,27 @@ function Login() {
   const { user, isLoading, isError, isSuccess, message } = useSelector(
     (state) => state.auth
   );
+  //   Google login function
+  const googleLoginHandler = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      const userResponse = await axios.get(
+        "https://www.googleapis.com/oauth2/v3/userinfo",
+        {
+          headers: {
+            Authorization: `Bearer ${tokenResponse.access_token}`,
+          },
+        }
+      );
+      const user = userResponse.data;
+      if (user) {
+        const response = await Axios.post("/auth/google/signin/", { user });
+        console.log(response);
+      }
+    },
+    onError: (error) => console.log(error),
+  });
 
   useEffect(() => {
-    googleOnclickHandler()
     if (isError) {
       toast.error(message);
     }
@@ -51,13 +71,6 @@ function Login() {
     return <Spinner/>
   }
 
- const  googleOnclickHandler= async()=>{
-  const result=await axios.get("http://127.0.0.1:5000/auth/signin",{withCredentials:true})
-  console.log(result);
- }
- const logoutHandler=async()=>{
-  window.open("http://127.0.0.1:5000/auth/logout","_self")
- }
   return (
     <section>
       <div className="p-4 lg:p-0">
@@ -72,11 +85,14 @@ function Login() {
             <div className="flex flex-col md:flex-row items-center justify-center md:justify-between gap-4 py-4 border-b-2">
               <button className="custom-button bg-[#f7f7f7] border-[1.5px] flex gap-2 items-center">
                 <FaApple />
-                <p className="font-dm font-bold text-sm">LOGIN WITH APPLE</p>
+                <p className="font-dm font-bold text-base">LOGIN WITH APPLE</p>
               </button>
-              <button onClick={googleOnclickHandler} className="custom-button bg-[#f7f7f7] border-[1.5px] flex gap-2 items-center">
+              <button
+                className="custom-button bg-[#f7f7f7] border-[1.5px] flex gap-2 items-center"
+                onClick={googleLoginHandler}
+              >
                 <FaGoogle />
-                <p className="font-dm font-bold text-sm">LOGIN WITH GOOGLE</p>
+                <p className="font-dm font-bold text-base">LOGIN WITH GOOGLE</p>
               </button>
             </div>
           </div>

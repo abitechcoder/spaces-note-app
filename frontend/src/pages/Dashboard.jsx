@@ -2,27 +2,25 @@ import React, { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
 
-import { logout, reset } from "../features/auth/authSlice";
+import { logout, reset, setRefreshToken } from "../features/auth/authSlice";
 
 import { LogoWhite } from "../assets";
 import { CiSearch } from "react-icons/ci";
 import { AiOutlinePlus } from "react-icons/ai";
 import { FoldersComponent } from "../components/folder_category";
 import MoreSectionComponent from "../components/more_section/MoreSectionComponent";
+import authService from "../features/auth/authService";
 import {
   RecentNotes,
   NewNoteDialog,
-  Reflection,
   NotesFolders,
-  NotesList,
+  // NotesList,
   Main,
 } from "../components/dashboard_page";
-import { useFolderCategoryContext } from "../context/folderCategoryContex";
-import NoteCategoryComponent from "../components/folder_category/NoteCategoryComponent";
+// import { useFolderCategoryContext } from "../context/folderCategoryContex";
+// import NoteCategoryComponent from "../components/folder_category/NoteCategoryComponent";
 import { TextContext } from "../util/TextContext.jsx";
-import {
-  DashboardContextProvider,
-} from "../context/DashboardContextProvider";
+import { DashboardContextProvider } from "../context/DashboardContextProvider";
 
 function Dashboard() {
   const { text, setText } = useContext(TextContext);
@@ -30,12 +28,16 @@ function Dashboard() {
   const dispatch = useDispatch();
   let [isOpen, setIsOpen] = useState(false);
 
-  const { user } = useSelector((state) => state.auth);
-
+  const { user, newRefreshToken } = useSelector((state) => state.auth);
+  const email = user?.userAccount?.email;
+  const accessToken = JSON.parse(localStorage.getItem("access-token"));
+  const { refreshToken } = authService;
   useEffect(() => {
     if (!user) {
       navigate("/login");
     }
+
+    dispatch(setRefreshToken(accessToken));
   }, [user, navigate]);
 
   const textHandler = () => {
@@ -46,6 +48,12 @@ function Dashboard() {
     dispatch(reset());
     navigate("/login");
   };
+  // const refreshTokenHandler= async()=>{
+  //   const result=await refreshToken(email)
+  //   localStorage.setItem("access-token",JSON.stringify(result?.accessToken))
+  //   dispatch(setRefreshToken(result?.accessToken))
+  // }
+  // console.log(newRefreshToken);
   return (
     <DashboardContextProvider>
       <>

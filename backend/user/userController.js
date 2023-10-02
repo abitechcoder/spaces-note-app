@@ -1,3 +1,12 @@
+import { initializeApp } from "@firebase/app";
+import { firebaseConfig } from "../firebase.js";
+import {
+	getStorage,
+	ref,
+	getDownloadURL,
+	uploadBytesResumable,
+} from "firebase/storage";
+
 import {
 	changUserPasswordService,
 	createUserAccountService,
@@ -16,6 +25,9 @@ import {
 } from "./userService.js";
 import { APIErrors } from "../middleware/errorHandlers.js";
 import { hashPassword, validatePassword } from "../util/password.js";
+
+// initializing firebase app
+initializeApp(firebaseConfig);
 // Creating new user account and setting up user profile
 export const createUserAccount = async (req, res, next) => {
 	try {
@@ -31,16 +43,16 @@ export const createUserAccount = async (req, res, next) => {
 		// creating user account
 		const userAccount = await createUserAccountService(email, hashedPassword);
 		// creating user profile
-		const userId=userAccount._id
-		const userProfile=await createUserProfileService(userId)
+		const userId = userAccount._id;
+		const userProfile = await createUserProfileService(userId);
 		// sending email notification to user after successfully creating an account.
-		await sendEmailService(email)
-		return res.status(200).json({ 
-		success: true,
-		message:"account Created successfully",
-		userAccount,
-		userProfile
-	});
+		await sendEmailService(email);
+		return res.status(200).json({
+			success: true,
+			message: "account Created successfully",
+			userAccount,
+			userProfile,
+		});
 	} catch (error) {
 		next(error);
 		res.status(error.status).json({ success: "false", error: error.message });
@@ -57,8 +69,9 @@ export const getAllAccount = async (req, res, next) => {
 				.json({ success: "true", message: "Database empty" });
 		}
 		return res.status(200).json({
-			 success: true,
-			 accounts });
+			success: true,
+			accounts,
+		});
 	} catch (error) {
 		next(error);
 	}
@@ -74,9 +87,10 @@ export const getUseAccountById = async (req, res, next) => {
 			if (!result) {
 				return next(APIErrors.notFound());
 			}
-			res.status(200).json({ 
+			res.status(200).json({
 				success: true,
-				result });
+				result,
+			});
 		}
 	} catch (error) {
 		next(error);
@@ -93,13 +107,13 @@ export const deleteUserAccountById = async (req, res, next) => {
 			return next(APIErrors.notFound("No record found"));
 		}
 		// deleting user account
-		await deleteUserAccountService(userId)
+		await deleteUserAccountService(userId);
 		// deleting user profile
-		await deleteUserProfileByUserIdService(userId)
-		;
-		res.status(200).json({ 
-		 success: true,
-		 message:`user account with id ${userId} has been deleted together with all related document successfully` });
+		await deleteUserProfileByUserIdService(userId);
+		res.status(200).json({
+			success: true,
+			message: `user account with id ${userId} has been deleted together with all related document successfully`,
+		});
 	} catch (error) {
 		next(error);
 	}
@@ -107,7 +121,7 @@ export const deleteUserAccountById = async (req, res, next) => {
 // changing user password
 export const changeUserPassword = async (req, res, next) => {
 	try {
-		const userId=req.params.userId
+		const userId = req.params.userId;
 		const { password, newPassword } = req.body;
 		if ((!userId, !password, !newPassword)) {
 			return next(APIErrors.invalidRequest("All fields are required"));
@@ -130,215 +144,233 @@ export const changeUserPassword = async (req, res, next) => {
 		if (!result) {
 			throw error;
 		}
-		res
-			.status(200)
-			.json({ 
-				success: true,
-				 message: "user password has been changed successful." });
+		res.status(200).json({
+			success: true,
+			message: "user password has been changed successful.",
+		});
 	} catch (error) {
 		next(error);
 	}
 };
 
 // creating user profile.
-export const createUserProfile=async(req,res,next)=>{
+export const createUserProfile = async (req, res, next) => {
 	try {
-		const body=req.body
-		const userId=body.userId
-		if (!body.userId){
-			return next(APIErrors.invalidRequest("user id is required"))
+		const body = req.body;
+		const userId = body.userId;
+		if (!body.userId) {
+			return next(APIErrors.invalidRequest("user id is required"));
 		}
-		const result=await getUserProfileByUserId(userId)
-		if(result){
-			return next(APIErrors.invalidRequest("User profile already exist"))
+		const result = await getUserProfileByUserId(userId);
+		if (result) {
+			return next(APIErrors.invalidRequest("User profile already exist"));
 		}
-		const useProfile= await createUserProfileService(body)
+		const useProfile = await createUserProfileService(body);
 		res.status(200).json({
-			success:true,
-			useProfile})
+			success: true,
+			useProfile,
+		});
 	} catch (error) {
-		next(error)
+		next(error);
 	}
-}
+};
 
 // Fetch user profile together with their user account using user account id
 
-export const getUserProfileExtendedByUserId=async(req,res,next)=>{
+export const getUserProfileExtendedByUserId = async (req, res, next) => {
 	try {
-		const userId=req.params.userId
-		if(! userId){
-			return next(APIErrors.invalidRequest("User id is required."))
+		const userId = req.params.userId;
+		if (!userId) {
+			return next(APIErrors.invalidRequest("User id is required."));
 		}
-		const pipeline=[
+		const pipeline = [
 			{
-				$lookup:{
-					from:"users",
-					localField:"userId",
-					foreignField:"_id",
-					as:"userAccount"
-			}
-		},
-		{
-			$project:{
-				__v:0,
-				userAccount:{
-					__v:0,
-					password:0,
-					_id:0
-				}
-
-			}
+				$lookup: {
+					from: "users",
+					localField: "userId",
+					foreignField: "_id",
+					as: "userAccount",
+				},
+			},
+			{
+				$project: {
+					__v: 0,
+					userAccount: {
+						__v: 0,
+						password: 0,
+						_id: 0,
+					},
+				},
+			},
+		];
+		const result = await getUserProfileExtendedByUserIdService(pipeline);
+		if (!result) {
+			return next(APIErrors.notFound());
 		}
-		]
-		const result= await getUserProfileExtendedByUserIdService(pipeline)
-		if (! result){
-			return next(APIErrors.notFound())
+		const userProfile = result.find((profile) => profile.userId == userId);
+		if (!userProfile) {
+			return next(APIErrors.notFound());
 		}
-		
-		const userProfile= result.find(profile=>profile.userId==userId)
-		if (! userProfile){
-			return next(APIErrors.notFound())
-		}
-
 		res.status(200).json({
-			success:true,
-			userProfile})
-
+			success: true,
+			userProfile,
+		});
 	} catch (error) {
-		next(error)
-		
+		next(error);
 	}
-}
+};
 // fetch all user profile together with their user account
-export const getAllUserProfileExtended=async(req,res,next)=>{
+export const getAllUserProfileExtended = async (req, res, next) => {
 	try {
-		const pipeline=[
+		const pipeline = [
 			{
-				$lookup:{
-					from:"users",
-					localField:"userId",
-					foreignField:"_id",
-					as:"userAccount"
-			}
-		},
-		{
-			$project:{
-				__v:0,
-				userAccount:{
-					__v:0,
-					password:0,
-					_id:0
-				}
-
-			}
+				$lookup: {
+					from: "users",
+					localField: "userId",
+					foreignField: "_id",
+					as: "userAccount",
+				},
+			},
+			{
+				$project: {
+					__v: 0,
+					userAccount: {
+						__v: 0,
+						password: 0,
+						_id: 0,
+					},
+				},
+			},
+		];
+		const userProfile = await getUserProfileExtendedByUserIdService(pipeline);
+		if (!userProfile) {
+			return next(APIErrors.notFound());
 		}
-		]
-		const userProfile= await getUserProfileExtendedByUserIdService(pipeline)
-		if (! userProfile){
-			return next(APIErrors.notFound())
-		}	
 		res.status(200).json({
-			success:true,
-			userProfile})
-
+			success: true,
+			userProfile,
+		});
 	} catch (error) {
-		next(error)
-		
+		next(error);
 	}
-}
+};
 // updating user profile using the user id
-export const updateUserProfileByUserId=async(req,res,next)=>{
-try {
-	const userId=req.params.userId
-	const {firstName,lastName,profession,imageURL}=req.body
-	if(!userId){
-		return next(APIErrors.invalidRequest("User Id is required"))
+export const updateUserProfileByUserId = async (req, res, next) => {
+	try {
+		const userId = req.params.userId;
+		const { firstName, lastName, profession, imageURL } = req.body;
+		if (!userId) {
+			return next(APIErrors.invalidRequest("User Id is required"));
+		}
+		const userProfile = await getUserProfileByUserIdService(userId);
+		if (!userProfile) {
+			return next(
+				APIErrors.notFound(
+					`there is no user profile associated with the account id ${userId}`
+				)
+			);
+		}
+
+		firstName !== undefined ? (userProfile.firstName = firstName) : userProfile;
+		lastName !== undefined ? (userProfile.lastName = lastName) : userProfile;
+		profession !== undefined
+			? (userProfile.profession = profession)
+			: userProfile;
+		imageURL !== undefined ? (userProfile.imageURL = imageURL) : userProfile;
+
+		const updatedUserProfile = await updateUserProfileService(
+			userId,
+			userProfile
+		);
+		res.status(200).json({
+			success: true,
+			message: "user profile updated successfully",
+			updatedUserProfile,
+		});
+	} catch (error) {
+		next(error);
 	}
-const userProfile=await getUserProfileByUserIdService(userId)
-if(!userProfile){
-	return next(APIErrors.notFound(`there is no user profile associated with the account id ${userId}`))
-}
-
-firstName!==undefined? userProfile.firstName=firstName:userProfile
-lastName!==undefined? userProfile.lastName=lastName:userProfile
-profession!==undefined? userProfile.profession=profession:userProfile
-imageURL!==undefined?userProfile.imageURL=imageURL:userProfile
-
-
-const updatedUserProfile=await updateUserProfileService(userId,userProfile)
-res.status(200).json({
-	success:true,
-	message:"user profile updated successfully",
-	updatedUserProfile
-})
-} catch (error) {
-	next(error)
-}
-}
+};
 
 // deleting user profile using user account id
-export const deleteUserProfileByUserId=async(req,res,next)=>{
+export const deleteUserProfileByUserId = async (req, res, next) => {
 	try {
-		const userId=req.params.userId
-		await deleteUserProfileByUserIdService(userId)
+		const userId = req.params.userId;
+		await deleteUserProfileByUserIdService(userId);
 		res.status(200).json({
-			success:true,
-			message:"account deleted successfully"
-		})
+			success: true,
+			message: "account deleted successfully",
+		});
 	} catch (error) {
-		next(error)
+		next(error);
 	}
-}
+};
 
-// uploading user profile image
-export const uploadUserProfileImage=async(req,res,next)=>{
+// uploading user profile image controller
+export const uploadUserProfileImage = async (req, res, next) => {
+	// setting storage for firebase
+	const storage = getStorage();
 	try {
-		const imageURL=req.file.filename
-		const {userId}=req.params
-		if (!userId){
-			return next(APIErrors.invalidRequest("user id is required"))
+		const imageURL = req.file.originalname;
+		const storageRef = ref(storage, `files/images/${req.file.originalname}`);
+		const metadata = {
+			contentType: req.file.mimetype,
+		};
+		const { userId } = req.params;
+		if (!userId) {
+			return next(APIErrors.invalidRequest("user id is required"));
 		}
-		if (!imageURL){
-			return next(APIErrors.invalidRequest("no image has been selected"))
+		if (!imageURL) {
+			return next(APIErrors.invalidRequest("no image has been selected"));
 		}
 
-		const userProfile=await getUserProfileByUserId(userId)
-		if(!userProfile){
-			return next(APIErrors.notFound(`no record found with the user id ${userId}.`))
+		const userProfile = await getUserProfileByUserId(userId);
+		if (!userProfile) {
+			return next(
+				APIErrors.notFound(`no record found with the user id ${userId}.`)
+			);
 		}
-		
-			const userProfileImageUrl= await uploadUserProfileImageService(userId,imageURL)
-			res.status(200).json({
-				success:true,
-				message:"image uploaded successfully",
-				imageURL:`http://${req.hostname}:${process.env.PORT}/images/${userProfileImageUrl.imageURL}`
-			
-			})
-		
+		// saving profile image to firebase store
+		const snapshot = await uploadBytesResumable(
+			storageRef,
+			req.file.buffer,
+			metadata
+		);
+		// downloading profile image url from firebase store
+		const downloadURL = await getDownloadURL(snapshot.ref);
+		// saving profile image url to database
+		await uploadUserProfileImageService(
+			userId,
+			downloadURL
+		);
+		res.status(200).json({
+			success: true,
+			message: "image uploaded successfully",
+			imageURL: downloadURL,
+		});
 	} catch (error) {
-		next(error)
+		next(error);
 	}
-}
+};
 
 // fetching user profile image using user id
 
-export const getUserProfileImage=async(req,res,next)=>{
+export const getUserProfileImage = async (req, res, next) => {
 	try {
-		const {userId}=req.params
-		const userProfile=await getUserProfileByUserId(userId)
-		if(!userProfile){
-			return next(APIErrors.notFound(`there is no user with the id ${userId}`))
+		const { userId } = req.params;
+		const userProfile = await getUserProfileByUserId(userId);
+		if (!userProfile) {
+			return next(APIErrors.notFound(`there is no user with the id ${userId}`));
 		}
-		const imageURL=userProfile.imageURL
-		if(!imageURL){
-			return next(APIErrors.notFound("no profile image found"))
+		const imageURL = userProfile.imageURL;
+		if (!imageURL) {
+			return next(APIErrors.notFound("no profile image found"));
 		}
 		res.status(200).json({
-			success:true,
-			imageURL:`http://${req.hostname}:${process.env.PORT}/images/${imageURL}`
-		})
+			success: true,
+			imageURL: `http://${req.hostname}:${process.env.PORT}/images/${imageURL}`,
+		});
 	} catch (error) {
-		next(error)
+		next(error);
 	}
-}
-
+};
