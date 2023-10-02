@@ -9,7 +9,7 @@ import { CiSearch } from "react-icons/ci";
 import { AiOutlinePlus } from "react-icons/ai";
 // import { FoldersComponent } from "../components/folder_category";
 import MoreSectionComponent from "../components/more_section/MoreSectionComponent";
-import authService from "../features/auth/authService"
+import authService from "../features/auth/authService";
 import {
   RecentNotes,
   NewNoteDialog,
@@ -20,9 +20,7 @@ import {
 // import { useFolderCategoryContext } from "../context/folderCategoryContex";
 // import NoteCategoryComponent from "../components/folder_category/NoteCategoryComponent";
 import { TextContext } from "../util/TextContext.jsx";
-import {
-  DashboardContextProvider,
-} from "../context/DashboardContextProvider";
+import { DashboardContextProvider } from "../context/DashboardContextProvider";
 
 function Dashboard() {
   const { text, setText } = useContext(TextContext);
@@ -30,17 +28,16 @@ function Dashboard() {
   const dispatch = useDispatch();
   let [isOpen, setIsOpen] = useState(false);
 
-  const { user,newRefreshToken } = useSelector((state) => state.auth);
-  const email=user?.userAccount?.email
-  const accessToken=JSON.parse(localStorage.getItem("access-token"))
-  const {refreshToken}=authService
+  const { user, newRefreshToken } = useSelector((state) => state.auth);
+  const email = user?.userAccount?.email;
+  const accessToken = JSON.parse(localStorage.getItem("access-token"));
+  const { refreshToken } = authService;
   useEffect(() => {
     if (!user) {
       navigate("/login");
     }
 
-    dispatch(setRefreshToken(accessToken))
-
+    dispatch(setRefreshToken(accessToken));
   }, [user, navigate]);
 
   const textHandler = () => {
@@ -51,11 +48,11 @@ function Dashboard() {
     dispatch(reset());
     navigate("/login");
   };
-  const refreshTokenHandler= async()=>{
-    const result=await refreshToken(email)
-    localStorage.setItem("access-token",JSON.stringify(result?.accessToken))
-    dispatch(setRefreshToken(result?.accessToken))
-  }
+  // const refreshTokenHandler= async()=>{
+  //   const result=await refreshToken(email)
+  //   localStorage.setItem("access-token",JSON.stringify(result?.accessToken))
+  //   dispatch(setRefreshToken(result?.accessToken))
+  // }
   // console.log(newRefreshToken);
   return (
     <DashboardContextProvider>
@@ -92,12 +89,6 @@ function Dashboard() {
                 className="py-2 px-8 bg-red-700 hover:bg-red-500 text-white rounded-lg"
               >
                 Logout
-              </button>
-              <button
-                onClick={() => refreshTokenHandler()}
-                className="py-[15px] bg-red-700 hover:bg-red-500 text-white w-[80%] rounded-lg"
-              >
-                Refresh Token
               </button>
             </div>
           </div>
