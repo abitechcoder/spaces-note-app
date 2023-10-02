@@ -61,8 +61,10 @@ export const signIn = async (req, res, next) => {
 
 export const googleAuthController = async (req, res, next) => {
 	const sectionData=req.sessionStore.sessions;
+	// console.log(sectionData.email[0]);
 	const sessionDateJson=JSON.stringify(sectionData);
 	const sessionObject=JSON.parse(sessionDateJson);
+	// console.log(sessionObject.kzD9EB1wJgskVWAnkig944p6CeGIAE6w);
 	try {
 		const { user } = req;
 		if (!user) {

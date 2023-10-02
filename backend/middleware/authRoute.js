@@ -35,8 +35,9 @@ authRoute.route("/google/callback").get(
     failureRedirect: "/failed",
   }),
   async (req, res) => {
+	console.log(req.user);
 	req.session.user=req.user
-    res.redirect("http://localhost:5173/login");
+  res.redirect("http://localhost:5173/login");
   }
 );
 // signing out from google authentication end point
