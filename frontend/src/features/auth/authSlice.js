@@ -1,16 +1,13 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import authService from "./authService";
 
-// Get User from localstorage
-const user = JSON.parse(localStorage.getItem("user"));
-
 const initialState = {
-  user: user ? user : null,
+  user: null,
   isError: false,
   isSuccess: false,
   isLoading: false,
   message: "",
-  newRefreshToken:""
+  // newRefreshToken:""
 };
 // Register User
 export const register = createAsyncThunk(
@@ -62,9 +59,9 @@ export const authSlice = createSlice({
       state.isSuccess = false;
       state.message = "";
     },
-    setRefreshToken:(state,action)=>{
-      state.newRefreshToken=action.payload
-    }
+    // setRefreshToken:(state,action)=>{
+    //   state.newRefreshToken=action.payload
+    // }
   },
   extraReducers: (builder) => {
     builder.addCase(register.pending, (state) => {
@@ -95,5 +92,5 @@ export const authSlice = createSlice({
   },
 });
 
-export const { reset,setRefreshToken } = authSlice.actions;
+export const { reset} = authSlice.actions;
 export default authSlice.reducer;

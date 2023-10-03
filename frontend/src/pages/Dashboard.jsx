@@ -23,37 +23,24 @@ import { TextContext } from "../util/TextContext.jsx";
 import { DashboardContextProvider } from "../context/DashboardContextProvider";
 
 function Dashboard() {
-  const { text, setText } = useContext(TextContext);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   let [isOpen, setIsOpen] = useState(false);
 
-  const { user, newRefreshToken } = useSelector((state) => state.auth);
+  const { user} = useSelector((state) => state.auth);
   const email = user?.userAccount?.email;
-  const accessToken = JSON.parse(localStorage.getItem("access-token"));
-  const { refreshToken } = authService;
   useEffect(() => {
     if (!user) {
       navigate("/login");
     }
-
-    dispatch(setRefreshToken(accessToken));
   }, [user, navigate]);
 
-  const textHandler = () => {
-    setText(!text);
-  };
   const onLogout = () => {
     dispatch(logout());
     dispatch(reset());
     navigate("/login");
   };
-  // const refreshTokenHandler= async()=>{
-  //   const result=await refreshToken(email)
-  //   localStorage.setItem("access-token",JSON.stringify(result?.accessToken))
-  //   dispatch(setRefreshToken(result?.accessToken))
-  // }
-  // console.log(newRefreshToken);
+  
   return (
     <DashboardContextProvider>
       <>
