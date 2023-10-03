@@ -1,0 +1,11 @@
+.Personal{
+    position: absolute;
+    /* background: rgb(39, 37, 37); */
+    background: red;
+    left: 300px;
+    width: 350px;
+    height: 724px;
+    padding: 30px, 0px, 30px, 0px;
+    top: 40px;
+    /* z-index: 99; */
+}
