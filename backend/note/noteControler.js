@@ -4,11 +4,8 @@ import {
     getAllNoteService,
     getNotesByIdService,
     updateNoteService,
-<<<<<<< HEAD
-    favouriteNoteService
-=======
+    favouriteNoteService,
     getNotesByUserIdService
->>>>>>> 1a62ccf9566d93fddc4574e90ae02c8781d8c378
   } from "./noteService.js";
 
 
