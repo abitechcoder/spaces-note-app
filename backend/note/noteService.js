@@ -4,7 +4,7 @@ export const createNoteService = async (data) => {
   const newNote = new NoteModel({
     title: data.title,
     description: data.description,
-    categoryId: data.category,
+    categoryId: data.categoryId,
     userId: data.userId,
     favourite: data.favourite,
   });
