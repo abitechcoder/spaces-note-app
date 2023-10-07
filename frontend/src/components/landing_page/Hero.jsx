@@ -1,5 +1,6 @@
 import React from "react";
 import { HeroImage, GooglePlayDark, AppleStoreDark } from "../../assets";
+import { GoogleLogin } from "@react-oauth/google";
 
 function Hero() {
   // using google authentication
@@ -24,12 +25,24 @@ function Hero() {
               and loved ones.
             </p>
             <div className="flex justify-between md:justify-start gap-0 md:gap-8">
-             <img
+              <GoogleLogin
+               render={renderProps => (
+                <button onClick={renderProps.onClick} style={{}}>This is my custom Google button</button>
+              )}
+              buttonText="Login"
+              onSuccess={credentialResponse=>{
+                console.log(credentialResponse);
+                
+              }}
+              onError={()=>console.log("error occured")
+              }
+              />
+             {/* <img
                 className="cursor-pointer"
                 src={GooglePlayDark}
                 alt="Download app from Google Play Store"
                 onClick={onclickHandler}
-              />
+              /> */}
               <img
                 className="cursor-pointer"
                 src={AppleStoreDark}
