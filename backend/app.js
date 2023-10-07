@@ -11,6 +11,7 @@ import session from "express-session";
 import "./passport.js";
 import cors from "cors"
 import { categoryRoute } from "./category/categoryRoute.js";
+import { archiveRoute } from "./archive/archiveRoute.js";
 
 dotenv.config();
 
@@ -23,7 +24,7 @@ app.use(express.json());
 app.use(cookieParser());
 // using cors 
 app.use(cors({
-  origin:"http://127.0.0.1:5173",
+  origin:"http://localhost:5173",
   methods:"GET, POST, PUT, DELETE",
   credentials:true
 }))
@@ -56,6 +57,7 @@ app.use("/note", noteRoute);
 app.use("/user", userRouter);
 app.use("/auth", authRoute);
 app.use("/category", categoryRoute);
+app.use("/archive", archiveRoute);
 
 
 // failed route if the authentication fails
