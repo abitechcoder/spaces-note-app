@@ -13,7 +13,8 @@ export const createUserAccountService = async (email, password) => {
 };
 // checking if a user account exit using uer email
 export const isAccountExist = async (email) => {
-  if (await userModel.findOne({ email })) {
+  const existingAccount = await userModel.findOne({ email })
+  if (existingAccount) {
     return true;
   } else return false;
 };

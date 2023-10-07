@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useContext } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { FiStar, FiArchive } from "react-icons/fi";
 import { RiDeleteBin7Line } from "react-icons/ri";
@@ -7,9 +7,11 @@ import { deleter } from "../../util/fetcher";
 import { toast } from "react-toastify";
 import { mutate } from "swr";
 import { useSelector } from "react-redux";
+import { DashboardContext } from "../../context/DashboardContextProvider";
 
 function DropdownMenu({ noteId }) {
   const { user } = useSelector((state) => state.auth);
+  const {setActiveNote} = useContext(DashboardContext);
   const icons = [
     { icon: <FiStar className="mr-4 h-5 w-5" />, label: "Add to favorites" },
     { icon: <FiArchive className="mr-4 h-5 w-5" />, label: "Archive" },
@@ -29,6 +31,7 @@ function DropdownMenu({ noteId }) {
       const response = await deleter(`/note/${noteId}`);
       toast.success(response?.message);
       mutate(`/note/user/${user?.userAccount._id}`);
+      setActiveNote(null);
     } catch (error) {
       toast.error("Error occured while deleting note");
     }

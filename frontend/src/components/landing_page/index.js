@@ -6,5 +6,6 @@ import Testimonials from "./Testimonials";
 import ContactUs from "./ContactUs";
 import Downloads from "./Downloads";
 import Hero from "./Hero";
+import ScrollToTop from "./ScrollToTop";
 
-export { Navbar, Footer, FooterComponent, Features, Testimonials, ContactUs, Downloads, Hero };
+export { Navbar, Footer, FooterComponent, Features, Testimonials, ContactUs, Downloads, Hero, ScrollToTop };

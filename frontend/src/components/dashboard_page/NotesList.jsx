@@ -11,7 +11,6 @@ function NotesList() {
       (note) => note.categoryId === activeFolder?._id
     );
     setFilteredNotes(notes);
-    console.log("Notes:", notes);
   }, [activeNote, activeFolder, myNotes]);
 
   const handleClick = (data) => {

@@ -6,13 +6,15 @@ import { useUserNotes } from "../../hooks/dataFetcher";
 
 function Main() {
   const { user } = useSelector((state) => state.auth);
-  const { data } = useUserNotes(user?.userAccount?._id);
+  const { notes } = useUserNotes(user?.userAccount._id);
   const { activeFolder, activeNote } = useContext(DashboardContext);
   const { setMyNotes } = useContext(DashboardContext);
 
   useEffect(() => {
-    setMyNotes(data?.notes);
-  }, [user?.userAccount?._id, activeFolder?._id, activeNote?._id]);
+    setMyNotes(notes);
+  }, [notes]);
+
+  // , user?.userAccount._id, activeFolder?._id, activeNote?._id
   return (
     <main
       className={`h-screen grid ${

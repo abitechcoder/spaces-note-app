@@ -12,15 +12,16 @@ function useCategories() {
 }
 
 function useUserCategories(userId) {
-  const { data, error, isLoading } = useSWR(
+  const { data, error, isLoading, mutate } = useSWR(
     `/category/user/${userId}`,
     fetcher
   );
 
   return {
-    data,
+    categories: data?.categories,
     isLoading,
     isError: error,
+    mutate
   };
 }
 
@@ -35,15 +36,16 @@ function useNotes() {
 }
 
 function useUserNotes(userId) {
-  const { data, error, isLoading } = useSWR(
+  const { data, error, isLoading, mutate } = useSWR(
     `/note/user/${userId}`,
     fetcher
   );
 
   return {
-    data,
+    notes: data?.notes,
     isLoading,
     isError: error,
+    mutate
   };
 }
 

@@ -23,7 +23,7 @@ app.use(express.json());
 app.use(cookieParser());
 // using cors 
 app.use(cors({
-  origin:"http://localhost:5173",
+  origin:"http://127.0.0.1:5173",
   methods:"GET, POST, PUT, DELETE",
   credentials:true
 }))
@@ -55,6 +55,8 @@ app.use(
 app.use("/note", noteRoute);
 app.use("/user", userRouter);
 app.use("/auth", authRoute);
+app.use("/category", categoryRoute);
+
 
 // failed route if the authentication fails
 app.get("/failed", (req, res) => {
@@ -62,10 +64,9 @@ app.get("/failed", (req, res) => {
   res.send("Failed");
 });
 
-app.use("/category", categoryRoute);
-
 // the home route
 app.get("/", (req, res) => {
+  // const email=req.email
   res.status(200).json({
     success: true,
     message: "Welcome to Space Note App API",
@@ -79,4 +80,4 @@ app.use(errorMiddleware);
 app.listen(PORT, async () => {
   await connection(MONGODB_URL);
   console.log(`Server started and listening on http://127.0.0.1:${PORT}...`);
-}); 
+});

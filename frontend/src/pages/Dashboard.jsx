@@ -2,61 +2,39 @@ import React, { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
 
-import { logout, reset, setRefreshToken } from "../features/auth/authSlice";
+import { logout, reset } from "../features/auth/authSlice";
 
 import { LogoWhite } from "../assets";
 import { CiSearch } from "react-icons/ci";
 import { AiOutlinePlus } from "react-icons/ai";
-// import { FoldersComponent } from "../components/folder_category";
 import MoreSectionComponent from "../components/more_section/MoreSectionComponent";
-import authService from "../features/auth/authService"
+
 import {
   RecentNotes,
   NewNoteDialog,
   NotesFolders,
-  // NotesList,
   Main,
 } from "../components/dashboard_page";
-// import { useFolderCategoryContext } from "../context/folderCategoryContex";
-// import NoteCategoryComponent from "../components/folder_category/NoteCategoryComponent";
-import { TextContext } from "../util/TextContext.jsx";
-import {
-  DashboardContextProvider,
-} from "../context/DashboardContextProvider";
+import { DashboardContextProvider } from "../context/DashboardContextProvider";
 
 function Dashboard() {
-  const { text, setText } = useContext(TextContext);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   let [isOpen, setIsOpen] = useState(false);
 
-  const { user,newRefreshToken } = useSelector((state) => state.auth);
-  const email=user?.userAccount?.email
-  const accessToken=JSON.parse(localStorage.getItem("access-token"))
-  const {refreshToken}=authService
+  const { user} = useSelector((state) => state.auth);
   useEffect(() => {
     if (!user) {
       navigate("/login");
     }
-
-    dispatch(setRefreshToken(accessToken))
-
   }, [user, navigate]);
 
-  const textHandler = () => {
-    setText(!text);
-  };
   const onLogout = () => {
     dispatch(logout());
     dispatch(reset());
     navigate("/login");
   };
-  const refreshTokenHandler= async()=>{
-    const result=await refreshToken(email)
-    localStorage.setItem("access-token",JSON.stringify(result?.accessToken))
-    dispatch(setRefreshToken(result?.accessToken))
-  }
-  // console.log(newRefreshToken);
+  
   return (
     <DashboardContextProvider>
       <>
@@ -86,18 +64,12 @@ function Dashboard() {
             </div>
             {/* Folder category section ends here*/}
 
-            <div className="flex justify-center mt-8">
+            <div className="flex mt-8 justify-start">
               <button
                 onClick={() => onLogout()}
-                className="py-[15px] bg-red-700 hover:bg-red-500 text-white w-[80%] rounded-lg"
+                className="py-2 px-8 bg-red-700 hover:bg-red-500 text-white rounded-lg"
               >
                 Logout
-              </button>
-              <button
-                onClick={() => refreshTokenHandler()}
-                className="py-[15px] bg-red-700 hover:bg-red-500 text-white w-[80%] rounded-lg"
-              >
-                Refresh Token
               </button>
             </div>
           </div>
