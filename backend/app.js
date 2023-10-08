@@ -24,7 +24,7 @@ app.use(express.json());
 app.use(cookieParser());
 // using cors 
 app.use(cors({
-  origin:"http://localhost:5173",//http://127.0.0.1:5173 http://localhost:5173 https://space-note-app.onrender.com
+  origin:"https://space-note-app.onrender.com",//http://127.0.0.1:5173 http://localhost:5173 https://space-note-app.onrender.com
   methods:"GET, POST, PUT, DELETE",
   credentials:true
 }))
