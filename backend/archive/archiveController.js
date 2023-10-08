@@ -1,15 +1,16 @@
 import { APIErrors } from "../middleware/errorHandlers.js";
 import { createNoteService, deleteNoteService } from "../note/noteService.js";
+import { getUserAccountByEmailService } from "../user/userService.js";
 import {
 	addToArchiveService,
 	deleteArchiveNoteByIdService,
 	getAllArchiveNotesService,
-    getArchiveNoteByIdService,
+	getArchiveNoteByIdService,
 } from "./archiveService.js";
 
 export const addToArchive = async (req, res, next) => {
 	try {
-		const { noteId} = req.params;
+		const { noteId } = req.params;
 		if (!noteId) {
 			return next(APIErrors.notFound("No note selected!"));
 		}
@@ -27,7 +28,7 @@ export const addToArchive = async (req, res, next) => {
 
 export const deleteArchiveNote = async (req, res, next) => {
 	try {
-    const {noteId} = req.params;
+		const { noteId } = req.params;
 		if (!noteId) {
 			return next(APIErrors.notFound("no note is selected!"));
 		}
@@ -46,30 +47,45 @@ export const deleteArchiveNote = async (req, res, next) => {
 	}
 };
 
-export const getAllArchivedNote = async (req, res, next) => {
+export const getAllArchivedNoteByUser = async (req, res, next) => {
 	try {
-		const archivedNotes = await getAllArchiveNotesService();
+		const email = req.email;
+		// getting user by email
+		const user = await getUserAccountByEmailService(email);
+		if (!user) {
+			return next(APIErrors.notFound("no user found!"));
+		}
+		// getting user id from user
+		const userId = user._id;
+		const result = await getAllArchiveNotesService();
+		// getting archived note by user id
+		const archivedNotes = result.filter((note) => note.userId == userId);
+		if (archivedNotes.length < 1) {
+			return res
+				.status(200)
+				.json({ success: true, message: "archive is empty" });
+		}
 		res.status(200).json({ success: true, archivedNotes });
 	} catch (error) {
 		next(error);
 	}
 };
 
-export const restoreNote=async(req,res,next)=>{
-    try {
-        const {noteId}=req.params
-        const data= await getArchiveNoteByIdService(noteId)
-        if(!data){
-            return next(APIErrors.notFound("no note found!"))
-        }
-        const restoredNote = await createNoteService(data)
-        await deleteArchiveNoteByIdService(noteId)
-        res.status(200).json({
-            success:true,
-            message:"note restored successfully",
-            restoredNote
-        })
-    } catch (error) {
-       next(error) 
-    }
-}
+export const restoreNote = async (req, res, next) => {
+	try {
+		const { noteId } = req.params;
+		const data = await getArchiveNoteByIdService(noteId);
+		if (!data) {
+			return next(APIErrors.notFound("no note found!"));
+		}
+		const restoredNote = await createNoteService(data);
+		await deleteArchiveNoteByIdService(noteId);
+		res.status(200).json({
+			success: true,
+			message: "note restored successfully",
+			restoredNote,
+		});
+	} catch (error) {
+		next(error);
+	}
+};
