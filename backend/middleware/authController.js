@@ -49,7 +49,10 @@ export const signIn = async (req, res, next) => {
       .json({
         success: "true",
         message: "Sign In Successful",
-        userAccount,
+        userAccount: {
+          _id: userAccount._id,
+          email: userAccount.email
+        },
         accessToken,
       });
     req.email = email;
@@ -203,6 +206,7 @@ export const refreshUserAccessToken = async (req, res, next) => {
       return next(APIErrors.notFound("Refresh token does not exit"));
     }
     const payload = await verifyRefreshUserAccessTokenService(refreshToken);
+    
     if (!payload) {
       return next(APIErrors.unAuthenticated("you are not signed in"));
     }

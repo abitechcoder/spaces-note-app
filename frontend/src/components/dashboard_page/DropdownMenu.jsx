@@ -3,7 +3,7 @@ import { Menu, Transition } from "@headlessui/react";
 import { FiStar, FiArchive } from "react-icons/fi";
 import { RiDeleteBin7Line } from "react-icons/ri";
 import { PiDotsThreeCircleLight } from "react-icons/pi";
-import { deleter } from "../../util/fetcher";
+import { deleter, patcher } from "../../util/fetcher";
 import { toast } from "react-toastify";
 import { mutate } from "swr";
 import { useSelector } from "react-redux";
@@ -11,15 +11,23 @@ import { DashboardContext } from "../../context/DashboardContextProvider";
 
 function DropdownMenu({ noteId }) {
   const { user } = useSelector((state) => state.auth);
-  const {setActiveNote} = useContext(DashboardContext);
+  const { setActiveNote } = useContext(DashboardContext);
   const icons = [
     { icon: <FiStar className="mr-4 h-5 w-5" />, label: "Add to favorites" },
     { icon: <FiArchive className="mr-4 h-5 w-5" />, label: "Archive" },
     { icon: <RiDeleteBin7Line className="mr-4 h-5 w-5" />, label: "Delete" },
   ];
 
-  const addToFavorite = (noteId) => {
-    alert(`Note ${noteId} will be added to favorite`);
+  const addToFavorite = async (noteId) => {
+    try {
+      await patcher(`/note/favourite/${noteId}`, {
+        favourite: true,
+      });
+      toast.success("Note added to favourite");
+      mutate(`/note/user/${user?.userAccount._id}`);
+    } catch (error) {
+      toast.error("Error occured while adding note to favourite");
+    }
   };
 
   const archiveNote = (noteId) => {

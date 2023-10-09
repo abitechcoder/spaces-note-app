@@ -10,13 +10,16 @@ import { patcher } from "../../util/fetcher";
 import { mutate } from "swr";
 import { useSelector } from "react-redux";
 
-function EditNote() {
+function EditNote({categories}) {
   const { user } = useSelector((state) => state.auth);
   const { activeNote, activeFolder } = useContext(DashboardContext);
   const [note, setNote] = useState(activeNote?.description);
+  const [noteFolder, setNoteFolder] = useState(null);
 
   useEffect(() => {
     setNote(activeNote?.description);
+    const filteredFolder = categories?.filter((category) => category?._id === activeNote?.categoryId)[0];
+    setNoteFolder(filteredFolder);
   }, [activeNote]);
 
   const updateNote = async () => {
@@ -63,7 +66,7 @@ function EditNote() {
                 <BsFolder className="w-6 h-6 text-white/60" />
                 <p className="text-white/60">Folder</p>
               </div>
-              <p className="text-white">{activeFolder.title}</p>
+              <p className="text-white">{noteFolder?.title}</p>
             </div>
           </div>
         </div>

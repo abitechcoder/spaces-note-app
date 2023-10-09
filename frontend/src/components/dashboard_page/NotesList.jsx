@@ -2,18 +2,30 @@ import React, { useContext, useEffect, useState } from "react";
 import { DashboardContext } from "../../context/DashboardContextProvider";
 
 function NotesList() {
-  const { activeFolder, setActiveNote, activeNote, myNotes } =
+  const { activeFolder, setActiveNote, activeNote, myNotes, myFavourites } =
     useContext(DashboardContext);
   const [filteredNotes, setFilteredNotes] = useState([]);
+  const [title, setTitle] = useState(null);
 
   useEffect(() => {
-    const notes = myNotes?.filter(
-      (note) => note.categoryId === activeFolder?._id
-    );
-    setFilteredNotes(notes);
-  }, [activeNote, activeFolder, myNotes]);
+    if(myFavourites) {
+      const notes = myNotes?.filter(
+        (note) => note.favourite === myFavourites
+      );
+      setFilteredNotes(notes);
+      setTitle("Favourites")
+    } else {
+      const notes = myNotes?.filter(
+        (note) => note.categoryId === activeFolder?._id
+      );
+      setFilteredNotes(notes);
+      setTitle(activeFolder?.title)
+    }
+    
+  }, [activeNote, activeFolder, myNotes, myFavourites]);
 
   const handleClick = (data) => {
+    console.log("Active Note:", data)
     setActiveNote(data);
   };
 
@@ -32,8 +44,8 @@ function NotesList() {
         <p className="text-gray-300/60">
           <span className="mr-2 text-gray-300/30">
             {note?.createdAt.substring(0, 10).split("-").reverse().join("-")}
-          </span>{" "}
-          {note?.description.substring(0, 25) + " . . ."}
+          </span>
+          {/* {note?.description.substring(0, 25) + " . . ."} */}
         </p>
       </div>
     );
@@ -41,9 +53,15 @@ function NotesList() {
   return (
     <div className={`bg-[#1c1c1c]  p-4 overflow-y-auto`}>
       <h2 className="text-white font-bold text-xl font-sans">
-        {activeFolder?.title}
+        {title}
       </h2>
-      <div className="mt-4 grid gap-4">{renderNotes}</div>
+      {filteredNotes?.length === 0 ? (
+        <div className="h-screen grid place-items-center">
+          <p className="text-gray-300/60">No note created yet!</p>
+        </div>
+      ) : (
+        <div className="mt-4 grid gap-4">{renderNotes}</div>
+      )}
     </div>
   );
 }

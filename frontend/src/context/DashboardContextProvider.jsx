@@ -7,6 +7,8 @@ export const DashboardContextProvider = ({children}) => {
     const [activeFolder, setActiveFolder] = useState(null);
     const [activeNote, setActiveNote] = useState(null);
     const [myNotes, setMyNotes] = useState(null);
+    const [myFavourites, setMyFavourites] = useState(null);
+    const [showSearchResults, setShowSearchResults] = useState(false);
 
     const value = {
         activeFolder,
@@ -14,7 +16,11 @@ export const DashboardContextProvider = ({children}) => {
         activeNote,
         setActiveNote,
         myNotes,
-        setMyNotes
+        setMyNotes,
+        myFavourites,
+        setMyFavourites,
+        showSearchResults,
+        setShowSearchResults
     }
   return (
     <DashboardContext.Provider value={value}>{children}</DashboardContext.Provider>

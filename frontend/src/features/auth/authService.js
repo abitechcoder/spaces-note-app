@@ -14,18 +14,32 @@ const login = async ({ email, password }) => {
     email,
     password,
   });
-  return response.data;
-};
-const refreshToken = async (email) => {
-  const response = await Axios.post(`${AUTH_ENDPOINT}/signin/refresh-token`, {
-    email,
-  });
+  const {userAccount, accessToken} = response.data;
+  const data = {
+    userAccount,
+    accessToken
+  }
+  localStorage.setItem("user", JSON.stringify(data))
   return response.data;
 };
 
 const logout = () => {
-  return;
+  localStorage.removeItem("user");
 };
+
+const refreshToken = async (email) => {
+  try {
+    const response = await Axios.post(`${AUTH_ENDPOINT}/signin/refresh-token`, {email});
+    return response.data;
+  } catch (error) {
+    console.log("ERROR:", error);
+  }
+};
+
+// export const getUser = async (userId) => {
+//     const response = await Axios.get(`${USER_ENDPOINT}/${userId}`);
+//     return response.data;
+// }
 
 const authService = { register, login, logout, refreshToken };
 
