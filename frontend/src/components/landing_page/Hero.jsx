@@ -25,8 +25,8 @@ function Hero() {
     onError: (error) => console.log(error),
   });
   return (
-    <section className="text-black relative">
-      <div className="custom-container grid gap-8 lg:gap-12 grid-cols-1 md:grid-cols-2">
+    <section className="relative text-black">
+      <div className="grid grid-cols-1 gap-8 custom-container lg:gap-12 md:grid-cols-2">
         <div className="grid md:place-items-center">
           <div className="grid gap-6 md:gap-8">
             <p className="font-clash font-[500] text-center md:text-left text-3xl md:text-4xl lg:text-5xl leading-normal md:leading-[50px] lg:leading-[70px]">
@@ -36,7 +36,7 @@ function Hero() {
               Put down your thoughts down in one app, share with your friends
               and loved ones.
             </p>
-            <div className="flex justify-between md:justify-start gap-0 md:gap-8">
+            <div className="flex justify-between gap-0 md:justify-start md:gap-8">
               <img
                 className="cursor-pointer"
                 src={GooglePlayDark}

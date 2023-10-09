@@ -8,7 +8,6 @@ import { Provider } from 'react-redux'
 import { store } from './app/store.js'
 import { FolderCategoryProvider } from "./context/folderCategoryContex.jsx";
 import {GoogleOAuthProvider} from "@react-oauth/google"
-
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <GoogleOAuthProvider clientId="942858751744-sup7tlece0d2i81mvkmn9k05qvv6ct06.apps.googleusercontent.com">

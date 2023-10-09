@@ -10,6 +10,7 @@ import {
 
 
 export const createNote = async(req, res) => {
+    // console.log(req.body);
     try{
         const { title, description} = req.body
         if(!title || !description){

@@ -165,8 +165,7 @@ export const googleAuthController = async (req, res, next) => {
 export const verifyUserAccessToken = async (req, res, next) => {
   try {
     // getting access token from client side
-    const accessToken =
-      req.cookies.access_token || req.headers["authorization"]?.split(" ")[1];
+    const accessToken =req.cookies.access_token || req.headers["authorization"]?.split(" ")[1];
     if (!accessToken) {
       return next(APIErrors.unAuthenticated("you are not signed in"));
     }
