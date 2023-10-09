@@ -21,9 +21,9 @@ function Main() {
         (activeFolder || myFavourites || showSearchResults) && "grid-cols-[350px_1fr]"
       } bg-[#181818]`}
     >
-      {(activeFolder || myFavourites) && <NotesList />}
+      {(activeFolder || myFavourites || showSearchResults) && <NotesList />}
       <div className="w-full">
-        {(activeFolder || myFavourites) ? (
+        {(activeFolder || myFavourites || showSearchResults) ? (
           activeNote ? (
             <EditNote categories={categories} />
           ) : (

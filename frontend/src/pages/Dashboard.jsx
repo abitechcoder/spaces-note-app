@@ -11,13 +11,11 @@ import {
   NewNoteDialog,
   NotesFolders,
   Main,
+  SearchIcon
 } from "../components/dashboard_page";
 import {
   DashboardContextProvider
 } from "../context/DashboardContextProvider";
-import { Axios } from "../Axios";
-import jwt_decode from "jwt-decode";
-import authService from "../features/auth/authService";
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -25,18 +23,6 @@ function Dashboard() {
   let [isOpen, setIsOpen] = useState(false);
   const [showSearchInput, setShowSearchInput] = useState(false);
   const { user } = useSelector((state) => state.auth);
-
-  // useEffect(() => {
-  //   const refreshInterval = setInterval(async () => {
-  //     const response = await authService.refreshToken(
-  //       user?.email
-  //     );
-  //     console.log("New Access Token:", response);
-  //   }, 2000);
-  //   return () => {
-  //     clearInterval(refreshInterval);
-  //   };
-  // }, []);
 
   useEffect(() => {
     if (!user) {
@@ -50,35 +36,6 @@ function Dashboard() {
     navigate("/login");
   };
 
-  const handleShowSearch = () => {
-    setShowSearchInput(!showSearchInput);
-  };
-
-  // let timeoutID;
-  // const refreshAccessToken = async () => {
-  //   const newAccessToken = await authService.refreshToken(decodedToken?.email);
-  //   console.log("New Access Token:", newAccessToken);
-  //   timeoutID = setTimeout(() => {
-  //     refreshAccessToken();
-  //   }, 1 * 1000);
-  // };
-
-  // Axios.interceptors.request.use(
-  //   async (config) => {
-  //     let currentDate = new Date();
-  //     const decodedToken = jwt_decode(user?.accessToken);
-  //     if (decodedToken.exp * 1000 < currentDate.getTime()) {
-  //       const data = await authService.refreshToken(decodedToken?.email);
-  //       console.log("My new access token:", data);
-  //       config.headers["authorization"] = "Bearer" + data.accessToken;
-  //     }
-  //     return config;
-  //   },
-  //   (error) => {
-  //     return Promise.reject(error);
-  //   }
-  // );
-
   return (
     <DashboardContextProvider>
       <>
@@ -87,12 +44,7 @@ function Dashboard() {
             <div className="w-[300px] px-[20px] bg-[#181818]">
               <div className="flex items-center justify-between">
                 <img src={LogoWhite} alt="" className="h-[50px]" />
-                <CiSearch
-                  size={25}
-                  color="#ffffff"
-                  onClick={handleShowSearch}
-                  className="cursor-pointer"
-                />
+                <SearchIcon showSearchInput={showSearchInput} setShowSearchInput={setShowSearchInput}/>
               </div>
               {showSearchInput && (
                 <input

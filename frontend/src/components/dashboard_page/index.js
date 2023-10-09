@@ -10,6 +10,7 @@ import EditNote from "./EditNote";
 import EmptyNoteState from "./EmptyNoteState";
 import EmptyFolderState from "./EmptyFolderState";
 import DropdownMenu from "./DropdownMenu";
+import SearchIcon from "./SearchIcon";
 
 export {
   RecentNotes,
@@ -23,5 +24,6 @@ export {
   EditNote,
   EmptyNoteState,
   EmptyFolderState,
-  DropdownMenu
+  DropdownMenu,
+  SearchIcon
 };

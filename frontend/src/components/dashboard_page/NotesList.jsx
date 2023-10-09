@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { DashboardContext } from "../../context/DashboardContextProvider";
 
 function NotesList() {
-  const { activeFolder, setActiveNote, activeNote, myNotes, myFavourites } =
+  const { activeFolder, setActiveNote, activeNote, myNotes, myFavourites, showSearchResults } =
     useContext(DashboardContext);
   const [filteredNotes, setFilteredNotes] = useState([]);
   const [title, setTitle] = useState(null);
@@ -14,7 +14,10 @@ function NotesList() {
       );
       setFilteredNotes(notes);
       setTitle("Favourites")
-    } else {
+    } else if (showSearchResults) {
+      setFilteredNotes(myNotes);
+      setTitle("Search Results:")
+    }else {
       const notes = myNotes?.filter(
         (note) => note.categoryId === activeFolder?._id
       );
@@ -22,7 +25,7 @@ function NotesList() {
       setTitle(activeFolder?.title)
     }
     
-  }, [activeNote, activeFolder, myNotes, myFavourites]);
+  }, [activeNote, activeFolder, myNotes, myFavourites, showSearchResults]);
 
   const handleClick = (data) => {
     console.log("Active Note:", data)
@@ -57,7 +60,7 @@ function NotesList() {
       </h2>
       {filteredNotes?.length === 0 ? (
         <div className="h-screen grid place-items-center">
-          <p className="text-gray-300/60">No note created yet!</p>
+          <p className="text-gray-300/60">No notes found!</p>
         </div>
       ) : (
         <div className="mt-4 grid gap-4">{renderNotes}</div>

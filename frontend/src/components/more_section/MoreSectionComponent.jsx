@@ -4,7 +4,7 @@ import { moreList } from "../../util/moreList";
 import { DashboardContext } from "../../context/DashboardContextProvider";
 
 const MoreSectionComponent = () => {
-  const { setActiveFolder, setActiveNote, setMyFavourites } =
+  const { setActiveFolder, setActiveNote, setMyFavourites, setShowSearchResults } =
     useContext(DashboardContext);
     const [activeItem, setActiveItem] = useState(null);
 
@@ -14,6 +14,7 @@ const MoreSectionComponent = () => {
         setActiveFolder(null);
         setActiveNote(null);
         setMyFavourites(true);
+        setShowSearchResults(false);
         setActiveItem(id);
         break;
       case "2":
@@ -22,6 +23,7 @@ const MoreSectionComponent = () => {
         setActiveNote(null);
         setMyFavourites(null);
         setActiveItem(id);
+        setShowSearchResults(false);
         break;
       case "3":
         alert("Archived Notes selected");
@@ -29,6 +31,7 @@ const MoreSectionComponent = () => {
         setActiveNote(null);
         setMyFavourites(null);
         setActiveItem(id);
+        setShowSearchResults(false);
     }
   };
 
