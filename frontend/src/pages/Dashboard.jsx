@@ -13,6 +13,7 @@ import {
   Main,
   SearchIcon
 } from "../components/dashboard_page";
+import {SearchInput} from "../components/dashboard_page"
 import {
   DashboardContextProvider
 } from "../context/DashboardContextProvider";
@@ -47,11 +48,7 @@ function Dashboard() {
                 <SearchIcon showSearchInput={showSearchInput} setShowSearchInput={setShowSearchInput}/>
               </div>
               {showSearchInput && (
-                <input
-                  type="text"
-                  placeholder="Search here..."
-                  className="p-2 mt-[20px] rounded-md w-[100%] bg-[#ffffff] bg-opacity-5 text-white"
-                />
+                <SearchInput/>
               )}
               <button
                 onClick={() => setIsOpen(true)}

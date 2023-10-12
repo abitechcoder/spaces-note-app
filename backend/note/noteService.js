@@ -20,6 +20,14 @@ export const favouriteNoteService = async (noteId, updateData) => {
   );
 };
 
+export const trashNoteService = async (noteId, updateData) => {
+  return await NoteModel.findOneAndUpdate(
+    { _id: noteId },
+    { isTrashed: updateData },
+    { new: true }
+  );
+};
+
 export const updateNoteService = async (id, data) => {
   const updatedNote = await NoteModel.findByIdAndUpdate(
     id,

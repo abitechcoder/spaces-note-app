@@ -6,7 +6,8 @@ import {
     getNotesById,
     updateNote,
     updateFavourite,
-    getNotesByUserId
+    getNotesByUserId,
+    saveToTrash
  } from './noteControler.js'
  import { verifyUserAccessToken } from "../middleware/authController.js";
  
@@ -17,4 +18,4 @@ noteRoute.route("/").post(createNote).get(getAllNotes);
 noteRoute.route("/:id").get(getNotesById).patch(updateNote).delete(deleteNote);
 noteRoute.route("/user/:userId").get(getNotesByUserId);
 noteRoute.route('/favourite/:noteId').patch(updateFavourite);
-
+noteRoute.route('/trash/:noteId').patch(saveToTrash);

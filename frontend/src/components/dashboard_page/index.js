@@ -11,6 +11,8 @@ import EmptyNoteState from "./EmptyNoteState";
 import EmptyFolderState from "./EmptyFolderState";
 import DropdownMenu from "./DropdownMenu";
 import SearchIcon from "./SearchIcon";
+import SearchInput from "./SearchInput";
+import TrashedNoteState from "./TrashedNoteState";
 
 export {
   RecentNotes,
@@ -25,5 +27,7 @@ export {
   EmptyNoteState,
   EmptyFolderState,
   DropdownMenu,
-  SearchIcon
+  SearchIcon,
+  SearchInput,
+  TrashedNoteState
 };

@@ -1,34 +1,70 @@
 import React, { useContext, useEffect, useState } from "react";
 import { DashboardContext } from "../../context/DashboardContextProvider";
+import { fetcher } from "../../util/fetcher";
 
 function NotesList() {
-  const { activeFolder, setActiveNote, activeNote, myNotes, myFavourites, showSearchResults } =
-    useContext(DashboardContext);
+  const {
+    activeFolder,
+    setActiveNote,
+    activeNote,
+    myNotes,
+    myFavourites,
+    showSearchResults,
+    showTrashedNotes,
+    showArchivedNotes,
+    searchInput,
+  } = useContext(DashboardContext);
   const [filteredNotes, setFilteredNotes] = useState([]);
   const [title, setTitle] = useState(null);
 
+  const getArchivedNotes = async () => {
+    const response = await fetcher("/archive/note");
+    setFilteredNotes(response?.archivedNotes);
+    setTitle("Archived Notes:");
+  };
+
   useEffect(() => {
-    if(myFavourites) {
-      const notes = myNotes?.filter(
-        (note) => note.favourite === myFavourites
-      );
+    if (myFavourites) {
+      const notes = myNotes?.filter((note) => note.favourite === myFavourites);
       setFilteredNotes(notes);
-      setTitle("Favourites")
+      setTitle("Favourites");
     } else if (showSearchResults) {
-      setFilteredNotes(myNotes);
-      setTitle("Search Results:")
-    }else {
+      const notes = myNotes?.filter((note) => {
+        return searchInput === ""
+          ? myNotes
+          : note.title.toLowerCase().includes(searchInput.toLowerCase());
+      });
+      // console.log("Search:", notes);
+      setFilteredNotes(notes);
+      setTitle("Search Results:");
+    } else if (showTrashedNotes) {
       const notes = myNotes?.filter(
-        (note) => note.categoryId === activeFolder?._id
+        (note) => note.isTrashed === true
       );
       setFilteredNotes(notes);
-      setTitle(activeFolder?.title)
+      setTitle("Trashed Notes:");
+    } else if (showArchivedNotes) {
+      getArchivedNotes();
+    } else {
+      const notes = myNotes?.filter(
+        (note) =>
+          note.categoryId === activeFolder?._id && note.isTrashed === false
+      );
+      setFilteredNotes(notes);
+      setTitle(activeFolder?.title);
     }
-    
-  }, [activeNote, activeFolder, myNotes, myFavourites, showSearchResults]);
+  }, [
+    activeNote,
+    activeFolder,
+    myNotes,
+    myFavourites,
+    showSearchResults,
+    showArchivedNotes,
+    showTrashedNotes,
+    searchInput,
+  ]);
 
   const handleClick = (data) => {
-    console.log("Active Note:", data)
     setActiveNote(data);
   };
 
@@ -55,9 +91,7 @@ function NotesList() {
   });
   return (
     <div className={`bg-[#1c1c1c]  p-4 overflow-y-auto`}>
-      <h2 className="text-white font-bold text-xl font-sans">
-        {title}
-      </h2>
+      <h2 className="text-white font-bold text-xl font-sans">{title}</h2>
       {filteredNotes?.length === 0 ? (
         <div className="h-screen grid place-items-center">
           <p className="text-gray-300/60">No notes found!</p>
