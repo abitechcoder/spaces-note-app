@@ -13,6 +13,7 @@ import DropdownMenu from "./DropdownMenu";
 import SearchIcon from "./SearchIcon";
 import SearchInput from "./SearchInput";
 import TrashedNoteState from "./TrashedNoteState";
+import SideMenu from "./SideMenu";
 
 export {
   RecentNotes,
@@ -29,5 +30,6 @@ export {
   DropdownMenu,
   SearchIcon,
   SearchInput,
-  TrashedNoteState
+  TrashedNoteState,
+  SideMenu
 };
