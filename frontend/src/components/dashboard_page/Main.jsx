@@ -22,9 +22,9 @@ function Main() {
     setMyNotes(notes);
   }, [notes]);
 
-  useEffect(() => {
-    alert(`Active Note: ${activeNote}`)
-  }, [activeNote])
+  // useEffect(() => {
+  //   alert(`Active Note: ${activeNote}`)
+  // }, [activeNote])
 
   // , user?.userAccount._id, activeFolder?._id, activeNote?._id
   return (

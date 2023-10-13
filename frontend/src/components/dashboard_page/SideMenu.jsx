@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { LogoWhite } from "../../assets";
 import { AiOutlinePlus } from "react-icons/ai";
+import {CiLogout} from "react-icons/ci"
 import MoreSectionComponent from "../more_section/MoreSectionComponent";
 import { RecentNotes, NotesFolders, SearchIcon, SearchInput } from "./";
 import { logout, reset } from "../../features/auth/authSlice";
@@ -17,7 +18,7 @@ function SideMenu({ setIsOpen }) {
     navigate("/login");
   };
   return (
-    <div className="py-[30px] overflow-y-scroll">
+    <div className="py-[20px] flex flex-col justify-between">
       <div className="w-[300px] px-[20px] bg-[#181818]">
         <div className="flex items-center justify-between">
           <img src={LogoWhite} alt="" className="h-[50px]" />
@@ -36,23 +37,24 @@ function SideMenu({ setIsOpen }) {
         </button>
       </div>
 
-      {/* List of Recent Notes */}
-      <RecentNotes />
-      {/* Folder category section starts here*/}
-      <div className="mt-5">
-        {/* <FoldersComponent /> */}
-        <NotesFolders />
-        <MoreSectionComponent />
+      <div className="md:h-[300px] lg:h-[400px] overflow-y-auto">
+        {/* List of Recent Notes */}
+        <RecentNotes />
+        {/* Folder category section starts here*/}
+        <div className="mt-5">
+          {/* <FoldersComponent /> */}
+          <NotesFolders />
+          <MoreSectionComponent />
+        </div>
+        {/* Folder category section ends here*/}
       </div>
-      {/* Folder category section ends here*/}
 
-      <div className="flex mt-8 justify-start">
-        <button
-          onClick={() => onLogout()}
-          className="py-2 px-8 bg-red-700 hover:bg-red-500 text-white rounded-lg"
-        >
-          Logout
-        </button>
+      <div className="flex justify-start">
+        <div onClick={() => onLogout()}
+          className="py-3 px-6 bg-red-700 hover:bg-red-500 rounded-r-lg flex items-center gap-2 cursor-pointer">
+            <CiLogout className="text-white w-6 h-6" />
+            <p className="text-white font-bold">Logout</p>
+          </div>
       </div>
     </div>
   );
