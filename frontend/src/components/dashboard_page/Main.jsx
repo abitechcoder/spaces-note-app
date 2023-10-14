@@ -1,5 +1,11 @@
 import React, { useContext, useEffect } from "react";
-import { NotesList, EditNote, EmptyNoteState, EmptyFolderState, TrashedNoteState } from "./";
+import {
+  NotesList,
+  EditNote,
+  EmptyNoteState,
+  EmptyFolderState,
+  TrashedNoteState,
+} from "./";
 import { DashboardContext } from "../../context/DashboardContextProvider";
 import { useSelector } from "react-redux";
 import { useUserNotes, useUserCategories } from "../../hooks/dataFetcher";
@@ -58,6 +64,8 @@ function Main() {
           ) : (
             <EmptyNoteState />
           )
+        ) : activeNote ? (
+          <EditNote categories={categories} />
         ) : (
           <EmptyFolderState />
         )}
