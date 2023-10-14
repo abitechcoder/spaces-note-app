@@ -10,7 +10,7 @@ import { mutate } from "swr";
 
 function NotesFolderList() {
   const { user } = useSelector((state) => state.auth);
-  const { activeFolder, setActiveFolder, setActiveNote, setMyFavourites, setShowSearchResults } =
+  const { activeFolder, setActiveFolder, setActiveNote, setMyFavourites, setShowSearchResults, setShowArchivedNotes, setShowTrashedNotes } =
     useContext(DashboardContext);
   const { categories } = useUserCategories(user?.userAccount._id);
 
@@ -19,6 +19,8 @@ function NotesFolderList() {
     setActiveNote(null);
     setMyFavourites(null);
     setShowSearchResults(false);
+    setShowArchivedNotes(false);
+    setShowTrashedNotes(false)
   };
 
   const deleteCategory = async (category) => {

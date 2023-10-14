@@ -5,7 +5,8 @@ import {
     getNotesByIdService,
     updateNoteService,
     favouriteNoteService,
-    getNotesByUserIdService
+    getNotesByUserIdService,
+    trashNoteService
   } from "./noteService.js";
 
 
@@ -91,7 +92,6 @@ export const updateNote = async (req, res) => {
 }
 
 export const updateFavourite = async (req, res) => {
-    console.log(req.body)
     try{
       const {noteId} = req.params
       const favourite = req.body.favourite
@@ -101,6 +101,21 @@ export const updateFavourite = async (req, res) => {
         fav
       })
       console.log(fav)
+    }catch(error){
+      res.status(500).json({error: "internal server error"})
+    }
+}
+
+export const saveToTrash = async (req, res) => {
+    try{
+      const {noteId} = req.params
+      const isTrashed = req.body.isTrashed
+      const trashedNote = await trashNoteService(noteId, isTrashed)
+      res.status(200).json({
+        message: "Note Trashed successfully",
+        trashedNote
+      })
+      console.log(trashedNote)
     }catch(error){
       res.status(500).json({error: "internal server error"})
     }

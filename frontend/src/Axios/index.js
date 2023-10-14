@@ -3,8 +3,8 @@ import authService from "../features/auth/authService";
 
 export const Axios = axios.create({
     withCredentials:true,
-    // baseURL: "http://127.0.0.1:5000",
     baseURL: "https://space-note-app.onrender.com",
+    // baseURL: "http://127.0.0.1:5000",
     headers:{
         "Content-Type":"application/json"
     },

@@ -3,7 +3,7 @@ import { CiSearch } from "react-icons/ci";
 import { DashboardContext } from "../../context/DashboardContextProvider";
 
 function SearchIcon({ showSearchInput, setShowSearchInput }) {
-    const {setShowSearchResults, setActiveFolder, setMyFavourites} = useContext(DashboardContext);
+    const {setShowSearchResults, showSearchResults, setActiveFolder, setMyFavourites} = useContext(DashboardContext);
   const handleShowSearch = () => {
     setShowSearchInput(!showSearchInput);
     setShowSearchResults(true)

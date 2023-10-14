@@ -12,7 +12,7 @@ import { useSelector } from "react-redux";
 
 function EditNote({categories}) {
   const { user } = useSelector((state) => state.auth);
-  const { activeNote, activeFolder } = useContext(DashboardContext);
+  const { activeNote} = useContext(DashboardContext);
   const [note, setNote] = useState(activeNote?.description);
   const [noteFolder, setNoteFolder] = useState(null);
 

@@ -15,6 +15,10 @@ const noteSchema = new Schema(
       required: true,
       default: false,
     },
+    isTrashed: {
+      type: Boolean,
+      default: false,
+    },
     categoryId: {
       type: String,
       required: true,
