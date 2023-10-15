@@ -58,3 +58,7 @@ export const getNotesByUserIdService = async (userId) => {
   const userNotes = await NoteModel.find({ userId: userId });
   return userNotes;
 };
+
+export const deleteAllNoteByUserId=async(userId)=>{
+  return await NoteModel.deleteMany({userId})
+}

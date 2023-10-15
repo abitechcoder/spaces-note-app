@@ -21,8 +21,8 @@ export const sendEmail = async (userEmail) => {
 		// getting the access token function
 		const accessToken = oAuth2Client.setCredentials({
 			refresh_token: REFRESHTOKEN,
+			
 		});
-
 		// setting up email transport
 		const transporter = nodemailer.createTransport({
 			service: "gmail",
