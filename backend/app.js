@@ -12,16 +12,19 @@ import "./passport.js";
 import cors from "cors"
 import { categoryRoute } from "./category/categoryRoute.js";
 import { archiveRoute } from "./archive/archiveRoute.js";
+import path from "path"
 
 dotenv.config();
 
 const PORT = process.env.PORT;
 const MONGODB_URL = process.env.MONGODB_URL;
+const homepage="./public/views/index.html"
 
 const app = express();
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cookieParser());
+app.use(express.static("./public"));
 // using cors 
 app.use(cors({
   origin:process.env.CLIENT_URL||"http://127.0.0.1:5173",
@@ -51,7 +54,6 @@ app.use(
   })
 );
 
-
 //routes
 app.use("/note", noteRoute);
 app.use("/user", userRouter);
@@ -68,11 +70,7 @@ app.get("/failed", (req, res) => {
 
 // the home route
 app.get("/", (req, res) => {
-  // const email=req.email
-  res.status(200).json({
-    success: true,
-    message: "Welcome to Space Note App API",
-  });
+  res.status(200).sendFile(path.resolve(homepage));
 });
 app.use(passport.initialize());
 app.use(passport.session());
