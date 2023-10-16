@@ -19,6 +19,7 @@ dotenv.config();
 const PORT = process.env.PORT;
 const MONGODB_URL = process.env.MONGODB_URL;
 const homepage="./public/views/index.html"
+const docs="./public/views/docs.html"
 
 const app = express();
 app.use(express.urlencoded({ extended: false }));
@@ -71,6 +72,9 @@ app.get("/failed", (req, res) => {
 // the home route
 app.get("/", (req, res) => {
   res.status(200).sendFile(path.resolve(homepage));
+});
+app.get("/docs", (req, res) => {
+  res.status(200).sendFile(path.resolve(docs));
 });
 app.use(passport.initialize());
 app.use(passport.session());
