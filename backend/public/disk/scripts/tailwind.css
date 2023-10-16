@@ -516,6 +516,15 @@ video {
 .mb-5 {
   margin-bottom: 1.25rem;
 }
+.mr-10 {
+  margin-right: 2.5rem;
+}
+.mr-1 {
+  margin-right: 0.25rem;
+}
+.mr-14 {
+  margin-right: 3.5rem;
+}
 .flex {
   display: flex;
 }
@@ -575,6 +584,9 @@ video {
 }
 .justify-start {
   justify-content: flex-start;
+}
+.justify-end {
+  justify-content: flex-end;
 }
 .justify-center {
   justify-content: center;
