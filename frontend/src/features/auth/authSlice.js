@@ -32,10 +32,11 @@ export const login = createAsyncThunk("auth/login", async (user, thunkAPI) => {
   try {
     return await authService.login(user);
   } catch (error) {
-    const message =
-      (error.response && error.response.data && error.response.data.error) ||
-      error.message ||
-      error.toString();
+    // console.log("ERROR:", error);
+    const message = "User account does not exist, please register"
+      // (error.response && error.response.data && error.response.data.error) ||
+      // error.message ||
+      // error.toString();
     return thunkAPI.rejectWithValue(message);
   }
 });

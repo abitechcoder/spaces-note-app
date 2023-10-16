@@ -34,7 +34,12 @@ function Login() {
       const user = userResponse.data;
       if (user) {
         const response = await Axios.post("/auth/google/signin/", { user });
-        console.log(response);
+        const { userAccount, accessToken } = response.data;
+        const data = {
+          userAccount,
+          accessToken,
+        };
+        localStorage.setItem("user", JSON.stringify(data));
       }
     },
     onError: (error) => console.log(error),
@@ -68,7 +73,7 @@ function Login() {
   };
 
   if (isLoading) {
-    return <Spinner/>
+    return <Spinner />;
   }
 
   return (
