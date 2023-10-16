@@ -6,9 +6,11 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node",
-    "dev": "nodemon app.js"
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "build": "postcss tailwind.css -o public/disk/scripts/tailwind.css --watch"
   },
+ 
   "repository": {
     "type": "git",
     "url": "git+https://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101@github.com/abitechcoder/spaces-note-app.git"
@@ -20,6 +22,7 @@
   },
   "homepage": "https://github.com/abitechcoder/spaces-note-app#readme",
   "dependencies": {
+    "autoprefixer": "^10.4.16",
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.6",
     "cookie-session": "^2.0.0",
@@ -36,6 +39,8 @@
     "nodemon": "^3.0.1",
     "passport": "^0.6.0",
     "passport-google-oauth20": "^2.0.0",
-    "sharp": "^0.32.5"
+    "postcss-cli": "^10.1.0",
+    "sharp": "^0.32.5",
+    "tailwindcss": "^3.3.3"
   }
 }

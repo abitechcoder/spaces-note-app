@@ -11,7 +11,7 @@ export const registerUser = async (email) => {
 		};
 		const secret = process.env.JWT_SECRET;
 		const option = {
-			expiresIn: "5m",
+			expiresIn: "1d",
 		};
 		//   user access token
 		const Token = jwt.sign(payload, secret, option);
@@ -40,7 +40,7 @@ export const generateRefreshToken = async (email) => {
 		};
 		const secret = process.env.JWT_REFRESH_SECRET;
 		const option = {
-			expiresIn: "1d",
+			expiresIn: "7d",
 		};
 		const refreshToken = jwt.sign(payload, secret, option);
 		return refreshToken;

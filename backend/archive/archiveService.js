@@ -22,3 +22,7 @@ export const getArchiveNoteByIdService = async (archivedNoteId) => {
 export const deleteArchiveNoteByIdService = async (archiveNoteId) => {
 	return await ArchiveModel.findByIdAndDelete(archiveNoteId);
 };
+
+export const deleteArchiveNoteByUserIdService=async(userId)=>{
+	return await ArchiveModel.deleteMany({userId})
+}

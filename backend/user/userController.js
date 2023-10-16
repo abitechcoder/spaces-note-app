@@ -25,6 +25,12 @@ import {
 } from "./userService.js";
 import { APIErrors } from "../middleware/errorHandlers.js";
 import { hashPassword, validatePassword } from "../util/password.js";
+import {
+	createCategoryService,
+	deleteAllCategoryByUserIdService,
+} from "../category/categoryService.js";
+import { deleteArchiveNoteByUserIdService } from "../archive/archiveService.js";
+import { deleteAllNoteByUserId } from "../note/noteService.js";
 
 // initializing firebase app
 initializeApp(firebaseConfig);
@@ -45,6 +51,12 @@ export const createUserAccount = async (req, res, next) => {
 		// creating user profile
 		const userId = userAccount._id;
 		const userProfile = await createUserProfileService(userId);
+		// creating no category using create category service
+		const data = {
+			title: "No Category",
+			userId,
+		};
+		await createCategoryService(data);
 		// sending email notification to user after successfully creating an account.
 		await sendEmailService(email);
 		return res.status(200).json({
@@ -110,6 +122,12 @@ export const deleteUserAccountById = async (req, res, next) => {
 		await deleteUserAccountService(userId);
 		// deleting user profile
 		await deleteUserProfileByUserIdService(userId);
+		// deleting category of user
+		await deleteAllCategoryByUserIdService(userId);
+		// deleting archived note for user
+		await deleteArchiveNoteByUserIdService(userId);
+		// deleting note of user
+		await deleteAllNoteByUserId(userId);
 		res.status(200).json({
 			success: true,
 			message: `user account with id ${userId} has been deleted together with all related document successfully`,
@@ -339,10 +357,7 @@ export const uploadUserProfileImage = async (req, res, next) => {
 		// downloading profile image url from firebase store
 		const downloadURL = await getDownloadURL(snapshot.ref);
 		// saving profile image url to database
-		await uploadUserProfileImageService(
-			userId,
-			downloadURL
-		);
+		await uploadUserProfileImageService(userId, downloadURL);
 		res.status(200).json({
 			success: true,
 			message: "image uploaded successfully",
