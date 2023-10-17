@@ -1,39 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="stylesheet" href="../disk/scripts/tailwind.css" />
-		<title>Space not app</title>
-	</head>
-	<body class="flex items-center justify-center">
-		<div class=" lg:w-[75%] xl:w-[70%]">
-			<nav class="flex justify-between mt-10 ">
-				<a href="/"><img src="../images/logo.svg" alt="logo" /></a>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../disk/scripts/tailwind.css" />
+    <title>Space not app</title>
+  </head>
 
-				<div class="hidden md:flex justify-between w-[25%]">
-					<a href="/">Home</a>
-					<a href="/docs">Docs</a>
-					<a href="/github">GitHub</a>
-				</div>
-			</nav>
-			<main class="flex flex-col justify-center items-center ">
-				<section class="flex flex-wrap justify-center items-center lg:justify-between w-full lg:flex-row">
-					<div class="flex flex-col justify-center items-center md:justify-start md:items-start mt-5">
-						<h1 class="mb-5 text-3xl xl:text-4xl font-bold text-amber-950">Space Note API</h1>
-						<p class="mb-10 text-sm xl:text-base">Space note rest API for handling note applications</p>
-						<button class="w-40 py-3 mb-2 text-white rounded bg-violet-700" ><a href="/docs">Read docs</a></button>
-						<button class="w-40 py-3 text-white bg-pink-600 rounded" ><a href="/docs">View 0n github</a></button>
-					</div>
+  <body class="flex items-center justify-center">
+    <div class="lg:w-[75%] xl:w-[70%]">
+      <nav class="flex justify-between mt-10">
+        <a href="/"><img src="../images/logo.svg" alt="logo" /></a>
 
-						<img
-							class="w-[25rem] xl:w-[30rem] md:-mr-14"
-							src="../images/hero-image.svg"
-							alt="hero-image"
-						/>
-				</section>
-				<footer>footer</footer>
-			</main>
-		</div>
-	</body>
+        <div class="hidden md:flex justify-between w-[25%]">
+          <a class="hover:opacity-50 transition-all duration-75  text-amber-950/80" href="/">Home</a>
+          <a class="hover:opacity-50 transition-all duration-75  text-amber-950/80" href="/docs">Docs</a>
+          <a class="hover:opacity-50 transition-all duration-75  text-amber-950/80" href="/github">GitHub</a>
+        </div>
+      </nav>
+      <main class="flex flex-col justify-center items-center">
+        <section
+          class="flex flex-wrap justify-center items-center lg:justify-between w-full lg:flex-row"
+        >
+          <div
+            class="flex flex-col justify-center items-center md:justify-start md:items-start mt-5"
+          >
+            <h1 class="mb-5 text-3xl xl:text-4xl font-bold text-amber-950">
+              Space Note API
+            </h1>
+            <p class="mb-10 text-sm xl:text-base">
+              Space note rest API for handling note applications
+            </p>
+            <button class="w-40 py-3 mb-2 text-white rounded bg-violet-700 hover:opacity-60 transition-all duration-75">
+              <a href="/docs">Read docs</a>
+            </button>
+            <button class="w-40 py-3 text-white bg-pink-600 rounded hover:opacity-60 transition-all duration-75">
+              <a href="/docs">View 0n github</a>
+            </button>
+          </div>
+
+          <img
+            class="w-[25rem] xl:w-[30rem] md:-mr-14"
+            src="../images/hero-image.svg"
+            alt="hero-image"
+          />
+        </section>
+        <footer>footer</footer>
+      </main>
+    </div>
+  </body>
 </html>
