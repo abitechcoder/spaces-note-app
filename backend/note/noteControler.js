@@ -25,7 +25,7 @@ export const createNote = async (req, res) => {
 		if (!categoryId) {
 			const categoryByUser = await getCategoriesByUserIdService(userId);
 			const noCategory = categoryByUser.find(
-				(category) => category.title == "No Category"
+				(category) => category.title === "No category"
 			);
 			const catId = noCategory._id;
 			const data = {
@@ -36,7 +36,7 @@ export const createNote = async (req, res) => {
 			};
 			const newNote = await createNoteService(data);
       res.status(200).json({
-				message: "note created successfully",
+				message: "Note created successfully",
 				newNote,
 			});
 
