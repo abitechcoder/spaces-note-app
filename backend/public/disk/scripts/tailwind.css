@@ -488,6 +488,10 @@ video {
 .col-span-2 {
   grid-column: span 2 / span 2;
 }
+.my-5 {
+  margin-top: 1.25rem;
+  margin-bottom: 1.25rem;
+}
 .mb-10 {
   margin-bottom: 2.5rem;
 }
@@ -706,6 +710,9 @@ video {
 .p-5 {
   padding: 1.25rem;
 }
+.p-10 {
+  padding: 2.5rem;
+}
 .py-3 {
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;
@@ -730,6 +737,10 @@ video {
   padding-top: 6rem;
   padding-bottom: 6rem;
 }
+.px-10 {
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
+}
 .text-left {
   text-align: left;
 }
@@ -751,6 +762,15 @@ video {
 .text-xl {
   font-size: 1.25rem;
   line-height: 1.75rem;
+}
+.text-\[12px\] {
+  font-size: 12px;
+}
+.text-\[1px\] {
+  font-size: 1px;
+}
+.text-\[10px\] {
+  font-size: 10px;
 }
 .font-bold {
   font-weight: 700;
@@ -804,6 +824,9 @@ video {
 .text-pink-600 {
   --tw-text-opacity: 1;
   color: rgb(219 39 119 / var(--tw-text-opacity));
+}
+.text-\[\] {
+  color: ;
 }
 .transition-all {
   transition-property: all;
@@ -889,6 +912,10 @@ video {
     justify-content: flex-start;
   }
 
+  .md\:p-5 {
+    padding: 1.25rem;
+  }
+
   .md\:text-left {
     text-align: left;
   }
@@ -901,6 +928,10 @@ video {
   .md\:text-3xl {
     font-size: 1.875rem;
     line-height: 2.25rem;
+  }
+
+  .md\:leading-\[2\.5rem\] {
+    line-height: 2.5rem;
   }
 }
 @media (min-width: 1024px) {
