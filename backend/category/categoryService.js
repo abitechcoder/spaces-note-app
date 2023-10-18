@@ -22,11 +22,6 @@ export const getCategoriesByUserIdService = async (userId) => {
 
 export const deleteCategoryByIdService = async (categoryId) => {
 	await categoryModel.findByIdAndDelete(categoryId);
-	await NoteModel.deleteMany({ categoryId: categoryId });
-	return {
-		success: true,
-		message: "Folders and document deleted successfully",
-	};
 };
 
 export const updateCategoryByIdService = async (categoryId, title) => {
@@ -41,3 +36,8 @@ export const updateCategoryByIdService = async (categoryId, title) => {
 export const deleteAllCategoryByUserIdService = async (userId) => {
 	return await categoryModel.deleteMany({ userId });
 };
+
+// getting category by id
+export const getCategoryByIdService=async(categoryId)=>{
+	return await categoryModel.findById(categoryId)
+}
