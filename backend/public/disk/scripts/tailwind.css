@@ -485,6 +485,39 @@ video {
   --tw-backdrop-saturate:  ;
   --tw-backdrop-sepia:  ;
 }
+.container {
+  width: 100%;
+}
+@media (min-width: 640px) {
+
+  .container {
+    max-width: 640px;
+  }
+}
+@media (min-width: 768px) {
+
+  .container {
+    max-width: 768px;
+  }
+}
+@media (min-width: 1024px) {
+
+  .container {
+    max-width: 1024px;
+  }
+}
+@media (min-width: 1280px) {
+
+  .container {
+    max-width: 1280px;
+  }
+}
+@media (min-width: 1536px) {
+
+  .container {
+    max-width: 1536px;
+  }
+}
 .col-span-2 {
   grid-column: span 2 / span 2;
 }
@@ -612,6 +645,21 @@ video {
 .w-screen {
   width: 100vw;
 }
+.w-\[10rem\] {
+  width: 10rem;
+}
+.w-\[5rem\] {
+  width: 5rem;
+}
+.w-\[2rem\] {
+  width: 2rem;
+}
+.w-\[3rem\] {
+  width: 3rem;
+}
+.w-\[4rem\] {
+  width: 4rem;
+}
 .grid-cols-\[20\%_80\%\] {
   grid-template-columns: 20% 80%;
 }
@@ -632,6 +680,9 @@ video {
 }
 .overflow-x-auto {
   overflow-x: auto;
+}
+.overflow-y-auto {
+  overflow-y: auto;
 }
 .rounded {
   border-radius: 0.25rem;
@@ -712,6 +763,9 @@ video {
 }
 .p-10 {
   padding: 2.5rem;
+}
+.p-2 {
+  padding: 0.5rem;
 }
 .py-3 {
   padding-top: 0.75rem;
@@ -842,6 +896,9 @@ video {
 .hover\:opacity-60:hover {
   opacity: 0.6;
 }
+.hover\:opacity-70:hover {
+  opacity: 0.7;
+}
 @media (min-width: 768px) {
 
   .md\:-mr-14 {
@@ -928,6 +985,16 @@ video {
   .md\:text-3xl {
     font-size: 1.875rem;
     line-height: 2.25rem;
+  }
+
+  .md\:text-lg {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+  }
+
+  .md\:text-xl {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
   }
 
   .md\:leading-\[2\.5rem\] {

@@ -54,10 +54,10 @@ export const createNote = async (req, res) => {
 
 export const getAllNotes = async (req, res) => {
 	try {
-		const allNotes = await getAllNoteService();
+		const Notes = await getAllNoteService();
 		res.status(200).json({
 			message: "All notes fetched successfully",
-			allNotes,
+			Notes,
 		});
 	} catch (error) {
 		res.status(500).json({ Error: "internal server error!" });

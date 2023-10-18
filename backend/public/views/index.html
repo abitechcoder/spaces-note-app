@@ -10,6 +10,7 @@
   <body class="flex items-center justify-center flex-col">
     
     <div class="lg:w-[75%] xl:w-[70%] mb-20">
+      <!-- Navigtation section -->
       <nav class="flex justify-between mt-10">
         <a href="/"><img src="../images/logo.svg" alt="logo" /></a>
 
@@ -31,10 +32,13 @@
           >
         </div>
       </nav>
+      <!-- Main container -->
       <main class="flex flex-col justify-center items-center">
+        <!-- First section -->
         <section
           class="flex flex-wrap justify-center items-center lg:justify-between w-full lg:flex-row"
         >
+        <!-- Header and app description -->
           <div
             class="flex flex-col justify-center items-center md:justify-start md:items-start mt-5"
           >
@@ -56,13 +60,14 @@
               <a href="/docs">View 0n github</a>
             </button>
           </div>
-
+          <!-- Hero image -->
           <img
             class="w-[25rem] xl:w-[30rem] md:-mr-14"
             src="../images/hero-image.svg"
             alt="hero-image"
           />
         </section>
+        <!-- App overview -->
         <section class="flex flex-col justify-center items-center mt-20">
           <h1 class="text-xl px-10 my-5 md:p-5 lg:text-2xl md:w-[25rem] text-center text-amber-950/80 font-bold">
             Are you tired of Lorem ipsum and in search of a free note taking
@@ -84,15 +89,42 @@
           </p>
         </section>
       </main>
+      <!-- Setting Example -->
       <section class="ml-0">
         <h1 class="py-4 text-pink-600 text-center md:text-left text-lg md:text-3xl">Example code</h1>
         <div class="bg-gray-100">
-          <p class="p-5 text-[10px] md:leading-[2.5rem] text-center md:text-left">fetch('https://space-note-app.onrender.com/note/test') <br>
+          <p class="p-5 text-[10px] md:leading-[2.5rem] text-center md:text-left md:text-lg">fetch('https://space-note-app.onrender.com/note/test') <br>
             .then(res=>res.json())<br>
             .then(json=>console.log(json))</p>
           </div>
       </section >
+      <!-- display results for example code -->
+      <section class="ml-0 mt-5">
+        <button id="try-btn" class=" bg-pink-600 text-white text-lg font-bold p-2 rounded hover:opacity-70">Try it</button>
+        <div class="mt-5 bg-gray-100">
+          <p class=" md:text-lg overflow-y-auto p-5">
+            { <br>
+              "message": "All notes fetched successfully",<br>
+              "Notes": [<br>
+                  {<br>
+                        "_id": "652a4cc7353018daec2f6b36",<br>
+                        "title": "My First Note",<br>
+                        "description": "Hello there this is my first note.My second line of note",<br>
+                        "favourite": true,<br>
+                        "isTrashed": false,<br>
+                        "categoryId": "652a4a25353018daec2f6a5e",<br>
+                        "userId": "652a4a01353018daec2f6a50",<br>
+                        "createdAt": "2023-10-14T08:09:43.215Z",<br>
+                        "updatedAt": "2023-10-14T08:09:43.215Z",<br>
+                        "  __v": 0
+                      <br>},...[  ]
+
+                }
+          </p>
+        </div>
+      </section>
     </div>
+    <!-- Footer -->
     <footer class="flex flex-col h-[10rem] w-full justify-center items-center bg-gray-300/20">
       <p class="text-center">Made by Gideon OKai Boateng and Ozoemena</p>
     </footer>
