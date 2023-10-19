@@ -106,7 +106,7 @@ export const googleAuthController = async (req, res, next) => {
           success: "true",
           message: "Sign In Successful",
           userAccount: {
-            id: newUserAccount._id,
+            _id: newUserAccount._id,
             email: newUserAccount.email,
             refreshToken: newUserAccount.refreshToken,
             createdAt: newUserAccount.createdAt,
