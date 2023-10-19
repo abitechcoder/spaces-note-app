@@ -65,7 +65,7 @@ app.use("/archive", archiveRoute);
 
 // failed route if the authentication fails
 app.get("/failed", (req, res) => {
-  console.log("User is not authenticated");
+  // console.log("User is not authenticated");
   res.send("Failed");
 });
 
