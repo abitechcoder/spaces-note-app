@@ -6,21 +6,56 @@ import { BiCalendar } from "react-icons/bi";
 import { toast } from "react-toastify";
 import { DashboardContext } from "../../context/DashboardContextProvider";
 import { DropdownMenu } from "./";
-import { patcher } from "../../util/fetcher";
+import { patcher, deleter } from "../../util/fetcher";
 import { mutate } from "swr";
 import { useSelector } from "react-redux";
 
-function EditNote({categories}) {
+function EditNote({ categories }) {
   const { user } = useSelector((state) => state.auth);
-  const { activeNote} = useContext(DashboardContext);
+  const {
+    activeNote,
+    setActiveNote,
+    handleDel,
+    setIsDialogOpen,
+    setHandleDel,
+    showArchivedNotes
+  } = useContext(DashboardContext);
   const [note, setNote] = useState(activeNote?.description);
   const [noteFolder, setNoteFolder] = useState(null);
+  const [isReadOnly, setIsReadOnly] = useState(true);
 
   useEffect(() => {
     setNote(activeNote?.description);
-    const filteredFolder = categories?.filter((category) => category?._id === activeNote?.categoryId)[0];
+    const filteredFolder = categories?.filter(
+      (category) => category?._id === activeNote?.categoryId
+    )[0];
     setNoteFolder(filteredFolder);
   }, [activeNote]);
+
+  useEffect(() => {
+    if (handleDel) {
+      if(showArchivedNotes) {
+        handleDeleteArchive();
+      } else {
+        handleTrash();
+      }
+    }
+    console.log("Handle Delete Value:", handleDel);
+  }, [handleDel, showArchivedNotes]);
+
+  const handleTrash = () => {
+    saveToTrash(activeNote?._id);
+    setActiveNote(null);
+    setIsDialogOpen(false);
+    setHandleDel(false);
+  };
+
+  const handleDeleteArchive = () => {
+    deleteArchivedNote(activeNote?._id);
+    setActiveNote(null);
+    setIsDialogOpen(false);
+    setHandleDel(false);
+  };
 
   const updateNote = async () => {
     const data = {
@@ -31,11 +66,36 @@ function EditNote({categories}) {
     try {
       await patcher(`/note/${activeNote?._id}`, data);
       toast.success("Note saved successfully!");
+      setIsReadOnly(true);
       mutate(`/note/user/${user?.userAccount._id}`);
     } catch (error) {
       toast.error("Sorry, error occured while saving note");
     }
   };
+
+  const deleteArchivedNote = async (noteId) => {
+    try {
+      await deleter(`/archive/note/${noteId}`);
+      toast.success("Archived note successfully deleted");
+      mutate(`/archive/note`);
+    } catch (error) {
+      toast.error("Error occured while deleting archived note");
+    }
+  };
+
+  const saveToTrash = async (noteId) => {
+    try {
+      await patcher(`/note/trash/${noteId}`, {
+        isTrashed: true,
+      });
+      toast.success("Note deleted successfully");
+      mutate(`/note/user/${user?.userAccount._id}`);
+      setActiveNote(null);
+    } catch (error) {
+      toast.error("Error occured while deleting note");
+    }
+  };
+
   return (
     <>
       <div className="py-6 px-8">
@@ -76,14 +136,24 @@ function EditNote({categories}) {
           className="mt-8 h-[350px] text-white"
           value={note}
           onChange={setNote}
+          readOnly={isReadOnly}
         />
         <div className="w-full flex justify-center">
-          <button
-            onClick={updateNote}
-            className="px-12 py-3 bg-[#523cdb] text-white font-bold cursor-pointer rounded-full absolute bottom-10 right-10"
-          >
-            Save
-          </button>
+          {isReadOnly ? (
+            <button
+              onClick={() => setIsReadOnly(false)}
+              className="px-12 py-3 bg-[#523cdb] text-white font-bold cursor-pointer rounded-full absolute bottom-10 right-10"
+            >
+              Edit
+            </button>
+          ) : (
+            <button
+              onClick={updateNote}
+              className="px-12 py-3 bg-[#523cdb] text-white font-bold cursor-pointer rounded-full absolute bottom-10 right-10"
+            >
+              Save
+            </button>
+          )}
         </div>
       </div>
     </>

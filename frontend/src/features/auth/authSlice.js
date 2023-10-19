@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import authService from "./authService";
 
-
 const user = JSON.parse(localStorage.getItem("user"));
 const initialState = {
   user: user || null,
@@ -9,8 +8,8 @@ const initialState = {
   isSuccess: false,
   isLoading: false,
   message: "",
-  // newRefreshToken:""
 };
+
 // Register User
 export const register = createAsyncThunk(
   "auth/register",
@@ -18,10 +17,10 @@ export const register = createAsyncThunk(
     try {
       return await authService.register(user);
     } catch (error) {
-      const message =
-        (error.response && error.response.data && error.response.data.error) ||
-        error.message ||
-        error.toString();
+      const message = "Account already exist";
+      // (error.response && error.response.data && error.response.data.error) ||
+      // error.message ||
+      // error.toString();
       return thunkAPI.rejectWithValue(message);
     }
   }
@@ -33,13 +32,27 @@ export const login = createAsyncThunk("auth/login", async (user, thunkAPI) => {
     return await authService.login(user);
   } catch (error) {
     // console.log("ERROR:", error);
-    const message = "User account does not exist, please register"
-      // (error.response && error.response.data && error.response.data.error) ||
-      // error.message ||
-      // error.toString();
+    const message = "User account does not exist, please register";
+    // (error.response && error.response.data && error.response.data.error) ||
+    // error.message ||
+    // error.toString();
     return thunkAPI.rejectWithValue(message);
   }
 });
+
+// Login User By Google
+export const socialLogin = createAsyncThunk(
+  "social/login",
+  async (user, thunkAPI) => {
+    try {
+      return await authService.googleLogin(user);
+    } catch (error) {
+      alert(`Error: ${error}`)
+      const message = "Unable to login with google";
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
 
 export const logout = createAsyncThunk("auth/logout", async () => {
   await authService.logout();
@@ -55,9 +68,6 @@ export const authSlice = createSlice({
       state.isSuccess = false;
       state.message = "";
     },
-    // setRefreshToken:(state,action)=>{
-    //   state.newRefreshToken=action.payload
-    // }
   },
   extraReducers: (builder) => {
     builder
@@ -84,6 +94,20 @@ export const authSlice = createSlice({
         state.user = action.payload;
       })
       .addCase(login.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+        state.user = null;
+      })
+      .addCase(socialLogin.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(socialLogin.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.user = action.payload;
+      })
+      .addCase(socialLogin.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;

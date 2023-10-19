@@ -143,7 +143,7 @@ function NewNoteDialog({ isOpen, setIsOpen }) {
                   type="submit"
                   disabled={!isError && categories?.length === 0}
                 >
-                  {isLoading ? "Saving" : "SAVE"}
+                  {isLoading ? "Saving...." : "SAVE"}
                 </button>
               </div>
             </div>

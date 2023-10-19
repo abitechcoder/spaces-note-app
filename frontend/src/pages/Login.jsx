@@ -7,7 +7,7 @@ import { Navbar } from "../components/landing_page";
 import { useForm } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import { login, reset } from "../features/auth/authSlice";
+import { login, reset, socialLogin } from "../features/auth/authSlice";
 import { Axios } from "../Axios";
 import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
@@ -39,7 +39,7 @@ function Login() {
           userAccount,
           accessToken,
         };
-        localStorage.setItem("user", JSON.stringify(data));
+        dispatch(socialLogin(data));
       }
     },
     onError: (error) => console.log(error),
