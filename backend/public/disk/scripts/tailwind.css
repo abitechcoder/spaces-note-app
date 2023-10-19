@@ -692,6 +692,9 @@ video {
 .-ml-20{
   margin-left: -5rem;
 }
+.mt-\[5rem\]{
+  margin-top: 5rem;
+}
 .flex{
   display: flex;
 }
@@ -757,6 +760,12 @@ video {
 }
 .w-52{
   width: 13rem;
+}
+.w-\[40rem\]{
+  width: 40rem;
+}
+.w-\[20rem\]{
+  width: 20rem;
 }
 .grid-cols-\[20\%_80\%\]{
   grid-template-columns: 20% 80%;
@@ -858,6 +867,9 @@ video {
 .font-sans{
   font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
+.font-ubuntu{
+  font-family: Ubuntu,  sans - serif;
+}
 .text-3xl{
   font-size: 1.875rem;
   line-height: 2.25rem;
@@ -910,6 +922,30 @@ video {
 }
 .text-black\/50{
   color: rgb(0 0 0 / 0.5);
+}
+.text-blue-500{
+  --tw-text-opacity: 1;
+  color: rgb(59 130 246 / var(--tw-text-opacity));
+}
+.text-blue-700{
+  --tw-text-opacity: 1;
+  color: rgb(29 78 216 / var(--tw-text-opacity));
+}
+.text-blue-900{
+  --tw-text-opacity: 1;
+  color: rgb(30 58 138 / var(--tw-text-opacity));
+}
+.text-blue-100{
+  --tw-text-opacity: 1;
+  color: rgb(219 234 254 / var(--tw-text-opacity));
+}
+.text-blue-200{
+  --tw-text-opacity: 1;
+  color: rgb(191 219 254 / var(--tw-text-opacity));
+}
+.text-blue-400{
+  --tw-text-opacity: 1;
+  color: rgb(96 165 250 / var(--tw-text-opacity));
 }
 .transition-all{
   transition-property: all;
