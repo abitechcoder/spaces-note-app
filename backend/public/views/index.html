@@ -45,17 +45,17 @@
             <h1 class="mb-5 text-3xl xl:text-4xl font-bold text-amber-950 font-roboto">
               Space Note API
             </h1>
-            <p class="w-[15rem] text-center md:text-left mb-10 text-sm xl:text-base md:w-[20rem]">
+            <p class="w-[15rem] text-center md:text-left mb-10 text-sm md:text-base text-black/70 md:w-[20rem] font-serif">
               Space note API is a rest API for handling client side note
               applications or note web app prototype.
             </p>
             <button
-              class="w-40 py-3 mb-2 text-white rounded bg-violet-700 hover:opacity-60 transition-all duration-75"
+              class="w-40 py-3 mb-2 text-white rounded bg-violet-700 hover:opacity-60 transition-all duration-75 font-mono text-lg"
             >
               <a href="/docs">Read docs</a>
             </button>
             <button
-              class="w-40 py-3 text-white bg-pink-600 rounded hover:opacity-60 transition-all duration-75"
+              class="w-40 py-3 text-white bg-pink-600 rounded hover:opacity-60 transition-all duration-75  font-mono text-lg"
             >
               <a href="/docs">View 0n github</a>
             </button>
@@ -69,12 +69,12 @@
         </section>
         <!-- App overview -->
         <section class="flex flex-col justify-center items-center mt-20">
-          <h1 class="text-xl px-10 my-5 md:p-5 lg:text-2xl md:w-[25rem] text-center text-amber-950/80 font-bold">
+          <h1 class="text-xl px-10 my-5 md:p-5 lg:text-2xl md:w-[25rem] text-center text-amber-950/80 font-bold font-playfair">
             Are you tired of Lorem ipsum and in search of a free note taking
             app API? 
           </h1>
-          <p class="text-sm p-5 md:text-base text-black/60 text-center">
-            One notable option is the Space Note API, which provides a
+          <p class="text-sm p-5 md:text-base leading-loose text-black/60 text-center font-serif">
+            One notable option is the <strong>Space Note API</strong>, which provides a
             convenient online REST API for generating pseudo-real data for note
             taking websites. This API is ideal for various applications, such as
             educational purposes, sample code development, and testing. It
@@ -82,7 +82,7 @@
             complex server-side code, making it a valuable resource for web and
             application development.
           </p>
-          <p class="text-sm p-5 md:text-base text-black/60 text-center">
+          <p class="text-sm p-5 md:text-base text-black/60 text-center font-serif">
             If you have any specific questions or need assistance with
             integrating Space Note API into your project, don't hesitate to
             reach out, and we will be happy to help.
@@ -91,18 +91,18 @@
       </main>
       <!-- Setting Example -->
       <section class="ml-0">
-        <h1 class="py-4 text-pink-600 text-center md:text-left text-lg md:text-3xl">Example code</h1>
+        <h1 class="py-4 text-pink-600 text-center  md:text-left text-sm md:text-3xl font-playfair">Example code</h1>
         <div class="bg-gray-100">
-          <p class="md:p-5 text-[12px] md:leading-[2rem] text-center md:text-left md:text-base overflow-x-auto py-5">fetch('https://space-note-app.onrender.com/note/test') <br>
+          <p class="md:p-5 text-[12px] md:leading-[2rem] text-center text-black/60 md:text-left md:text-base overflow-x-auto py-5 font-mono">fetch('https://space-note-app.onrender.com/note/test') <br>
             .then(res=>res.json())<br>
             .then(json=>console.log(json))</p>
           </div>
       </section >
       <!-- display results for example code -->
       <section class="ml-0 mt-5">
-        <button id="try-btn" class=" bg-pink-600 text-white text-lg font-bold p-2 rounded hover:opacity-70">Try it</button>
+        <button id="try-btn" class="ml-5 bg-pink-600 text-white lg:text-lg font-bold p-2 rounded hover:opacity-70">Try it</button>
         <div class="mt-5 bg-gray-100">
-          <p class="text-sm md:text-[12px] overflow-y-auto p-5">
+          <p class="text-sm md:text-base overflow-y-auto p-5 font-mono text-black/60">
             { <br>
               "message": "All notes fetched successfully",<br>
               "Notes": [<br>
@@ -126,7 +126,7 @@
     </div>
     <!-- Footer -->
     <footer class="flex flex-col h-[10rem] w-full justify-center items-center bg-gray-300/20">
-      <p class="text-center">Made by Gideon OKai Boateng and Ozoemena</p>
+      <p class="text-center text-black/60 font-sans">Made by Gideon OKai Boateng and Ozoemena</p>
     </footer>
   </body>
 </html>
