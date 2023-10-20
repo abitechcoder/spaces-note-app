@@ -187,7 +187,8 @@ export const getFavouriteNotesbyUserId = async (req, res, next) => {
 
 export const getAllFavouriteNotes = async (req,res,next) => {
   try {
-    const favouriteNotes = await getAllFavouriteNotesService();
+    const restults = await getAllFavouriteNotesService();
+    const favouriteNotes = restults.filter(favourite=>favourite.favourite===true);
     if (favouriteNotes.length < 1) {
       return res.status(200).json({
         success: true,
