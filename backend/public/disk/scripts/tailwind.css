@@ -626,18 +626,6 @@ video {
 .w-full{
   width: 100%;
 }
-.w-\[\]{
-  width: ;
-}
-.w-\[15r\]{
-  width: 15r;
-}
-.w-\[15re\]{
-  width: 15re;
-}
-.w-\[1\]{
-  width: 1;
-}
 .grid-cols-\[20\%_80\%\]{
   grid-template-columns: 20% 80%;
 }
@@ -702,6 +690,10 @@ video {
   padding-left: 2.5rem;
   padding-right: 2.5rem;
 }
+.px-8{
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
 .py-3{
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;
@@ -713,29 +705,6 @@ video {
 .py-5{
   padding-top: 1.25rem;
   padding-bottom: 1.25rem;
-}
-.px-20{
-  padding-left: 5rem;
-  padding-right: 5rem;
-}
-.px-2{
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
-}
-.px-1{
-  padding-left: 0.25rem;
-  padding-right: 0.25rem;
-}
-.px-12{
-  padding-left: 3rem;
-  padding-right: 3rem;
-}
-.px-8{
-  padding-left: 2rem;
-  padding-right: 2rem;
-}
-.pl-2{
-  padding-left: 0.5rem;
 }
 .text-center{
   text-align: center;
@@ -865,16 +834,6 @@ video {
 
   .md\:p-5{
     padding: 1.25rem;
-  }
-
-  .md\:px-0{
-    padding-left: 0px;
-    padding-right: 0px;
-  }
-
-  .md\:px-8{
-    padding-left: 2rem;
-    padding-right: 2rem;
   }
 
   .md\:pl-2{

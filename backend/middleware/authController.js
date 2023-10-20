@@ -1,3 +1,4 @@
+import { createCategoryService } from "../category/categoryService.js";
 import {
   createUserAccountService,
   createUserProfileService,
@@ -82,7 +83,12 @@ export const googleAuthController = async (req, res, next) => {
         family_name ? (userProfile.lastName = family_name) : userProfile;
         picture ? (userProfile.imageURL = picture) : userProfile;
         await updateUserProfileService(userId, userProfile);
-
+        const data = {
+          title: "No category",
+          userId,
+        };
+        // creating default category folder (No category folder)  for user
+        await createCategoryService(data);
         // sending email notification to user after successfully creating an account.
         await sendEmailService(email);
         const accessToken = await registerUserService(email);
