@@ -51,9 +51,9 @@ function SideMenu({ setIsOpen }) {
 
       <div className="flex justify-start">
         <div onClick={() => onLogout()}
-          className="py-3 px-6 bg-red-700 hover:bg-red-500 rounded-r-lg flex items-center gap-2 cursor-pointer">
-            <CiLogout className="text-white w-6 h-6" />
-            <p className="text-white font-bold">Logout</p>
+          className="py-[20px] px-6 flex items-center gap-4 cursor-pointer group">
+            <CiLogout className="text-white w-6 h-6 group-hover:text-red-700" />
+            <p className="text-white font-bold group-hover:text-red-700">Logout</p>
           </div>
       </div>
     </div>

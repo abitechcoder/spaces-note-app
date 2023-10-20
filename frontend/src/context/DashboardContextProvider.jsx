@@ -12,6 +12,8 @@ export const DashboardContextProvider = ({children}) => {
     const [searchInput, setSearchInput] = useState("");
     const [showTrashedNotes, setShowTrashedNotes] = useState(false);
     const [showArchivedNotes, setShowArchivedNotes] = useState(false);
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const [handleDel, setHandleDel] = useState(false);
 
     const value = {
         activeFolder,
@@ -29,7 +31,11 @@ export const DashboardContextProvider = ({children}) => {
         showArchivedNotes,
         setShowArchivedNotes,
         searchInput,
-        setSearchInput
+        setSearchInput,
+        isDialogOpen,
+        setIsDialogOpen,
+        handleDel,
+        setHandleDel,
     }
   return (
     <DashboardContext.Provider value={value}>{children}</DashboardContext.Provider>

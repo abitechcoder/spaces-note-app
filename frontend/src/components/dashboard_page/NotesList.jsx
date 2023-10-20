@@ -25,7 +25,7 @@ function NotesList() {
 
   useEffect(() => {
     if (myFavourites) {
-      const notes = myNotes?.filter((note) => note.favourite === myFavourites);
+      const notes = myNotes?.filter((note) => note.favourite === myFavourites && note.isTrashed === false);
       setFilteredNotes(notes);
       setTitle("Favourites");
     } else if (showSearchResults) {

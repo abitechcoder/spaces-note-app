@@ -1,4 +1,6 @@
 import { Axios } from "../../Axios";
+import { useGoogleLogin } from "@react-oauth/google";
+import axios from "axios";
 
 const USER_ENDPOINT = "/user";
 const AUTH_ENDPOINT = "/auth";
@@ -14,13 +16,19 @@ const login = async ({ email, password }) => {
     email,
     password,
   });
-  const {userAccount, accessToken} = response.data;
+  const { userAccount, accessToken } = response.data;
   const data = {
     userAccount,
-    accessToken
-  }
-  localStorage.setItem("user", JSON.stringify(data))
+    accessToken,
+  };
+  localStorage.setItem("user", JSON.stringify(data));
   return response.data;
+};
+
+// Login with Google
+const googleLogin = (data) => {
+  localStorage.setItem("user", JSON.stringify(data));
+  return data;
 };
 
 const logout = () => {
@@ -29,18 +37,15 @@ const logout = () => {
 
 const refreshToken = async (email) => {
   try {
-    const response = await Axios.post(`${AUTH_ENDPOINT}/signin/refresh-token`, {email});
+    const response = await Axios.post(`${AUTH_ENDPOINT}/signin/refresh-token`, {
+      email,
+    });
     return response.data;
   } catch (error) {
     console.log("ERROR:", error);
   }
 };
 
-// export const getUser = async (userId) => {
-//     const response = await Axios.get(`${USER_ENDPOINT}/${userId}`);
-//     return response.data;
-// }
-
-const authService = { register, login, logout, refreshToken };
+const authService = { register, login, logout, refreshToken, googleLogin };
 
 export default authService;
