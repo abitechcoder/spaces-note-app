@@ -587,6 +587,12 @@ video {
 .mt-\[5rem\]{
   margin-top: 5rem;
 }
+.ml-2{
+  margin-left: 0.5rem;
+}
+.ml-3{
+  margin-left: 0.75rem;
+}
 .flex{
   display: flex;
 }
@@ -802,6 +808,14 @@ video {
 
   .md\:-mr-14{
     margin-right: -3.5rem;
+  }
+
+  .md\:ml-0{
+    margin-left: 0px;
+  }
+
+  .md\:mt-10{
+    margin-top: 2.5rem;
   }
 
   .md\:flex{
