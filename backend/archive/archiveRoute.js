@@ -8,7 +8,8 @@ import {
 import { verifyUserAccessToken } from "../middleware/authController.js";
 
 export const archiveRoute = express.Router();
-archiveRoute.use(verifyUserAccessToken);
-archiveRoute.route("/note").get(getAllArchivedNoteByUser);
-archiveRoute.route("/note/:noteId").post(addToArchive).delete(deleteArchiveNote);
-archiveRoute.route("/restore/:noteId").post(restoreNote);
+archiveRoute.route("/note/test/userId").get(getAllArchivedNoteByUser);
+// archiveRoute.use(verifyUserAccessToken);
+archiveRoute.route("/note").get(verifyUserAccessToken,getAllArchivedNoteByUser);
+archiveRoute.route("/note/:noteId").post(verifyUserAccessToken,addToArchive).delete(verifyUserAccessToken,deleteArchiveNote);
+archiveRoute.route("/restore/:noteId").post(verifyUserAccessToken,restoreNote);
