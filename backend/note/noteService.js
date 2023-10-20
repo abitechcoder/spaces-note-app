@@ -62,3 +62,11 @@ export const getNotesByUserIdService = async (userId) => {
 export const deleteAllNoteByUserId=async(userId)=>{
   return await NoteModel.deleteMany({userId})
 }
+
+
+export const getFavouriteNotesbyUserIdService=async(userId)=>{
+return await NoteModel.find({userId});
+}
+export const getAllFavouriteNotesService=async()=>{
+return await NoteModel.find();
+}
