@@ -7,7 +7,9 @@ import {
     updateNote,
     updateFavourite,
     getNotesByUserId,
-    saveToTrash
+    saveToTrash,
+    getFavouriteNotesbyUserId,
+    getAllFavouriteNotes
  } from './noteControler.js'
  import { verifyUserAccessToken } from "../middleware/authController.js";
  
@@ -16,6 +18,10 @@ export const noteRoute = express.Router();
 // noteRoute.use(verifyUserAccessToken);
 noteRoute.route("/test").get(getAllNotes)
 noteRoute.route("/test/user/:userId").get(getNotesByUserId);
+noteRoute.route('/favourite/test').get(getAllFavouriteNotes);
+noteRoute.route('/favourite/test/:userId').get(getFavouriteNotesbyUserId);
+noteRoute.route('/favourite').get(verifyUserAccessToken,getAllFavouriteNotes);
+noteRoute.route('/favourite/:userId').get(verifyUserAccessToken,getFavouriteNotesbyUserId);
 noteRoute.route("/test/:id").get(getNotesById)
 noteRoute.route("/").post(verifyUserAccessToken,createNote).get(verifyUserAccessToken,getAllNotes);
 noteRoute.route("/user/:userId").get(verifyUserAccessToken,getNotesByUserId);
