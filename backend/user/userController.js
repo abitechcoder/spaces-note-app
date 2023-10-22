@@ -53,9 +53,10 @@ export const createUserAccount = async (req, res, next) => {
 		const userProfile = await createUserProfileService(userId);
 		// creating no category using create category service
 		const data = {
-			title: "No Category",
+			title: "No category",
 			userId,
 		};
+		// creating default category folder (No category folder)  for user
 		await createCategoryService(data);
 		// sending email notification to user after successfully creating an account.
 		await sendEmailService(email);

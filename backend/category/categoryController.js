@@ -1,9 +1,11 @@
+import { NoteModel } from "../note/noteModel.js";
 import { categoryModel } from "./categoryModel.js";
 import {
   createCategoryService,
   deleteCategoryByIdService,
   getAllCategoriesService,
   getCategoriesByUserIdService,
+  getCategoryByIdService,
   updateCategoryByIdService,
 } from "./categoryService.js";
 
@@ -69,25 +71,39 @@ export const updateCategory = async (req, res) => {
         .json({ success: false, message: "title field is required" });
     }
     const updatedCategory = await updateCategoryByIdService(categoryId, title);
-    res
-      .status(200)
-      .json({
-        success: true,
-        message: "category updated successfully",
-        updatedCategory,
-      });
+    res.status(200).json({
+      success: true,
+      message: "category updated successfully",
+      updatedCategory,
+    });
   } catch (error) {
     res.status(500).json({ success: false, error: "internal server error" });
   }
 };
-
+// deleting note category 
 export const deleteCategory = async (req, res) => {
   try {
     const { categoryId } = req.params;
-    await deleteCategoryByIdService(categoryId);
-    res
-      .status(200)
-      .json({ success: true, message: "category deleted successfully" });
+// getting all note category using category id
+    const category = await getCategoryByIdService(categoryId);
+    // Preventing default folder (No category folder) deletion
+    if (category.title === "No category") {
+      // deleting all note associated with the No category folder
+      await NoteModel.deleteMany({ categoryId: categoryId });
+      return res.status(200).json({
+        success: true,
+        message: "Documents deleted but No category folder cannot be deleted",
+      });
+    } 
+    // deleting category with all related notes
+    else {
+      await deleteCategoryByIdService(categoryId);
+      await NoteModel.deleteMany({ categoryId: categoryId });
+      res.status(200).json({
+        success: true,
+        message: "Folders and document deleted successfully",
+      });
+    }
   } catch (error) {
     res.status(500).json({ success: false, error });
   }
