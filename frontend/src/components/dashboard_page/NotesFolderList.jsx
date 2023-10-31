@@ -3,6 +3,7 @@ import { useUserCategories } from "../../hooks/dataFetcher";
 import { LuFolderOpen, LuFolderClosed } from "react-icons/lu";
 import { RiDeleteBin7Line } from "react-icons/ri";
 import { DashboardContext } from "../../context/DashboardContextProvider";
+import { MobileNavContext } from "../../context/MobileNavContext";
 import { useSelector } from "react-redux";
 import { deleter } from "../../util/fetcher";
 import { toast } from "react-toastify";
@@ -13,6 +14,8 @@ function NotesFolderList() {
   const { activeFolder, setActiveFolder, setActiveNote, setMyFavourites, setShowSearchResults, setShowArchivedNotes, setShowTrashedNotes } =
     useContext(DashboardContext);
   const { categories } = useUserCategories(user?.userAccount._id);
+  const { setIsMobileMenuOpen} =
+    useContext(MobileNavContext);
 
   const handleClick = (category) => {
     setActiveFolder(category);
@@ -21,6 +24,7 @@ function NotesFolderList() {
     setShowSearchResults(false);
     setShowArchivedNotes(false);
     setShowTrashedNotes(false)
+    setIsMobileMenuOpen(false);
   };
 
   const deleteCategory = async (category) => {

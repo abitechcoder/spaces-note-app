@@ -90,10 +90,10 @@ function NotesList() {
     );
   });
   return (
-    <div className={`bg-[#1c1c1c]  p-4 overflow-y-auto`}>
+    <div className={`bg-[#1c1c1c] ${activeNote && "hidden lg:block"} h-full p-4 overflow-y-auto`}>
       <h2 className="text-white font-bold text-xl font-sans">{title}</h2>
       {filteredNotes?.length === 0 ? (
-        <div className="h-screen grid place-items-center">
+        <div className="flex flex-1 flex-col h-full items-center justify-center">
           <p className="text-gray-300/60">No notes found!</p>
         </div>
       ) : (

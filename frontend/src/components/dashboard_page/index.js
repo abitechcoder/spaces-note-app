@@ -14,7 +14,9 @@ import SearchIcon from "./SearchIcon";
 import SearchInput from "./SearchInput";
 import TrashedNoteState from "./TrashedNoteState";
 import SideMenu from "./SideMenu";
-import MyDialog from "./MyDialog";
+import DeleteNoteDialog from "./MyDialog";
+import MobileMenu from "./MobileMenu";
+import EditNoteDialog from "./EditNoteDialog";
 
 export {
   RecentNotes,
@@ -33,5 +35,7 @@ export {
   SearchInput,
   TrashedNoteState,
   SideMenu,
-  MyDialog
+  DeleteNoteDialog,
+  MobileMenu,
+  EditNoteDialog,
 };

@@ -49,7 +49,7 @@ export const footerMenu = [
     menu: [
       {
         name: "Dev",
-        path: "/#",
+        path: "https://space-note-app.onrender.com/",
       },
       {
         name: "Support",
@@ -81,7 +81,7 @@ export const footerMenu = [
       },
       {
         name: "GitHub",
-        path: "/#",
+        path: "https://github.com/abitechcoder/spaces-note-app",
       },
     ],
   },

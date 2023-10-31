@@ -6,7 +6,9 @@ import {
   NewNoteDialog,
   Main,
   SideMenu,
-  MyDialog,
+  DeleteNoteDialog,
+  EditNoteDialog,
+  MobileMenu
 } from "../components/dashboard_page";
 
 import { DashboardContext } from "../context/DashboardContextProvider";
@@ -15,7 +17,7 @@ function Dashboard() {
   const navigate = useNavigate();
   let [isOpen, setIsOpen] = useState(false);
   const { user } = useSelector((state) => state.auth);
-  const {isDialogOpen, setIsDialogOpen} = useContext(DashboardContext);
+  const {isDialogOpen, setIsDialogOpen, isEditDialogOpen, setIsEditDialogOpen} = useContext(DashboardContext);
 
   useEffect(() => {
     if (!user) {
@@ -25,12 +27,14 @@ function Dashboard() {
 
   return (
       <>
-        <section className="h-screen grid grid-cols-[320px_1fr] bg-[#181818]">
+        <section className="h-screen lg:grid lg:grid-cols-[320px_1fr] bg-[#181818]">
+          <MobileMenu/>
           <SideMenu setIsOpen={setIsOpen}/>
-          <Main />
+          <Main setIsOpen={setIsOpen} />
         </section>
         <NewNoteDialog isOpen={isOpen} setIsOpen={setIsOpen} />
-        <MyDialog isOpen={isDialogOpen} setIsOpen={setIsDialogOpen} />
+        <DeleteNoteDialog isOpen={isDialogOpen} setIsOpen={setIsDialogOpen} />
+        <EditNoteDialog isOpen={isEditDialogOpen} setIsOpen={setIsEditDialogOpen} />
       </>
   );
 }

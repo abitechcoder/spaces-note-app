@@ -18,7 +18,7 @@ function SideMenu({ setIsOpen }) {
     navigate("/login");
   };
   return (
-    <div className="py-[20px] flex flex-col justify-between">
+    <div className="py-[20px] hidden lg:flex flex-col justify-between">
       <div className="w-[300px] px-[20px] bg-[#181818]">
         <div className="flex items-center justify-between">
           <img src={LogoWhite} alt="" className="h-[50px]" />

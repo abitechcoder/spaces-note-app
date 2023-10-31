@@ -1,15 +1,23 @@
 import { CgFileDocument } from "react-icons/cg";
-import { useFolderCategoryContext } from "../../context/folderCategoryContex";
 import { useState, useContext } from "react";
 import { useUserNotes } from "../../hooks/dataFetcher";
 import { useSelector } from "react-redux";
 import { DashboardContext } from "../../context/DashboardContextProvider";
+import { MobileNavContext } from "../../context/MobileNavContext";
 
 const RecentNotesList = () => {
   const { user } = useSelector((state) => state.auth);
   const { notes } = useUserNotes(user?.userAccount._id);
   const [activeNoteId, setActiveNoteId] = useState(0);
-  const { setActiveNote, setActiveFolder, setMyFavourites, setShowArchivedNotes, setShowTrashedNotes, setShowSearchResults } = useContext(DashboardContext);
+  const {
+    setActiveNote,
+    setActiveFolder,
+    setMyFavourites,
+    setShowArchivedNotes,
+    setShowTrashedNotes,
+    setShowSearchResults,
+  } = useContext(DashboardContext);
+  const { setIsMobileMenuOpen } = useContext(MobileNavContext);
 
   const handleClick = (note) => {
     setActiveNoteId(note?._id);
@@ -19,6 +27,7 @@ const RecentNotesList = () => {
     setShowArchivedNotes(false);
     setShowTrashedNotes(false);
     setShowSearchResults(false);
+    setIsMobileMenuOpen(false);
   };
   const recentNotes = notes?.sort((noteA, noteB) =>
     Number(new Date(noteB.updatedAt) - Number(new Date(noteA.updatedAt)))

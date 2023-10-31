@@ -1,11 +1,11 @@
 // import Link  from "react-router-dom"
 // import { Attributes } from "react";
-import PropType from "prop-types"
+import PropType from "prop-types";
 
-const FooterComponent = ({ Title, Menu}) => {
+const FooterComponent = ({ Title, Menu }) => {
   const list = Menu.map((list, index) => {
     return (
-      <a key={index} className="text-base" href="">
+      <a key={index} className="text-base" href={list.path} target="_blank">
         {list.name}
       </a>
     );
@@ -17,10 +17,9 @@ const FooterComponent = ({ Title, Menu}) => {
     </div>
   );
 };
-FooterComponent.PropType={
-	Menu:PropType.any,
-	key:PropType.number,
-	Title:PropType.string
-
-}
+FooterComponent.PropType = {
+  Menu: PropType.any,
+  key: PropType.number,
+  Title: PropType.string,
+};
 export default FooterComponent;

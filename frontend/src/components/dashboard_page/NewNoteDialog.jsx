@@ -68,7 +68,7 @@ function NewNoteDialog({ isOpen, setIsOpen }) {
             className="w-full px-4 relative"
             onSubmit={handleSubmit(onSubmit)}
           >
-            <h1 className="font-inter text-white text-2xl pb-4 md:pb-4 text-center md:text-left">
+            <h1 className="font-inter text-white text-lg lg:text-2xl pb-4 md:pb-4 text-center md:text-left">
               Create New Note
             </h1>
             <div className="grid gap-4">
@@ -122,15 +122,14 @@ function NewNoteDialog({ isOpen, setIsOpen }) {
                 >
                   Note
                 </label>
-                <TextInput
-                  type="text"
+                <textarea
                   placeholder="Start typing"
                   {...register("description", {
                     required: "Note is required",
                   })}
                   aria-invalid={errors.description ? "true" : "false"}
-                  className="bg-[#1c1c1c] text-white"
-                />
+                  className="w-full rounded md:rounded-lg py-2 px-4 border-[1.5px] bg-[#f7f7f] border-[#898989] border-opacity-30 bg-[#1c1c1c] text-white"
+                ></textarea>
                 {errors.description && (
                   <p role="alert" className="text-red-600">
                     {errors.description.message}

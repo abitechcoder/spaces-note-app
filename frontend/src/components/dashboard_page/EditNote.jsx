@@ -3,6 +3,7 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { BsFolder } from "react-icons/bs";
 import { BiCalendar } from "react-icons/bi";
+import { CgProfile } from "react-icons/cg";
 import { toast } from "react-toastify";
 import { DashboardContext } from "../../context/DashboardContextProvider";
 import { DropdownMenu } from "./";
@@ -18,11 +19,13 @@ function EditNote({ categories }) {
     handleDel,
     setIsDialogOpen,
     setHandleDel,
-    showArchivedNotes
+    showArchivedNotes,
+    isReadOnly,
+    setIsReadOnly,
+    setIsEditDialogOpen,
   } = useContext(DashboardContext);
   const [note, setNote] = useState(activeNote?.description);
   const [noteFolder, setNoteFolder] = useState(null);
-  const [isReadOnly, setIsReadOnly] = useState(true);
 
   useEffect(() => {
     setNote(activeNote?.description);
@@ -34,13 +37,12 @@ function EditNote({ categories }) {
 
   useEffect(() => {
     if (handleDel) {
-      if(showArchivedNotes) {
+      if (showArchivedNotes) {
         handleDeleteArchive();
       } else {
         handleTrash();
       }
     }
-    console.log("Handle Delete Value:", handleDel);
   }, [handleDel, showArchivedNotes]);
 
   const handleTrash = () => {
@@ -100,12 +102,15 @@ function EditNote({ categories }) {
     <>
       <div className="py-6 px-8">
         <div className="grid gap-4">
-          <div className="grid grid-cols-[1fr_32px]">
+          <div className="flex justify-between items-center">
             <h1 className="text-white font-bold text-2xl">
               {activeNote?.title}
             </h1>
 
-            <DropdownMenu noteId={activeNote?._id} />
+            <div className="flex items-center gap-4">
+              <DropdownMenu noteId={activeNote?._id} />
+              <CgProfile className="w-8 h-8 text-white/60" />
+            </div>
           </div>
           <div className="grid gap-2">
             <div className="grid gap-10 grid-cols-[100px_1fr] py-4 border-b-2 border-white/10">
@@ -141,7 +146,7 @@ function EditNote({ categories }) {
         <div className="w-full flex justify-center">
           {isReadOnly ? (
             <button
-              onClick={() => setIsReadOnly(false)}
+              onClick={() => setIsEditDialogOpen(true)}
               className="px-12 py-3 bg-[#523cdb] text-white font-bold cursor-pointer rounded-full absolute bottom-10 right-10"
             >
               Edit

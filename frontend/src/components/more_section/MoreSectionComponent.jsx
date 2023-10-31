@@ -2,11 +2,14 @@ import React, { useContext, useState } from "react";
 import { AiOutlineStar } from "react-icons/ai";
 import { moreList } from "../../util/moreList";
 import { DashboardContext } from "../../context/DashboardContextProvider";
+import { MobileNavContext } from "../../context/MobileNavContext";
 
-const MoreSectionComponent = () => {
+const MoreSectionComponent = ({handleMenuOpen}) => {
   const { setActiveFolder, setActiveNote, setMyFavourites, setShowSearchResults, setShowTrashedNotes, setShowArchivedNotes } =
     useContext(DashboardContext);
     const [activeItem, setActiveItem] = useState(null);
+    const { setIsMobileMenuOpen } =
+    useContext(MobileNavContext);
 
   const handleClick = (id) => {
     switch (id) {
@@ -18,6 +21,7 @@ const MoreSectionComponent = () => {
         setShowTrashedNotes(false);
         setShowSearchResults(false);
         setActiveItem(id);
+        setIsMobileMenuOpen(false)
         break;
       case "2":
         setActiveFolder(null);
@@ -27,6 +31,7 @@ const MoreSectionComponent = () => {
         setShowTrashedNotes(true);
         setActiveItem(id);
         setShowSearchResults(false);
+        setIsMobileMenuOpen(false)
         break;
       case "3":
         setActiveFolder(null);
@@ -36,6 +41,7 @@ const MoreSectionComponent = () => {
         setShowTrashedNotes(false);
         setActiveItem(id);
         setShowSearchResults(false);
+        setIsMobileMenuOpen(false)
     }
   };
 
