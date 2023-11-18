@@ -106,11 +106,11 @@ function EditNote({ categories }) {
             <h1 className="text-white font-bold text-2xl">
               {activeNote?.title}
             </h1>
-
-            <div className="flex items-center gap-4">
+            <DropdownMenu noteId={activeNote?._id} />
+            {/* <div className="flex items-center gap-4">
               <DropdownMenu noteId={activeNote?._id} />
               <CgProfile className="w-8 h-8 text-white/60" />
-            </div>
+            </div> */}
           </div>
           <div className="grid gap-2">
             <div className="grid gap-10 grid-cols-[100px_1fr] py-4 border-b-2 border-white/10">
@@ -138,7 +138,7 @@ function EditNote({ categories }) {
         <ReactQuill
           theme="snow"
           placeholder={"Write your Note here"}
-          className="mt-8 h-[350px] text-white"
+          className="mt-8 h-[300px] text-white"
           value={note}
           onChange={setNote}
           readOnly={isReadOnly}
@@ -147,7 +147,7 @@ function EditNote({ categories }) {
           {isReadOnly ? (
             <button
               onClick={() => setIsEditDialogOpen(true)}
-              className="px-12 py-3 bg-[#523cdb] text-white font-bold cursor-pointer rounded-full absolute bottom-10 right-10"
+              className="px-12 py-3 bg-[#523cdb] text-white font-bold cursor-pointer rounded-full fixed bottom-10 right-10"
             >
               Edit
             </button>

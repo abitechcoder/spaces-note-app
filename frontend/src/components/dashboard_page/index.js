@@ -17,6 +17,9 @@ import SideMenu from "./SideMenu";
 import DeleteNoteDialog from "./MyDialog";
 import MobileMenu from "./MobileMenu";
 import EditNoteDialog from "./EditNoteDialog";
+import ViewProfileDialog from "./ViewProfileDialog";
+import MainSection from "./MainSection";
+import EditProfileSection from "./EditProfileSection";
 
 export {
   RecentNotes,
@@ -38,4 +41,7 @@ export {
   DeleteNoteDialog,
   MobileMenu,
   EditNoteDialog,
+  ViewProfileDialog,
+  MainSection,
+  EditProfileSection,
 };

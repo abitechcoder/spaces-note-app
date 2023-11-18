@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { FaApple, FaGoogle } from "react-icons/fa";
 import { AiOutlineQuestionCircle } from "react-icons/ai";
 import { TextInput, Spinner } from "../components/auth";
@@ -16,8 +16,9 @@ function Login() {
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
 
-  const { user, isLoading, isError, isSuccess, message } = useSelector(
+  const { user, isError, isSuccess, message } = useSelector(
     (state) => state.auth
   );
   //   Google login function
@@ -51,11 +52,12 @@ function Login() {
     }
 
     if (isSuccess || user) {
+      setIsLoggingIn(false);
       navigate("/dashboard");
     }
 
     dispatch(reset());
-  }, [user, isLoading, isError, isSuccess, message, navigate, dispatch]);
+  }, [user, isError, isSuccess, message, navigate, dispatch]);
 
   const {
     register,
@@ -69,12 +71,11 @@ function Login() {
   });
 
   const onSubmit = (data) => {
-    dispatch(login(data));
+    setIsLoggingIn(true);
+    setTimeout(() => {
+      dispatch(login(data));
+    }, 2000)
   };
-
-  if (isLoading) {
-    return <Spinner />;
-  }
 
   return (
     <section>
@@ -115,7 +116,7 @@ function Login() {
                 })}
                 aria-invalid={errors.email ? "true" : "false"}
               />
-              {errors.email && <p role="alert">{errors.email.message}</p>}
+              {errors.email && <p role="alert" className="text-red-500">{errors.email.message}</p>}
               <div className="flex gap-2 items-center">
                 <TextInput
                   type="password"
@@ -135,7 +136,7 @@ function Login() {
                 />
                 <AiOutlineQuestionCircle size={30} color="#242424" />
               </div>
-              {errors.password && <p role="alert">{errors.password.message}</p>}
+              {errors.password && <p role="alert" className="text-red-500">{errors.password.message}</p>}
               <p className="text-gray-500 font-dm">FORGOT PASSWORD?</p>
             </div>
 
@@ -145,7 +146,7 @@ function Login() {
                   className="custom-button font-dm bg-[#7F6BFF] text-white"
                   type="submit"
                 >
-                  LOGIN
+                  {isLoggingIn ? "Logging In..." : "LOGIN"}
                 </button>
                 <button
                   onClick={() => navigate("/signup")}

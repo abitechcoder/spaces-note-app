@@ -49,4 +49,18 @@ function useUserNotes(userId) {
   };
 }
 
-export { useCategories, useUserCategories, useNotes, useUserNotes };
+function useUserProfile(userId) {
+  const { data, error, isLoading, mutate } = useSWR(
+    `/user/profile/${userId}`,
+    fetcher
+  );
+
+  return {
+    profile: data?.userProfile,
+    isLoading,
+    isError: error,
+    mutate
+  };
+}
+
+export { useCategories, useUserCategories, useNotes, useUserNotes, useUserProfile };

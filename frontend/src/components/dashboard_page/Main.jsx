@@ -13,9 +13,11 @@ import { LogoWhite } from "../../assets";
 import { RiMenu3Line, RiCloseLine } from "react-icons/ri";
 import { MobileNavContext } from "../../context/MobileNavContext";
 import { AiOutlinePlus } from "react-icons/ai";
+import { CgProfile } from "react-icons/cg";
 
-function Main({setIsOpen}) {
+function Main({ setIsOpen }) {
   const { user } = useSelector((state) => state.auth);
+  const email = user?.userAccount.email;
   const { notes } = useUserNotes(user?.userAccount._id);
   const {
     activeFolder,
@@ -25,6 +27,7 @@ function Main({setIsOpen}) {
     setMyNotes,
     showTrashedNotes,
     showArchivedNotes,
+    setCanViewProfile,
   } = useContext(DashboardContext);
   const { categories } = useUserCategories(user?.userAccount._id);
   const { setIsMobileMenuOpen } = useContext(MobileNavContext);
@@ -59,9 +62,10 @@ function Main({setIsOpen}) {
   // }, [activeNote])
 
   // , user?.userAccount._id, activeFolder?._id, activeNote?._id
+  console.log("USER:", user);
   return (
     <main
-      className={`h-screen w-full flex flex-col lg:grid ${
+      className={`h-full w-full flex flex-col lg:grid ${
         (activeFolder ||
           myFavourites ||
           showSearchResults ||
@@ -88,7 +92,11 @@ function Main({setIsOpen}) {
         </div>
       </nav>
       {showNoteList && <NotesList />}
-      <div className={`w-full h-full ${(showNoteList && !activeNote) ? "hidden lg:block" : ""}`}>
+      <div
+        className={`w-full h-full ${
+          showNoteList && !activeNote ? "hidden lg:block" : ""
+        }`}
+      >
         {activeFolder ||
         myFavourites ||
         showSearchResults ||

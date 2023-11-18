@@ -330,6 +330,7 @@ export const uploadUserProfileImage = async (req, res, next) => {
 	// setting storage for firebase
 	const storage = getStorage();
 	try {
+		console.log("Image File:", req.file)
 		const imageURL = req.file.originalname;
 		const storageRef = ref(storage, `files/images/${req.file.originalname}`);
 		const metadata = {

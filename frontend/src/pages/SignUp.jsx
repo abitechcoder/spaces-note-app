@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { FaApple, FaGoogle } from "react-icons/fa";
 import { AiOutlineQuestionCircle } from "react-icons/ai";
 import { TextInput, Spinner } from "../components/auth";
@@ -13,6 +13,7 @@ function SignUp() {
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
+  const [isSigningUp, setIsSigningUp] = useState(false);
 
   const { user, isLoading, isError, isSuccess, message } = useSelector(
     (state) => state.auth
@@ -24,6 +25,7 @@ function SignUp() {
     }
 
     if (isSuccess || user) {
+      setIsSigningUp(false);
       toast.success("Congratulations, Account created successfully!");
       navigate("/login");
     }
@@ -43,12 +45,12 @@ function SignUp() {
   });
 
   const onSubmit = (data) => {
-    dispatch(registerUser(data));
+    setIsSigningUp(true);
+    setTimeout(() => {
+      dispatch(registerUser(data));
+    }, 2000)
   };
 
-  if (isLoading) {
-    return <Spinner />;
-  }
   return (
     <section>
       <div className="p-4 lg:p-0">
@@ -85,7 +87,7 @@ function SignUp() {
                 })}
                 aria-invalid={errors.email ? "true" : "false"}
               />
-              {errors.email && <p role="alert">{errors.email.message}</p>}
+              {errors.email && <p role="alert" className="text-red-500">{errors.email.message}</p>}
               <div className="flex gap-2 items-center">
                 <TextInput
                   type="password"
@@ -105,7 +107,7 @@ function SignUp() {
                 />
                 <AiOutlineQuestionCircle size={30} color="#242424" />
               </div>
-              {errors.password && <p role="alert">{errors.password.message}</p>}
+              {errors.password && <p role="alert" className="text-red-500">{errors.password.message}</p>}
               <p className="text-gray-500 font-dm">FORGOT PASSWORD?</p>
             </div>
 
@@ -115,7 +117,7 @@ function SignUp() {
                   className="custom-button font-dm bg-[#7F6BFF] text-white"
                   type="submit"
                 >
-                  SIGN UP
+                  {isSigningUp ? "Signing Up..." : "SIGN UP"}
                 </button>
                 <button
                   onClick={() => navigate("/login")}
